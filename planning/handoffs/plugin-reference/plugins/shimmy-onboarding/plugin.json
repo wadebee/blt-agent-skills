@@ -17,7 +17,7 @@
       "interface": {
         "displayName": "Shimmy Onboarding",
         "shortDescription": "Onboard Shimmy using its Product-owned bootstrap.",
-        "longDescription": "Locate authoritative Shimmy bootstrap logic, explain prerequisites and effects, invoke it with approval, validate the installation, and optionally hand contributors into governed project onboarding.",
+        "longDescription": "Locate authoritative Shimmy bootstrap logic, explain prerequisites and effects, invoke it with approval, validate the installation, and optionally hand contributors into governed Project Setup.",
         "developerName": "Beeline Technologies",
         "category": "Developer Tools",
         "capabilities": [

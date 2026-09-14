@@ -17,7 +17,7 @@ Exit criteria:
 - skills are discoverable by current OpenAI tooling;
 - no workflow performs Git commits or network publication.
 
-## Phase 1 — Project onboarding and local registration
+## Phase 1 — Project Setup and Local Project Configuration
 
 Implement:
 
@@ -26,20 +26,20 @@ Implement:
 - validation that each path is a Git repo;
 - validation that Product has the expected Governance submodule or a clear remediation plan;
 - generation of Governance and Product `AGENTS.md` files;
-- user-local project registration.
+- Local Project Configuration.
 
 Exit criteria:
 
-- onboarding is repeatable and idempotent;
+- Project Setup is repeatable and idempotent;
 - existing `AGENTS.md` is never overwritten silently;
-- a second machine can onboard independently.
+- a second machine can complete Project Setup independently.
 
-## Phase 2 — Discovery creation
+## Phase 2 — Discovery Implementation creation
 
 Implement:
 
 - sequential ID allocation with collision detection;
-- creation interview for context mode, type, framing, Product access, charter, and optional comparison;
+- creation interview for artifacts selection, type, framing, Product access, charter, and optional comparison;
 - full and curated Governance selection;
 - decision-by-decision curated selection record;
 - local Git repo initialization;
@@ -52,21 +52,21 @@ Exit criteria:
 - all templates validate against schemas;
 - the snapshot records exact Governance commit and workflow version.
 
-## Phase 3 — Successor, closeout, and synthesis
+## Phase 3 — Successor, Discovery Review, and Discovery Comparison
 
 Implement:
 
-- successor creation from an existing Discovery without mutating it;
-- durable Discovery Record generation and review;
-- disposition recommendation and explicit choice;
-- related-experiment detection;
-- optional synthesis workflow and `SYNTH-*` record.
+- successor creation from an existing Discovery Implementation without mutating it;
+- durable Discovery Report generation and review;
+- independent Discovery Disposition recommendations and explicit choices;
+- lookup of related Discovery Implementations;
+- optional Discovery Comparison workflow and `CMPR-*` record.
 
 Exit criteria:
 
-- closeout always surfaces a record before disposition;
-- Record + Delete never removes a remote repo;
-- synthesis records remain non-normative.
+- Discovery Review always surfaces a record before Discovery Disposition;
+- Report + Delete never removes a remote repo;
+- Discovery Comparisons remain non-normative.
 
 ## Phase 4 — Governance proposals and Product promotion
 
@@ -92,11 +92,11 @@ Implement only after inspecting authoritative Shimmy Product sources.
 
 Deliver:
 
-- bootstrap entrypoint discovery contract;
+- bootstrap entrypoint identification contract;
 - prerequisite and side-effect review;
 - invocation wrapper that delegates to Product bootstrap;
 - post-install validation;
-- optional handoff to governed-development onboarding for contributors.
+- optional handoff to governed-development Project Setup for contributors.
 
 Exit criteria:
 
@@ -117,4 +117,4 @@ Add:
 
 ## Delivery strategy
 
-Prefer thin vertical slices over implementing all parsers first. The first useful milestone should onboard a project and create one valid Discovery repo end to end.
+Prefer thin vertical slices over implementing all parsers first. The first useful milestone should complete Project Setup and create one valid Discovery Implementation repo end to end.

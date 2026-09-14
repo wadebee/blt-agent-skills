@@ -7,32 +7,32 @@
 - Implement schema loading and template rendering.
 - Add manifest/schema tests.
 
-## Milestone 2 — Onboard and create
+## Milestone 2 — Set up and create
 
-- Implement local project registration.
-- Implement Product/Governance onboarding interview.
+- Implement Local Project Configuration.
+- Implement Product/Governance Project Setup interview.
 - Implement sequential ID allocator.
 - Implement full/curated snapshot builder.
-- Implement minimal Discovery repo creation and validation.
+- Implement minimal Discovery Implementation repo creation and validation.
 
 ## Milestone 3 — Continue and close
 
 - Implement successor workflow.
-- Implement closeout record and disposition interview.
-- Implement related-record discovery and synthesis.
+- Implement Discovery Report and Discovery Disposition interview.
+- Implement related-report lookup and Discovery Comparison.
 
 ## Milestone 4 — Govern and promote
 
 - Implement proposal generation and resolution.
 - Implement Product impact assessment.
-- Implement code-promotion review.
+- Implement Discovery Code Promotion review.
 - Implement Governance adoption review/submodule update.
 
 ## Milestone 5 — Shimmy onboarding
 
 - Inspect Shimmy Product sources.
 - Implement delegation contract and validation.
-- Add contributor handoff to governed-development onboarding.
+- Add contributor handoff to governed-development Project Setup.
 
 ## Milestone 6 — Hardening and release
 

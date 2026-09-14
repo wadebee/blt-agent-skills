@@ -1,7 +1,7 @@
-# Internal Workflow: Product Code Promotion
+# Internal Workflow: Discovery Code Promotion
 
-1. Confirm code-promotion approval is separate from knowledge promotion.
-2. Inspect Discovery implementation and Product context permitted by policy.
+1. Confirm the Discovery Code Promotion choice within Discovery Disposition independently of Discovery Governance Promotion and repository retention.
+2. Inspect Discovery Implementation and Product context permitted by policy.
 3. Evaluate quality, dependencies, tests, conventions, security, portability, integration, shortcuts, and migration.
 4. Recommend Transplant, Adapt, or Reimplement with concise rationale.
 5. Require developer selection.

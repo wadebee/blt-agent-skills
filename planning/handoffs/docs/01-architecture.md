@@ -2,43 +2,22 @@
 
 ## Three distinct repository roles
 
-```text
-                    ┌──────────────────────────────┐
-                    │ Repo 1: Governance          │
-                    │                              │
-                    │ Constitution                 │
-                    │ Specifications               │
-                    │ ADRs                         │
-                    │ Policies / invariants        │
-                    │ Conformance                  │
-                    │ Discovery records            │
-                    │ Governance proposals         │
-                    └──────────────┬───────────────┘
-                                   │ governs
-                    ┌──────────────┴───────────────┐
-                    │                              │
-                    ▼                              ▼
-       ┌────────────────────────┐       ┌────────────────────────┐
-       │ Repo 2: Product        │       │ Repo 3+: Discovery     │
-       │                        │       │                        │
-       │ Releasable code        │       │ Clean-room starts      │
-       │ Production history     │       │ PoCs / experiments     │
-       │ Stable architecture    │       │ Competing designs      │
-       │ Compatibility burden   │       │ Disposable code        │
-       └───────────┬────────────┘       └───────────┬────────────┘
-                   │                                │
-                   │                     lessons / evidence
-                   │                                │
-                   │                     human-curated
-                   │                                ▼
-                   └──────────────────────► Governance
+```mermaid
+flowchart TD
+    G[Governance repository: requirements and Conformance Proofs]
+    P[Product repository: releasable code and history]
+    D[Discovery Implementation repository: exploratory code and immutable snapshot]
+    G -->|adopted revision| P
+    G -->|selected Governance Artifacts| D
+    D -->|Discovery Reports and Discovery Comparisons| G
+    D -->|Discovery Code Promotion| P
 ```
 
 The key relationship is:
 
-> **Discovery inherits obligations, not solutions.**
+> **Discovery Implementation inherits obligations, not solutions.**
 
-A Discovery repository is governed by an immutable snapshot of project intent but is not implicitly shaped by Product source code, history, scaffolding, dependencies, or prior experimental implementations unless the developer explicitly selects a Product-access mode that allows them.
+A Discovery Implementation repository is governed by an immutable snapshot of project intent but is not implicitly shaped by Product source code, history, scaffolding, dependencies, or prior Discovery Implementations unless the developer explicitly selects a Product-access mode that allows them.
 
 ## Independent workflow mechanism
 
@@ -52,7 +31,7 @@ A Discovery repository is governed by an immutable snapshot of project intent bu
 └───────────────────┬─────────────────────┘
                     │ creates and operates workflows
                     ▼
-       Governance / Product / Discovery repos
+       Governance / Product / Discovery Implementation repos
 ```
 
 The plugin repository is neither project authority nor Product implementation. It contains reusable operational mechanisms.
@@ -68,21 +47,21 @@ Examples include:
 - transitional abstractions;
 - obsolete conventions;
 - workarounds that outlived their cause;
-- experiments that accidentally became permanent;
+- Discovery Implementations that accidentally became permanent;
 - implementation choices made under superseded requirements;
 - duplicated approaches left by partial migrations; and
 - structures whose original rationale no longer applies.
 
-Existing code contains both intentional current architecture and architectural sediment. An agent cannot safely assume that a repeated or common code pattern represents current intent. This is why Product code is evidence rather than authority, and why clean Discovery repositories are valuable.
+Existing code contains both intentional current architecture and architectural sediment. An agent cannot safely assume that a repeated or common code pattern represents current intent. This is why Product code provides Conformance Proofs rather than authority, and why clean Discovery Implementation repositories are valuable.
 
 ## Goals
 
 - Encourage broad architectural exploration without accumulating false starts in Product.
-- Make the exact Governance input to each experiment reproducible.
-- Use disagreement between independent experiments to expose ambiguity in Governance.
-- Use convergence between independent experiments as design evidence, not proof.
-- Preserve lessons and negative knowledge even when experimental code is deleted.
-- Keep normative authority, implementation, experimental evidence, and workflow automation separate.
+- Make the exact Governance Artifacts input to each Discovery Implementation reproducible.
+- Use disagreement between independent Discovery Implementations to expose ambiguity in Governance.
+- Use convergence between independent Discovery Implementations as design Conformance Proofs with stated uncertainty.
+- Preserve lessons and negative knowledge even when Discovery Implementation code is deleted.
+- Keep normative authority, implementation, Conformance Proofs from Discovery Implementations, and workflow automation separate.
 - Minimize user-facing complexity through context-aware routing and concise interviews.
 
 ## Non-goals
@@ -90,7 +69,7 @@ Existing code contains both intentional current architecture and architectural s
 - Hard security isolation from a malicious agent in version 1.
 - Automatic remote repository hosting, archival, or deletion.
 - Automatic Git commits.
-- Automatic promotion of Discovery findings into Governance.
+- Automatic promotion of Discovery Implementation findings into Governance.
 - Automatic Product conformance claims.
 - A general-purpose governance database or issue tracker.
 - Automatic synchronization of previously generated `AGENTS.md` files.
@@ -98,18 +77,18 @@ Existing code contains both intentional current architecture and architectural s
 ## Core data flow
 
 ```text
-Governance Corpus @ exact commit
+Governance Artifacts @ exact commit
              │
              ├── Product consumes through pinned submodule
              │
-             └── Discovery receives generated immutable snapshot
+             └── Discovery Implementation receives generated immutable snapshot
                               │
                               ▼
-                       Experiment evidence
+                       Conformance Proofs from Discovery Implementations
                               │
                   ┌───────────┴───────────┐
                   ▼                       ▼
-          Governance proposal       Code-promotion review
+          Governance proposal       Discovery Code Promotion review
                   │                       │
             human decision           human decision
 ```

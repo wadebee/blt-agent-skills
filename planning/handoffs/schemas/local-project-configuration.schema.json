@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://beeline-technologies.example/schemas/project-registration.schema.json",
-  "title": "Local Governed Development Project Registration",
+  "$id": "https://beeline-technologies.example/schemas/local-project-configuration.schema.json",
+  "title": "Governed Development Local Project Configuration",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -21,7 +21,7 @@
           "product_path",
           "governance_path",
           "governance_submodule_path",
-          "discovery_parent_path"
+          "discovery_implementation_parent_path"
         ],
         "properties": {
           "product_path": {
@@ -36,7 +36,7 @@
             "type": "string",
             "minLength": 1
           },
-          "discovery_parent_path": {
+          "discovery_implementation_parent_path": {
             "type": "string",
             "minLength": 1
           }

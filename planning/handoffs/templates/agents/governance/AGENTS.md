@@ -4,7 +4,7 @@
 
 ## Repository role
 
-This repository stores the project’s Governance Corpus and durable institutional evidence. It does not contain the releasable Product implementation.
+This repository stores the project’s Governance Artifacts and durable institutional Conformance Proofs. It does not contain the releasable Product implementation.
 
 ## Authority
 
@@ -17,7 +17,7 @@ Apply this precedence:
 
 Same-level artifacts may explicitly supersede predecessors. Surface unresolved conflicts; do not invent precedence.
 
-Conformance is derived evidence. Discovery records, synthesis records, and proposals are non-normative. Presence in this repository does not alone confer authority.
+Conformance is derived Conformance Proofs. Discovery Reports, Discovery Comparisons, and proposals are non-normative. Presence in this repository does not alone confer authority.
 
 ## Working rules
 
@@ -35,9 +35,9 @@ Conformance is derived evidence. Discovery records, synthesis records, and propo
 
 Pending proposals live in `proposals/pending/`. After a human decision, move them to `proposals/resolved/` and add minimal resolution metadata. Acceptance requires separate edits to the target normative artifact.
 
-## Discovery evidence
+## Discovery Conformance Proofs
 
-Durable `DISC-*` and `SYNTH-*` records live under `discoveries/`. They may support a proposal but never become normative merely by existing.
+Durable `DISC-*` and `CMPR-*` records live under `discoveries/`. They may support a proposal but never become normative merely by existing.
 
 ## Validation before completion
 

@@ -1,4 +1,4 @@
-# Internal Workflow: Discovery Successor
+# Internal Workflow: Discovery Implementation Successor
 
 1. Read the predecessor manifest and durable record if present.
 2. Confirm the Governance change is material enough to require a successor.

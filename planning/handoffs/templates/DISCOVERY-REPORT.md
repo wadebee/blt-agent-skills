@@ -2,7 +2,7 @@
 id: DISC-0000
 title: Replace with title
 authority: non-normative
-type: discovery-evidence
+type: discovery-report
 ---
 
 # DISC-0000 — Title
@@ -12,9 +12,9 @@ type: discovery-evidence
 - Repository:
 - Governance repository:
 - Governance commit:
-- Governance context mode: Full / Curated
+- Governance Artifacts selection: Full / Curated
 - Workflow plugin/version:
-- Experiment type:
+- Discovery Type:
 - Framing:
 - Product access:
 - Derived from:
@@ -37,7 +37,7 @@ State whether each success criterion was met, partially met, not met, or remaine
 
 For each finding, distinguish observation from interpretation.
 
-## Evidence
+## Conformance Proofs
 
 Link tests, measurements, code locations, logs, or reproducible commands.
 
@@ -47,21 +47,25 @@ Preserve negative knowledge and why each approach was rejected.
 
 ## Limitations and uncertainty
 
-## Potential Governance implications
+## Potential Implications
 
 These are proposals only; this record is non-normative.
 
-## Knowledge-promotion decision
+## Discovery Disposition
+
+Record promotion and retention independently; both promotion types may be selected.
+
+### Discovery Governance Promotion
 
 - Proposed / Not proposed / Deferred
 - Related `GOVP-*` identifiers:
 
-## Code-promotion decision
+### Discovery Code Promotion
 
 - Not evaluated / Rejected / Transplant / Adapt / Reimplement / Deferred
 - Rationale:
 
-## Closeout disposition
+### Repository retention
 
-- Archive / Record + Delete / Keep Active
+- Archive / Report + Delete / Keep Active
 - Recommendation and developer decision:

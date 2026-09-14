@@ -2,6 +2,8 @@
 
 ## Plan status and authorization
 
+[GLOSSARY.md](../../GLOSSARY.md) is authoritative for terminology and explicitly defined relationships. The user authorized repository-wide terminology alignment on 2026-09-14, including this plan and the handoff. Production implementation remains unapproved.
+
 - State: **PLAN — persisted for review; implementation is not authorized.**
 - Authoritative plan: `planning/notional/governed-exploratory-development.md`.
 - Objective and planning root were confirmed by the user.
@@ -16,22 +18,22 @@
 
 ## Objective
 
-Implement the capability in this repository, preserving separate Governance, Product, and Discovery repositories.
+Implement the capability in this repository, preserving separate Governance, Product, and Discovery Implementation repositories.
 
 The first increment comprises the handoff’s first two milestones:
 
 1. Marketplace/plugin skeletons and validation infrastructure.
-2. Local registration, Product/Governance onboarding, and creation of one valid local Discovery repository.
+2. Local Project Configuration, Product/Governance Project Setup, and creation of one valid local Discovery Implementation repository.
 
 Retain a human review checkpoint between those milestones. Subsequent lifecycle operations require separate approval.
 
-Success means the single public router can conduct the required interview, honor explicit choices, create the minimal local Discovery, and validate its immutable Governance provenance. Simplicity is a success criterion: minimize setup steps, extra tools, custom mechanisms, and the amount of code needed to maintain the workflow.
+Success means the single public router can conduct the required interview, honor explicit choices, create the minimal local Discovery Implementation, and validate its immutable Governance provenance. Simplicity is a success criterion: minimize setup steps, extra tools, custom mechanisms, and the amount of code needed to maintain the workflow.
 
 Excluded throughout: automatic workflow commits, staging, pushes, remote creation, hosting actions, and duplicated Shimmy bootstrap logic.
 
 ## Verified implementation inventory
 
-At the planning baseline, the repository contained only root `AGENTS.md` and the handoff. There was no production code, test suite, runtime configuration, or existing plan. This document is the only subsequently authorized repository addition.
+At the planning baseline, the repository contained only root `AGENTS.md` and the handoff. There was no production code, test suite, runtime configuration, or existing plan. The glossary and its companion terminology notes were subsequently authorized as documentation work.
 
 The complete handoff was inspected, including its package README, the six required documents in order, all referenced documentation, schemas, templates, reference layouts, workflow specifications, and open implementation details. Decisions take precedence over lower-level package material.
 
@@ -107,7 +109,7 @@ planning/
   complete/
 ```
 
-Generated Discovery layout:
+Generated Discovery Implementation layout:
 
 ```text
 <project>-disc-0001-<slug>/
@@ -117,12 +119,12 @@ Generated Discovery layout:
   .governance/
     SNAPSHOT.yaml
     CONTENT-MANIFEST.json
-    corpus/<selected Governance paths>
+    artifacts/<selected Governance paths>
     CONTRACT-EXPORT.yaml    # contract-aware mode only
     contracts/<approved exports>
 ```
 
-The three non-Git root entries remain exactly those required by Decision 13. Contract exports are explicitly identified as Product-derived evidence; placing them inside the immutable context does not grant them Governance authority.
+The three non-Git root entries remain exactly those required by Decision 13. Contract exports are explicitly identified as Product-derived Conformance Proofs; placing them inside the immutable context does not grant them Governance authority.
 
 `discoveries/` means a directory relative to the Governance repository root. No extra nested `governance/` directory will be introduced.
 
@@ -136,7 +138,7 @@ The user approved the following narrow data dependencies:
 
 | Capability | Where needed | Why it is needed | Selection status |
 |---|---|---|---|
-| Read and write YAML/JSON, including safe string escaping and deterministic output | Governed-development metadata, registration, templates, and packaging checks | The handoff supplies structured manifests, schemas, and Markdown frontmatter. Text matching is not a reliable substitute for parsing them. | Mike Farah’s `yq` — approved |
+| Read and write YAML/JSON, including safe string escaping and deterministic output | Governed-development metadata, configuration, templates, and packaging checks | The handoff supplies structured manifests, schemas, and Markdown frontmatter. Text matching is not a reliable substitute for parsing them. | Mike Farah’s `yq` — approved |
 | Check data against JSON Schema Draft 2020-12, including the required date/format assertions | Governed-development validation and tests | Preserve the supplied validation contract without writing a schema engine in shell. | santhosh-tekuri/jsonschema `jv` — approved |
 
 Use direct, documented calls to these two tools; do not build a configurable provider framework. Scope the requirement to the governed-development operations and checks that need it; unrelated sibling plugins and reading this repository must not inherit it. Approval of the dependency choices does not start implementation or dependency installation.
@@ -175,17 +177,17 @@ The following combine settled handoff constraints, explicitly approved review de
 
 | Area | Proposed behavior |
 |---|---|
-| Authority | Constitution > Policies > Specifications > Active ADRs. Resolve explicit same-level supersession; surface ambiguous conflicts. Evidence and operational instructions never become additional normative levels. |
+| Authority | Constitution > Policies > Specifications > Active ADRs. Resolve explicit same-level supersession; surface ambiguous conflicts. Conformance Proofs and operational instructions never become additional normative levels. |
 | Simplicity | Minimize setup, dependencies, custom mechanisms, and maintenance effort; report the metrics above at every review. |
 | Dependencies | No Python requirement. Bash and Git cover straightforward work; Mike Farah’s `yq` and santhosh-tekuri/jsonschema `jv` are the approved data-processing and validation dependencies. |
 | Test fixtures | Test setup may create commits only in disposable example repositories under a dedicated temporary directory. The production workflow, this repository, and real project repositories retain the no-commits rule. |
 | Router | One public governed-development skill. Natural-language routing and recommendations belong in the skill; deterministic helpers validate state and perform filesystem operations. |
 | Interviews | One outstanding decision at a time. Persist answers locally. Recommendations never populate missing choices. Reuse explicit authorization already given for the same action. |
-| Registration | Store confirmed project paths and a stable, credential-free Governance identity outside repositories. |
+| Local Project Configuration | Store confirmed project paths and a stable, credential-free Governance identity outside repositories. |
 | Data location | Explicit `--data-dir`, otherwise supplied `PLUGIN_DATA`, otherwise `${XDG_DATA_HOME:-$HOME/.local/share}/beeline-technologies/governed-exploratory-development`. Reject storage inside project repositories or the installed plugin tree. |
-| Onboarding | Validate an existing Product/Governance pair and existing committed submodule relationship. Diagnose missing history or pins; do not create them. |
+| Project Setup | Validate an existing Product/Governance pair and existing committed submodule relationship. Diagnose missing history or pins; do not create them. |
 | Existing files | Seed missing role `AGENTS.md` files once. Preserve existing files and surface conflicts. |
-| Revision selection | Present and explicitly confirm an exact Governance commit; never silently follow HEAD. Product’s adopted pin and a newer experimental baseline remain distinct. |
+| Revision selection | Present and explicitly confirm an exact Governance commit; never silently follow HEAD. Product’s adopted pin and a newer Discovery Implementation baseline remain distinct. |
 | Snapshot source | Enumerate the selected Git tree and read blobs by object ID. Never copy dirty checkout contents or use archive transformations. |
 | Git compatibility | Initially support the handoff’s SHA-1 commit format. Reject unsupported object formats explicitly. |
 | Integrity | Canonical JSON manifest: sorted relative paths, source classification, mode, byte count, and SHA-256. Hash its exact bytes in `SNAPSHOT.yaml`; exclude the manifest and snapshot from recursive self-hashing. |
@@ -197,20 +199,20 @@ The following combine settled handoff constraints, explicitly approved review de
 
 ## Package inconsistencies and proposed handling
 
-The handoff remains unchanged.
+The terminology alignment updates the handoff to match the authoritative glossary. The rows below distinguish resolved documentation drift from remaining implementation proposals.
 
 | Finding | Proposed production handling |
 |---|---|
-| Requested handoff path is absent | Use confirmed `planning/handoffs/`; correct root `AGENTS.md` references after implementation approval. |
-| Templates permit workstation paths in provenance, conflicting with Decision 29 | Add `governance_repository` to the production registration model; write that stable identity into Discovery provenance. |
+| Handoff path drift — resolved | Root `AGENTS.md` now names the confirmed `planning/handoffs/` location. |
+| Templates permit workstation paths in provenance, conflicting with Decision 29 | Add `governance_repository` to the production configuration model; write that stable identity into Discovery Implementation provenance. |
 | Contract export location/provenance is unspecified | Use the separate immutable contract namespace and manifest shown above. |
 | Snapshot digest has no defined content-manifest format | Define the canonical format and semantic cross-document checks in `runtime-contract.md`. |
 | Concurrency is required but deferred by phase outlines | Implement basic atomic reservations and recovery in the first increment. |
-| Reference layout permits inherited scaffolding | Follow Decision 13: creation is always minimal, including full-reference mode. |
-| Full Governance may contain Product-derived implementation evidence | Surface incompatible context/access selections and require a revised choice. Never silently omit material while claiming a full snapshot. |
-| Product `AGENTS.md` lists implementation as a fifth precedence item | Keep implementation in a separate evidence paragraph beneath the four normative levels. |
-| Pending proposal template includes `resolution: pending` | Follow Decision 34: directory location carries pending state; resolution metadata records accepted/rejected outcomes. |
-| Closeout reference adds record approval before disposition | Follow Decision 11’s generated-and-surfaced requirement without inventing an additional mandatory approval gate. |
+| Inherited-scaffold wording — resolved | The reference layout now explicitly requires minimal creation, including full-reference mode. |
+| Full Governance Artifacts may contain Product-derived implementation Conformance Proofs | Surface incompatible context/access selections and require a revised choice. Never silently omit material while claiming a full snapshot. |
+| Product authority-list drift — resolved | Implementation appears in a separate Conformance Proofs paragraph beneath the four normative levels. |
+| Pending proposal metadata drift — resolved | The template uses directory location for pending state; resolution metadata records accepted/rejected outcomes. |
+| Discovery Review approval-gate drift — resolved | The reference requires a generated-and-surfaced Discovery Report before independent Discovery Disposition choices. |
 
 ## Approved test-fixture approach
 
@@ -220,7 +222,7 @@ The user approved creating these examples automatically, including their initial
 
 Only test setup may create these example commits. Before doing so, it must verify that the target repositories are inside its own temporary directory and that inherited Git settings cannot redirect writes to a real repository. Test-only identity and configuration must not modify global Git configuration. Cleanup is limited to files owned by that test run.
 
-This exception does not permit commits in this repository or real Product, Governance, or Discovery repositories. It does not permit pushes or remote creation. The production workflow under test must still leave source history unchanged and the new Discovery uncommitted. Test setup and workflow execution must be distinguishable in the command audit so fixture commits cannot mask a workflow violation.
+This exception does not permit commits in this repository or real Product, Governance, or Discovery Implementation repositories. It does not permit pushes or remote creation. The production workflow under test must still leave source history unchanged and the new Discovery Implementation uncommitted. Test setup and workflow execution must be distinguishable in the command audit so fixture commits cannot mask a workflow violation.
 
 ## Unresolved
 
@@ -239,8 +241,8 @@ The exact Shimmy Product bootstrap contract remains a prerequisite for approving
 - [x] Persist proposed plan with explicit user permission, for review only.
 - [ ] Obtain approval to start implementation.
 - [ ] Chunk 1 — Skeleton and validation.
-- [ ] Chunk 2 — Registration, onboarding, and Discovery creation.
-- [ ] Chunk 3 — Successor, closeout, and synthesis.
+- [ ] Chunk 2 — Local Project Configuration, Project Setup, and Discovery Implementation creation.
+- [ ] Chunk 3 — Successor, Discovery Review, and Discovery Comparison.
 - [ ] Chunk 4 — Governance, promotion, and adoption.
 - [ ] Chunk 5 — Shimmy delegation.
 - [ ] Chunk 6 — Hardening and installation verification.
@@ -279,24 +281,24 @@ Create:
 - `P/plugin.json`
 - `S/SKILL.md`
 - `S/references/runtime-contract.md`
-- `S/references/workflows/project-onboard.md`
-- `S/references/workflows/discovery-create.md`
-- `S/references/workflows/discovery-successor.md`
-- `S/references/workflows/discovery-closeout.md`
-- `S/references/workflows/discovery-synthesize.md`
-- `S/references/workflows/governance-propose.md`
+- `S/references/workflows/project-setup.md`
+- `S/references/workflows/discovery-implementation-create.md`
+- `S/references/workflows/discovery-implementation-successor.md`
+- `S/references/workflows/discovery-review.md`
+- `S/references/workflows/discovery-compare.md`
+- `S/references/workflows/discovery-governance-promote.md`
 - `S/references/workflows/governance-resolve.md`
-- `S/references/workflows/product-promote.md`
+- `S/references/workflows/discovery-code-promote.md`
 - `S/references/workflows/governance-adopt.md`
-- `S/assets/schemas/discovery.schema.json`
+- `S/assets/schemas/discovery-manifest.schema.json`
 - `S/assets/schemas/governance-snapshot.schema.json`
-- `S/assets/schemas/project-registration.schema.json`
+- `S/assets/schemas/local-project-configuration.schema.json`
 - `S/assets/templates/DISCOVERY.yaml`
 - `S/assets/templates/GOVERNANCE-SNAPSHOT.yaml`
-- `S/assets/templates/PROJECT-REGISTRATION.yaml`
+- `S/assets/templates/LOCAL-PROJECT-CONFIGURATION.yaml`
 - `S/assets/templates/agents/product/AGENTS.md`
 - `S/assets/templates/agents/governance/AGENTS.md`
-- `S/assets/templates/agents/discovery/AGENTS.md`
+- `S/assets/templates/agents/discovery-implementation/AGENTS.md`
 - `S/scripts/governed.sh`
 - `S/scripts/lib/data.sh` — structured-data operations and template rendering using the user-selected tools
 - `H/plugin.json`
@@ -309,7 +311,7 @@ Create:
 - `tests/test_validation.sh`
 - `tests/test_templates.sh`
 
-Modify root `AGENTS.md` only to correct the confirmed handoff location.
+Root `AGENTS.md` already records the confirmed handoff location and glossary authority; preserve those instructions.
 
 ### Implementation requirements and suggested reasoning level
 
@@ -328,7 +330,7 @@ Dependencies: Bash, Git, existing platform utilities, and the user-selected tool
 - [ ] Templates render deterministically and satisfy schemas.
 - [ ] Invalid YAML, unknown fields, malformed dates, and missing substitutions fail clearly.
 - [ ] Actual standalone skill parsing succeeds through the documented app-server API.
-- [ ] Handoff contents remain unchanged.
+- [ ] Handoff contents remain unchanged from the approved terminology-aligned baseline.
 
 Commands:
 
@@ -347,11 +349,11 @@ Review packaging, capability-specific dependencies, schema adaptations, and inte
 
 Checkpoint: record exact changed files, results, and diff in the plan. Rollback removes only this chunk’s unchanged additions and restores its specific `AGENTS.md` edit—never a blanket reset.
 
-## Chunk 2 — Onboard and create
+## Chunk 2 — Set up and create
 
 ### Goal
 
-Complete the first requested increment through two internal phases: onboarding, then Discovery creation.
+Complete the first requested increment through two internal phases: Project Setup, then Discovery Implementation creation.
 
 ### Files
 
@@ -360,22 +362,22 @@ Create:
 - `S/scripts/lib/files.sh` — containment, exclusive creation, and operation-owned recovery
 - `S/scripts/lib/git.sh` — restricted Git inspection and local initialization
 - `S/scripts/lib/interview.sh` — sequential answer state
-- `S/scripts/lib/onboarding.sh` — registration and pair validation
+- `S/scripts/lib/project_setup.sh` — configuration and pair validation
 - `S/scripts/lib/snapshot.sh` — authority metadata, selected content, and integrity
-- `S/scripts/lib/discovery.sh` — ID reservation and minimal repository creation
+- `S/scripts/lib/discovery_implementation.sh` — ID reservation and minimal repository creation
 - `S/assets/schemas/interview-session.schema.json`
 - `S/assets/schemas/operation.schema.json`
 - `S/assets/schemas/id-reservation.schema.json`
 - `S/assets/schemas/content-manifest.schema.json`
 - `S/assets/schemas/contract-export.schema.json`
-- `docs/onboarding.md`, `docs/discovery-creation.md`
-- `tests/test_registration.sh`
+- `docs/project-setup.md`, `docs/discovery-creation.md`
+- `tests/test_local_project_configuration.sh`
 - `tests/test_interview.sh`
-- `tests/test_onboarding.sh`
+- `tests/test_project_setup.sh`
 - `tests/test_authority.sh`
 - `tests/test_ids.sh`
 - `tests/test_snapshot.sh`
-- `tests/test_discovery.sh`
+- `tests/test_discovery_implementation.sh`
 - `tests/test_recovery.sh`
 - `tests/test_git_boundary.sh`
 
@@ -386,27 +388,27 @@ Runtime outputs, outside this implementation repository:
 - Plugin data: `projects.yaml`, `sessions/<uuid>.json`, `operations/<uuid>.json`
 - Missing Product/Governance role `AGENTS.md` files
 - Governance reservation files
-- The Discovery repository shown in the target layout
+- The Discovery Implementation repository shown in the target layout
 
 ### Implementation requirements and suggested reasoning level
 
 Suggested reasoning: high.
 
-**Phase 1 — Registration and onboarding**
+**Phase 1 — Local Project Configuration and Project Setup**
 
 Confirm project identity and paths one field at a time. Verify distinct Git repositories, Product’s committed gitlink, index state, submodule checkout, and availability of the pinned commit in Governance. Diagnose inconsistent or missing relationships without staging, creating remotes, or advancing the pin.
 
-Preserve existing instructions and unrelated changes. Registration must be idempotent and independent across workstations.
+Preserve existing instructions and unrelated changes. Local Project Configuration must be idempotent and independent across workstations.
 
-**Phase 2 — Discovery creation**
+**Phase 2 — Discovery Implementation creation**
 
-Conduct explicit choices for context, experiment type, framing, Product access, charter, and optional comparison. Curated mode always carries the Constitution and records each candidate’s inclusion/exclusion decision.
+Conduct explicit choices for context, Discovery Type, framing, Product access, charter, and optional comparison. Curated mode always carries the Constitution and records each candidate’s inclusion/exclusion decision.
 
 Validate the approved inputs before allocating an ID or creating a destination. Extract exact committed blobs; disable replacement-object interpretation and implicit fetch behavior. Reject unsafe paths, symlinks, nested gitlinks, and collisions.
 
 Initialize an empty local Git repository without inherited templates. Validate the minimal scaffold, source provenance, content hashes, authority classifications, contract allowlist, and obvious contamination.
 
-Dependencies: accepted Chunk 1 with `yq` and `jv`, the approved disposable test-fixture setup, and valid committed Product/Governance input.
+Dependencies: accepted Chunk 1 with `yq` and `jv`, the approved disposable test-fixture setup, and valid committed Product/Governance Artifacts input.
 
 ### Verification checklist
 
@@ -419,15 +421,15 @@ Dependencies: accepted Chunk 1 with `yq` and `jv`, the approved disposable test-
 - [ ] Duplicate IDs, invalid supersession, missing Constitution, and malformed provenance fail.
 - [ ] Concurrent creation yields unique IDs or safe failure.
 - [ ] Fault injection leaves no unreported partial repository and preserves user edits.
-- [ ] New Discovery HEAD is unborn; no remotes or staged files exist.
+- [ ] New Discovery Implementation HEAD is unborn; no remotes or staged files exist.
 - [ ] Fixture commits are confined to test-owned temporary repositories; the command audit separately proves the production workflow never commits.
-- [ ] One complete router-driven onboarding-to-Discovery walkthrough succeeds.
+- [ ] One complete router-driven Project Setup-to-Discovery Implementation walkthrough succeeds.
 
 Commands:
 
 ```text
-bash tests/run.sh registration interview onboarding
-bash tests/run.sh authority ids snapshot discovery recovery git_boundary
+bash tests/run.sh local_project_configuration interview project_setup
+bash tests/run.sh authority ids snapshot discovery_implementation recovery git_boundary
 bash tests/run.sh
 git diff --check
 ```
@@ -436,26 +438,26 @@ Record commands and results separately after each internal phase.
 
 ### Human review gate
 
-Review the generated Discovery tree, approved interview record, provenance, diffs, test evidence, and recovery behavior.
+Review the generated Discovery Implementation tree, approved interview record, provenance, diffs, test Conformance Proofs, and recovery behavior.
 
 Checkpoint: operation journals identify owned writes. Failed/canceled IDs remain reserved. Rollback never deletes changed user files or rewrites source history.
 
-## Chunk 3 — Successor, closeout, and synthesis
+## Chunk 3 — Successor, Discovery Review, and Discovery Comparison
 
 ### Goal
 
-Implement immutable continuation and durable evidence preservation.
+Implement immutable continuation and durable Conformance Proofs preservation.
 
 ### Files
 
 Create:
 
-- `S/scripts/lib/lifecycle.sh` — successor, closeout, and synthesis operations
-- `S/assets/templates/DISCOVERY-RECORD.md`
-- `S/assets/templates/SYNTHESIS-RECORD.md`
+- `S/scripts/lib/lifecycle.sh` — successor, Discovery Review, and Discovery Comparison operations
+- `S/assets/templates/DISCOVERY-REPORT.md`
+- `S/assets/templates/DISCOVERY-COMPARISON.md`
 - `tests/test_successor.sh`
-- `tests/test_closeout.sh`
-- `tests/test_synthesis.sh`
+- `tests/test_discovery_review.sh`
+- `tests/test_discovery_comparison.sh`
 - `docs/discovery-lifecycle.md`
 
 Update the three corresponding workflow references, router, CLI, ID allocation, and validation.
@@ -464,23 +466,23 @@ Update the three corresponding workflow references, router, CLI, ID allocation, 
 
 Suggested reasoning: high. Depends on accepted Chunk 2.
 
-Successors reuse the creation path with explicit predecessor and reason. Closeout surfaces durable evidence before disposition. Synthesis remains optional and non-normative. Record + Delete provides manual removal guidance; it does not delete repositories automatically.
+Successors reuse the creation path with explicit predecessor and reason. Discovery Review surfaces durable Conformance Proofs before Discovery Disposition. Discovery Comparison remains optional and non-normative. Report + Delete provides manual removal guidance; it does not delete repositories automatically.
 
 ### Verification checklist
 
-- [ ] AT-009–012 and AT-019 pass.
+- [ ] AT-009–012, AT-019, and AT-026–029 pass.
 - [ ] Predecessor contents remain byte-for-byte unchanged.
-- [ ] Closeout ordering and separate promotion decisions are preserved.
-- [ ] Failed record writes cannot advance disposition.
-- [ ] Synthesis preserves uncertainty and authority boundaries.
+- [ ] Discovery Review ordering and separate promotion decisions are preserved.
+- [ ] Failed record writes cannot advance Discovery Disposition.
+- [ ] Discovery Comparison preserves uncertainty and authority boundaries.
 
-Run `bash tests/run.sh successor closeout synthesis`, then `bash tests/run.sh` and `git diff --check`.
+Run `bash tests/run.sh successor discovery_review discovery_comparison`, then `bash tests/run.sh` and `git diff --check`.
 
 ### Human review gate
 
-Review successor linkage, generated records, disposition ordering, and optional synthesis.
+Review successor linkage, generated records, Discovery Disposition ordering, and optional Discovery Comparison.
 
-Checkpoint: retain original repository state and journal generated evidence; rollback only operation-owned changes.
+Checkpoint: retain original repository state and journal generated Conformance Proofs; rollback only operation-owned changes.
 
 ## Chunk 4 — Govern, promote, and adopt
 
@@ -508,7 +510,7 @@ Update the corresponding workflow references, router, CLI, and validation.
 
 Suggested reasoning: high. Depends on accepted Chunk 3.
 
-Keep pending/resolved proposal state in directories. Accepted proposals require separate normative edits and Product impact assessment. Knowledge and code promotion remain independent. Adoption requires explicit developer direction after conformance review and does not commit or stage the result.
+Keep pending/resolved proposal state in directories. Accepted proposals require separate normative edits and Product impact assessment. Discovery Governance Promotion and Discovery Code Promotion remain independent. Adoption requires explicit developer direction after conformance review and does not commit or stage the result.
 
 ### Verification checklist
 
@@ -522,7 +524,7 @@ Run `bash tests/run.sh proposals promotion adoption`, then `bash tests/run.sh` a
 
 ### Human review gate
 
-Review proposal transitions, human-choice evidence, Product-impact output, and exact adoption behavior.
+Review proposal transitions, human-choice Conformance Proofs, Product-impact output, and exact adoption behavior.
 
 Checkpoint: journal original affected file contents and submodule state; restore only unchanged operation-owned changes.
 
@@ -537,7 +539,7 @@ Implement delegation to Product-owned bootstrap logic.
 Create:
 
 - `H/skills/shimmy-onboarding/scripts/onboard.sh`
-- `tests/test_shimmy_onboarding.sh`
+- `tests/test_shimmy_project_setup.sh`
 - `docs/shimmy-onboarding.md`
 
 Update the existing Shimmy skill, contract reference, and manifest descriptions.
@@ -590,22 +592,22 @@ Update affected helpers, capability-specific dependencies, packaging documentati
 
 Suggested reasoning: high for recovery and platform behavior.
 
-Expand contention and interruption testing. Reject unknown schema versions; never migrate immutable Discovery snapshots in place. Verify local marketplace installation and fresh-conversation discovery without publishing anything.
+Expand contention and interruption testing. Reject unknown schema versions; never migrate immutable Governance Snapshots in place. Verify local marketplace installation and fresh-conversation discovery without publishing anything.
 
 ### Verification checklist
 
-- [ ] Entire AT-001–025 matrix is accounted for with evidence.
+- [ ] Entire AT-001–029 matrix is accounted for with Conformance Proofs.
 - [ ] Repeated concurrency and interruption tests pass.
 - [ ] Supported-platform path behavior passes.
 - [ ] Fresh installation discovers both plugins with correct namespacing.
 - [ ] Governance workflows expose only their single router skill.
-- [ ] No handoff modifications, workflow commits, or remote actions occurred.
+- [ ] No implementation-phase handoff modifications, workflow commits, or remote actions occurred.
 
 Run `bash scripts/check_packaging.sh`, `bash tests/run.sh`, `bash scripts/check_installation.sh`, and `git diff --check`.
 
 ### Human review gate
 
-Review final acceptance evidence and every remaining limitation. Completion requires explicit final acceptance.
+Review final acceptance Conformance Proofs and every remaining limitation. Completion requires explicit final acceptance.
 
 Checkpoint: record any local installation changes and their reversal steps; no remote release occurs.
 
@@ -617,7 +619,7 @@ Checkpoint: record any local installation changes and their reversal steps; no r
 | Custom shell parsing becomes complex | Use a reviewed, focused utility rather than implement YAML or JSON Schema in shell. |
 | Unnecessary implementation structure | Review dependency, setup, source-size, and custom-mechanism metrics; consolidate where it improves clarity. |
 | Test-fixture exception escapes its scope | Assert temporary-directory ownership, isolate Git settings, and distinguish fixture setup from production workflow commands. |
-| Packaging checks mistaken for installation proof | Report structural, standalone discovery, and installed-plugin checks separately. |
+| Packaging checks mistaken for installation proof | Report structural, standalone skill discovery, and installed-plugin checks separately. |
 | Context contamination | Require explicit resolution of incompatible access/context selections; avoid hard-isolation claims. |
 | Dirty files or interrupted writes | Exact-object reads, exclusive creation, and ownership-aware recovery. |
 | ID collisions across independent clones | State the local-concurrency boundary clearly. |
@@ -661,7 +663,7 @@ Read root instructions, this plan, the six required handoff documents in order, 
 
 Preserve the read-only handoff, separate repository roles, single public router, explicit developer choices, and Git/bootstrap boundaries.
 
-**Current execution authorization permits only creating and revising this persisted plan. Wait for the user to explicitly authorize implementation.** The user has approved `yq`, `jv`, and commits confined to disposable test-fixture setup; preserve those decisions without asking again. Do not reinstate a Python dependency. Treat simplicity as a goal and report its metrics at every review. Do not treat approval of these choices as authorization to start a chunk.
+**Documentation maintenance includes the user-authorized glossary and repository terminology alignment. Wait for the user to explicitly authorize production implementation.** The user has approved `yq`, `jv`, and commits confined to disposable test-fixture setup; preserve those decisions without asking again. Do not reinstate a Python dependency. Treat simplicity as a goal and report its metrics at every review. Do not treat approval of these choices as authorization to start a chunk.
 
 After explicit implementation approval, recheck instructions and repository state, then move this authoritative plan from `planning/notional/` to `planning/wip/` before changing implementation files. Start only the approved chunk. Update progress, tests, partial verification, and lessons before stopping at its review gate. Move to `planning/complete/` only after final human acceptance, adding `Completed: YYYY-MM-DD` immediately after the title. Never overwrite a colliding plan destination.
 

@@ -2,7 +2,6 @@
 id: GOVP-0000
 title: Replace with proposal title
 authority: non-normative
-resolution: pending
 source:
   - DISC-0000
 ---
@@ -13,7 +12,7 @@ source:
 
 What was observed?
 
-## Evidence
+## Conformance Proofs
 
 Why is the finding credible?
 

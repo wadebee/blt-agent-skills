@@ -2,9 +2,9 @@
 
 ## Terminology
 
-### Governance Corpus
+### Governance Artifacts
 
-The broad durable body of governance-related material held in the Governance repository. It includes normative authority, derived evidence, and explicitly non-normative institutional knowledge.
+The broad durable body of governance-related material held in the Governance repository. It includes normative authority, derived Conformance Proofs, and explicitly non-normative institutional knowledge.
 
 ### Constitution
 
@@ -19,22 +19,24 @@ Normative authority
 3. Specifications
 4. Active ADRs
 
-Derived evidence
-- Conformance artifacts
-
-Non-normative institutional evidence
-- Discovery records
-- Synthesis records
+Conformance Proofs (non-normative)
+- Checks and results assessing requirements
+- Discovery Reports and Discovery Comparisons
 - Pending and resolved Governance proposals
+- Other supporting material, including observations and negative results
 ```
+
+Conformance Proofs may support or challenge findings and need not concern requirements. The name does not imply certainty or successful conformance.
+
+Policies establish general rules; Specifications define required behavior or properties. An Active ADR remains applicable and has not been explicitly superseded by another ADR.
 
 Rules:
 
 1. Lower-authority artifacts cannot override higher-authority artifacts.
 2. Same-level artifacts may explicitly supersede predecessors.
 3. An unresolved same-level conflict must be surfaced; an agent must not guess.
-4. Conformance proves or challenges Governance; it does not silently create Governance.
-5. If a conformance artifact conflicts with its governing requirement, surface the inconsistency and propose a correction rather than assuming the test is correct.
+4. Conformance Proofs support or challenge claims about requirements being met; they do not create requirements.
+5. If Conformance Proofs conflict with their governing requirements, surface the inconsistency and propose a correction rather than assuming the test is correct.
 6. Presence in the Governance repository does not imply authority. Artifact class determines authority.
 
 ## Minimal normative metadata
@@ -50,7 +52,7 @@ supersedes:
 ---
 ```
 
-Avoid generic lifecycle, owner, dependency, or implementation-status fields unless later evidence demonstrates a need.
+Avoid generic lifecycle, owner, dependency, or implementation-status fields unless later Conformance Proofs demonstrate a need.
 
 ## Governance repository contents
 
@@ -59,8 +61,8 @@ constitution/              normative
 policies/                  normative
 specs/                     normative
 adr/                       normative when active
-conformance/               derived evidence
-discoveries/               non-normative evidence
+conformance/               derived Conformance Proofs
+discoveries/               non-normative Conformance Proofs
 proposals/pending/         non-normative proposed changes
 proposals/resolved/        non-normative historical decisions
 ```
@@ -106,17 +108,17 @@ The pointer means:
 
 The submodule must never automatically follow Governance HEAD. Advancement requires a conformance-ready adoption review.
 
-## Discovery Governance modes
+## Governance Artifacts selection
 
-Every Discovery creation requires an explicit choice after the router provides a recommendation.
+Every Discovery Implementation creation requires an explicit choice after the router provides a recommendation.
 
-### Full Governance Corpus
+### Full Governance Artifacts
 
-Copy a complete version-pinned Governance projection into the Discovery repository. Preserve artifact classes and authority markings. This mode is best when historical decisions and broad alignment are more important than reducing implementation anchoring.
+Copy a complete version-pinned Governance projection into the Discovery Implementation repository. Preserve artifact classes and authority markings. This mode is best when historical decisions and broad alignment are more important than reducing implementation anchoring.
 
-### Curated Discovery Context
+### Curated Governance Artifacts
 
-Always include the Constitution, then select applicable policies, specifications, ADR constraints, and conformance artifacts through a decision-by-decision interview. Materially relevant exclusions must be recorded with rationale. Non-normative Discovery/proposal evidence is included only by explicit choice.
+Always include the Constitution, then select applicable policies, specifications, ADR constraints, and Conformance Proofs through a decision-by-decision interview. Materially relevant exclusions must be recorded with rationale. Non-normative Discovery Implementation/proposal Conformance Proofs are included only by explicit choice.
 
 The selection interview must explain for each candidate:
 
@@ -128,6 +130,10 @@ The selection interview must explain for each candidate:
 
 The developer accepts, rejects, or modifies each choice.
 
-## Generated Discovery snapshot
+## Generated Governance Snapshot
 
-The selected material is copied into `.governance/` with a `SNAPSHOT.yaml` provenance record. The snapshot is immutable for the experiment. A material Governance change creates a successor Discovery repository with a new Governance commit and `derived_from` reference.
+The selected material is copied into `.governance/` with a `SNAPSHOT.yaml` provenance record. The snapshot is immutable for the Discovery Implementation. A material Governance change creates a successor Discovery Implementation repository with a new Governance commit and `derived_from` reference.
+
+## Materialized Governance
+
+Governance Snapshots, generated operational instructions, and other artifacts derived from Governance are Materialized Governance. Copied requirements retain their source authority; derived checks and reports do not gain normative authority. Discovery Implementation snapshots are immutable, while generated `AGENTS.md` instructions become repository-owned and may evolve without automatic plugin regeneration. Conformance Proofs unrelated to Governance requirements need not be Materialized Governance.

@@ -10,9 +10,11 @@ This package specifies a reusable workflow for software projects that separate:
 
 1. authoritative project governance;
 2. the releasable Product implementation; and
-3. isolated Discovery repositories used for clean-room experiments, proofs of concept, benchmarks, and competing designs.
+3. isolated Discovery Implementation repositories used for clean-room Discovery Implementations, proofs of concept, benchmarks, and competing designs.
 
 The workflow is implemented as Agent Plugins in the independent `Beeline-Technologies` marketplace repository. The generic plugin is not Shimmy-specific. A separate sibling plugin automates Shimmy onboarding while delegating installation to the Product-owned Shimmy bootstrap logic.
+
+[GLOSSARY.md](../../GLOSSARY.md) is authoritative for terminology. The user-approved terminology alignment updates this package without authorizing a production implementation milestone.
 
 ## Start here
 
@@ -27,17 +29,17 @@ Codex should read these files in order:
 
 ## Non-negotiable design constraints
 
-- Governance, Product, and Discovery remain separate Git repositories.
-- The Governance Corpus contains a narrow Constitution plus policies, specifications, ADRs, conformance artifacts, Discovery records, synthesis records, and proposals; only explicitly normative artifact classes have authority.
+- Governance, Product, and Discovery Implementation remain separate Git repositories.
+- Governance Artifacts include a narrow Constitution plus policies, specifications, ADRs, Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals; only explicitly normative artifact classes have authority.
 - Normative precedence is: **Constitution > Policies > Specifications > Active ADRs**.
-- Conformance artifacts are derived evidence, not independent authority.
+- Conformance Proofs are derived evidence, not independent authority.
 - Product pins Governance as a read-only Git submodule.
-- Discovery repositories receive an immutable generated Governance snapshot.
-- A Governance revision change creates a successor Discovery repository rather than mutating the original snapshot.
-- Knowledge promotion and code promotion are independent decisions.
+- Discovery Implementation repositories receive an immutable generated Governance snapshot.
+- A Governance revision change creates a successor Discovery Implementation repository rather than mutating the original snapshot.
+- Discovery Governance Promotion and Discovery Code Promotion are independent decisions.
 - Humans approve all promotions into normative Governance.
 - The plugin must make context-sensitive recommendations, but required choices remain explicit developer decisions.
-- New Discovery repositories begin with only `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`.
+- New Discovery Implementation repositories begin with only `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`.
 - The public governed-development experience is one context-aware router skill; lifecycle modules are hidden implementation details.
 - Agent Skills may create, modify, and validate files but never create Git commits automatically.
 - Remote Git hosting is outside the first implementation; repository creation is local only.
@@ -47,9 +49,9 @@ Codex should read these files in order:
 
 - Full architecture and governance model
 - All 37 settled design decisions with rationale
-- Governance, Product, and Discovery `AGENTS.md` templates
+- Governance, Product, and Discovery Implementation `AGENTS.md` templates
 - `DISCOVERY.yaml` and snapshot templates with JSON Schemas
-- Discovery, synthesis, and Governance-proposal record templates
+- Discovery Implementation, Discovery Comparison, and Governance-proposal record templates
 - Reference layouts for all repository types
 - Portable OpenAI Agent Plugin reference skeletons
 - Public router and internal workflow specifications

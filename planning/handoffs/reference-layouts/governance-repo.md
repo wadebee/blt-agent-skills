@@ -11,7 +11,7 @@
 ├── conformance/
 ├── discoveries/
 │   ├── DISC-0001.md
-│   └── SYNTH-0001.md
+│   └── CMPR-0001.md
 └── proposals/
     ├── pending/
     │   └── GOVP-0002.md
@@ -22,7 +22,7 @@
 ## Ownership
 
 - Normative authority: `constitution/`, `policies/`, `specs/`, active `adr/`
-- Derived evidence: `conformance/`
-- Non-normative evidence: `discoveries/`, `proposals/`
+- Derived Conformance Proofs: `conformance/`
+- Non-normative Conformance Proofs: `discoveries/`, `proposals/`
 
 Do not place generic Agent Skill implementation in this repo.

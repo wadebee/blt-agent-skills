@@ -9,7 +9,7 @@
     "discovery_id",
     "created_at",
     "source",
-    "mode",
+    "artifacts_selection",
     "authority_model",
     "selection_decisions",
     "integrity"
@@ -44,7 +44,7 @@
         }
       }
     },
-    "mode": {
+    "artifacts_selection": {
       "enum": [
         "full",
         "curated"

@@ -1,13 +1,13 @@
 ---
-id: SYNTH-0000
-title: Replace with synthesis title
+id: CMPR-0000
+title: Replace with Discovery Comparison title
 authority: non-normative
-type: discovery-synthesis
+type: discovery-comparison
 ---
 
-# SYNTH-0000 — Title
+# CMPR-0000 — Title
 
-## Included evidence
+## Included Conformance Proofs
 
 - DISC-0000
 - DISC-0001
@@ -22,7 +22,7 @@ type: discovery-synthesis
 
 ## Convergence
 
-Identify recurring constraints or designs. Convergence is evidence, not proof.
+Identify recurring constraints or designs. Convergence provides Conformance Proofs with stated uncertainty.
 
 ## Divergence
 
@@ -33,10 +33,10 @@ Identify different assumptions, interpretations, tradeoffs, or outcomes.
 ## Recommended next step
 
 - No action
-- Additional Discovery
+- Additional Discovery Implementation
 - Governance proposal
 - Product implementation review
 
-## Proposed Governance implications
+## Proposed Implications
 
 Non-normative until separately proposed and approved.

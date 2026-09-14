@@ -14,7 +14,7 @@ Prohibit Product implementation access through:
 - Git remotes or branches;
 - GitHub or other forge connectors;
 - web search;
-- previous Discovery repositories;
+- previous Discovery Implementation repositories;
 - other agents or generated summaries;
 - copied build files, lockfiles, CI, or dependency declarations.
 
@@ -31,11 +31,11 @@ Permit only an explicit export containing public contracts such as:
 - compatibility requirements;
 - supported platform constraints.
 
-Do not include implementation internals, history, or prior experiments.
+Do not include implementation internals, history, or prior Discovery Implementations.
 
 ### Full-reference mode
 
-Product implementation access is allowed, but the experiment remains in a separate repo and still follows the charter and immutable Governance snapshot.
+Product implementation access is allowed, but the Discovery Implementation remains in a separate repo and still follows the charter and immutable Governance snapshot.
 
 ## Guardrails
 
@@ -50,7 +50,7 @@ Product implementation access is allowed, but the experiment remains in a separa
 - Prefer a skills-only plugin in the first implementation; add hooks only for demonstrated needs.
 - Validate plugin manifests and marketplace paths.
 - Do not execute repository-provided scripts merely because they are present.
-- Do not write credentials into project registration, Discovery manifests, snapshots, or durable records.
+- Do not write credentials into Local Project Configuration, Discovery manifests, snapshots, or durable records.
 
 ## Path safety
 
@@ -58,7 +58,7 @@ Implementation must defend against:
 
 - path traversal;
 - symlink escapes during snapshot copy;
-- copying `.git/` data into Discovery snapshots;
+- copying `.git/` data into Governance Snapshots;
 - overwriting existing files without review;
 - writing outside registered project roots or the plugin data directory;
 - unsafe shell interpolation.

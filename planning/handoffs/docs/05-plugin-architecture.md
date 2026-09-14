@@ -29,14 +29,14 @@ The user should express intent naturally. The router infers the likely lifecycle
 
 Examples:
 
-- “Set this project up for governed exploration.” → project onboarding
-- “Explore an alternate engine lifecycle.” → Discovery creation
-- “Governance changed; continue the experiment.” → successor Discovery
-- “Wrap up this experiment.” → closeout
-- “Compare these experiments.” → synthesis
+- “Set this project up for governed exploration.” → Project Setup
+- “Explore an alternate engine lifecycle.” → Discovery Implementation creation
+- “Governance changed; continue the Discovery Implementation.” → successor Discovery Implementation
+- “Wrap up this Discovery Implementation.” → Discovery Review
+- “Compare these Discovery Implementations.” → Discovery Comparison
 - “Turn this finding into project policy.” → Governance proposal
 - “Accept or reject this proposal.” → proposal resolution
-- “Move this implementation into Product.” → code promotion
+- “Move this implementation into Product.” → Discovery Code Promotion
 - “Update Product to the new Governance revision.” → Governance adoption
 
 When intent is ambiguous, explain the inferred workflow in plain language and ask one concise clarification. Never present a menu of internal skill names as the primary user experience.
@@ -49,14 +49,14 @@ In version 1, internal workflows should be supporting references under the publi
 skills/governed-development/
 ├── SKILL.md
 ├── references/workflows/
-│   ├── project-onboard.md
-│   ├── discovery-create.md
-│   ├── discovery-successor.md
-│   ├── discovery-closeout.md
-│   ├── discovery-synthesize.md
-│   ├── governance-propose.md
+│   ├── project-setup.md
+│   ├── discovery-implementation-create.md
+│   ├── discovery-implementation-successor.md
+│   ├── discovery-review.md
+│   ├── discovery-compare.md
+│   ├── discovery-governance-promote.md
 │   ├── governance-resolve.md
-│   ├── product-promote.md
+│   ├── discovery-code-promote.md
 │   └── governance-adopt.md
 ├── scripts/
 └── assets/
@@ -75,13 +75,15 @@ The skill should:
 3. explain material effects and prerequisites;
 4. invoke that bootstrap only after appropriate user authorization;
 5. validate the resulting installation; and
-6. optionally hand off to governed project onboarding when the user is developing Shimmy rather than merely installing it.
+6. optionally hand off to governed Project Setup when the user is developing Shimmy rather than merely installing it.
 
 If the bootstrap entrypoint cannot be established from Product sources, stop and surface the missing contract. Do not invent a command.
 
-## `AGENTS.md` seed-and-transfer
+## Materialized Governance
 
-The governed-development plugin generates the initial role-specific `AGENTS.md` during project onboarding or Discovery creation. It then transfers ownership to the repository.
+Materialized Governance includes snapshots, generated instructions, and other artifacts derived from Governance. Materialization does not add authority or impose one update policy. Discovery Implementation snapshots remain immutable and preserve source authority classifications. Derived checks remain Conformance Proofs.
+
+The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup or Discovery Implementation creation. It then transfers ownership to the repository.
 
 Rules:
 
@@ -91,11 +93,11 @@ Rules:
 - humans and agents may evolve them normally;
 - cross-repository workflow invariants remain enforced by the plugin workflow, not by assuming `AGENTS.md` stayed unchanged.
 
-## Local project registration
+## Local project configuration
 
-Workstation-specific metadata lives in user-local plugin storage, not a repository. It includes project name, Product path, Governance path, Product submodule path, and Discovery parent directory.
+Workstation-specific metadata lives in user-local plugin storage, not a repository. It includes project name, Product path, Governance path, Product submodule path, and Discovery Implementation parent directory.
 
-Another workstation repeats onboarding. Repository-intrinsic state remains committed in the repos.
+Another workstation repeats Project Setup. Repository-intrinsic state remains committed in the repos.
 
 The concrete local path is an implementation detail; code must use the plugin runtime’s writable data location when available.
 

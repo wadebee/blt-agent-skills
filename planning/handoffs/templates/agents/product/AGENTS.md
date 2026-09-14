@@ -16,9 +16,10 @@ Apply this precedence:
 2. Policies
 3. Specifications
 4. Active ADRs
-5. Existing Product implementation and local conventions as evidence
 
-Conformance artifacts are derived evidence. Discovery and proposal records are non-normative.
+Existing Product implementation and local conventions may provide evidence; they are not an authority level.
+
+Conformance Proofs are derived evidence. Discovery Reports, Discovery Comparisons, and proposal records are non-normative.
 
 ## Existing code
 
@@ -32,9 +33,9 @@ Existing code is important implementation evidence, not project law. Preserve es
 - Use the Governance adoption review before updating it.
 - The pinned commit means Product believes it conforms to that Governance revision.
 
-## Discovery code promotion
+## Discovery Code Promotion
 
-Do not copy experimental code automatically. Use the explicit Transplant / Adapt / Reimplement review and record the developer’s decision.
+Do not copy Discovery Implementation code automatically. Use the explicit Transplant / Adapt / Reimplement review and record the developer’s decision.
 
 ## Validation before completion
 

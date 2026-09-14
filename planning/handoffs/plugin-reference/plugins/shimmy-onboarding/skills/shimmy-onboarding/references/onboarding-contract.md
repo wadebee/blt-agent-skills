@@ -16,6 +16,6 @@ The Agent Skill owns:
 - gathering required choices;
 - invoking it with permission;
 - interpreting validation results;
-- routing contributors into optional governed-development onboarding.
+- routing contributors into optional governed-development Project Setup.
 
 The skill must fail safely when Product documentation and implementation disagree.

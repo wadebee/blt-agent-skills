@@ -11,7 +11,7 @@ description: Install or onboard Shimmy by finding and invoking the authoritative
 4. Obtain user approval before invoking the bootstrap.
 5. Invoke the Product-owned logic; do not reproduce its implementation inside this plugin.
 6. Validate the installed CLI/runtime using Product-documented checks.
-7. For contributor onboarding, optionally invoke or recommend the governed-development project-onboarding workflow.
+7. For contributor onboarding, optionally invoke or recommend the governed-development project-setup workflow.
 8. Never create Git commits.
 
 If the authoritative bootstrap entrypoint cannot be determined, stop and report the missing contract. Do not guess a command from historical conversation context.

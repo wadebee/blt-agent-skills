@@ -1,4 +1,4 @@
-# Discovery Lifecycle
+# Discovery Implementation Lifecycle
 
 ## Lifecycle overview
 
@@ -15,31 +15,32 @@ Minimal local Git repo
 └── .governance/
    │
    ▼
-Experiment
+Discovery Implementation
    │
    ▼
-Closeout record is generated and surfaced
+Discovery Report is generated and surfaced
    │
-   ├── optional Governance proposal
-   ├── optional code-promotion review
-   ├── optional related-experiment synthesis
-   └── developer disposition: Archive / Record + Delete / Keep Active
+   ├── optional Discovery Comparison
+   └── independent Discovery Disposition choices
+       ├── Discovery Governance Promotion
+       ├── Discovery Code Promotion
+       └── repository retention: Archive / Report + Delete / Keep Active
 ```
 
 ## Required creation interview
 
-The public router should infer that the user intends to create a Discovery and then conduct one concise decision at a time.
+The public router should infer that the user intends to create a Discovery Implementation and then conduct one concise decision at a time.
 
-### 1. Governance context
+### 1. Governance Artifacts selection
 
 Required choice:
 
-- **Full Governance Corpus**
-- **Curated Discovery Context**
+- **Full Governance Artifacts**
+- **Curated Governance Artifacts**
 
 The router provides a context-sensitive recommendation but does not select automatically.
 
-### 2. Experiment type
+### 2. Discovery Type
 
 Small fixed taxonomy:
 
@@ -47,7 +48,7 @@ Small fixed taxonomy:
 - Spike
 - Prototype / PoC
 - Benchmark
-- Compatibility Experiment
+- Compatibility Check
 - Adversarial Investigation
 - Other
 
@@ -58,11 +59,11 @@ The router recommends a type. The type is descriptive metadata; the charter rema
 Required choice:
 
 - **Neutral** — no imposed optimization bias.
-- **Divergent** — optimize for an explicit quality such as simplicity, security, performance, portability, or operability.
-- **Adversarial** — challenge assumptions and seek failure modes or materially different designs.
+- **Optimize a quality** — optimize for an explicit quality such as simplicity, security, performance, portability, or operability.
+- **Challenge assumptions** — challenge assumptions and seek failure modes or materially different designs.
 - **Custom** — developer-defined architectural lens.
 
-The router recommends a framing based on whether the experiment is a baseline, one of several candidates, or a challenge to a settled design.
+The router recommends a framing based on whether the Discovery Implementation is a baseline, one of several candidates, or a challenge to a settled design.
 
 ### 4. Product access
 
@@ -70,11 +71,11 @@ Required choice:
 
 - **Isolated** — no Product implementation access through any transport.
 - **Contract-aware** — only explicitly exported public interfaces, schemas, formats, compatibility constraints, and extension contracts.
-- **Full-reference** — Product implementation and history may be inspected, while work remains in a separate Discovery repo.
+- **Full-reference** — Product implementation and history may be inspected, while work remains in a separate Discovery Implementation repo.
 
-The access rule applies equally to Git, GitHub, web search, local files, previous Discovery repositories, other agents, and connected tools.
+The access rule applies equally to Git, GitHub, web search, local files, previous Discovery Implementation repositories, other agents, and connected tools.
 
-### 5. Experiment charter
+### 5. Discovery Charter
 
 The router interviews the developer to clarify:
 
@@ -90,8 +91,8 @@ The agent proposes concrete criteria and non-goals; the developer reviews and ap
 Possible targets:
 
 - current Product implementation;
-- another Discovery repository;
-- a durable Discovery Record;
+- another Discovery Implementation repository;
+- a durable Discovery Report;
 - a quantitative baseline;
 - none.
 
@@ -105,7 +106,7 @@ Allocate an immutable sequential ID from Governance, for example `DISC-0042`, an
 shimmy-disc-0042-shared-engine
 ```
 
-The ID links the repository, manifest, durable record, synthesis records, comparison references, and successor chain.
+The ID links the repository, manifest, durable record, Discovery Comparisons, comparison references, and successor chain.
 
 Version 1 creates the Git repository locally only. Publishing to a remote host is a separate developer action.
 
@@ -126,43 +127,45 @@ No language, build, dependency, directory, CI, or test scaffold is supplied.
 
 - `.governance/` is immutable.
 - The charter and provenance fields in `DISCOVERY.yaml` should be treated as immutable after coding begins.
-- A status field may transition from `active` to `closed`; closeout findings belong in the durable Discovery Record, not in the original charter.
+- A status field may transition from `active` to `closed`; Discovery Review findings belong in the durable Discovery Report, not in the original charter.
 - A material Governance update creates a successor repository with `derived_from: DISC-xxxx` and a reason.
 
-## Closeout
+## Discovery Review
 
-Closeout is two-stage.
+Discovery Review is two-stage.
 
 ### Stage 1: durable record
 
 Create and surface `governance/discoveries/DISC-xxxx.md` containing:
 
 - identity and repository name;
-- Governance source and context mode;
+- Governance source and artifacts selection;
 - framing and Product-access mode;
 - charter;
 - result against success criteria;
-- findings and evidence;
+- findings and Conformance Proofs;
 - rejected approaches and limitations;
-- proposed Governance implications;
-- knowledge-promotion decision;
-- code-promotion decision;
+- proposed Implications;
+- Discovery Governance Promotion decision;
+- Discovery Code Promotion decision;
 - provenance and links.
 
 The record is non-normative.
 
-### Stage 2: disposition
+### Stage 2: Discovery Disposition
 
-Present with a recommendation:
+Record three independent choices: Discovery Governance Promotion, Discovery Code Promotion, and repository retention. Both promotion types may be selected. Neither promotion requires closing the Discovery Implementation or determines retention. Record promotion decisions and rationale in the Discovery Report.
+
+For repository retention, present with a recommendation:
 
 - **Archive** — preserve implementation and history read-only.
-- **Record + Delete** — preserve durable evidence, then allow the local/remote repo to be removed manually.
-- **Keep Active** — experiment is incomplete or expected to continue.
+- **Report + Delete** — preserve durable Conformance Proofs, then allow the local/remote repo to be removed manually.
+- **Keep Active** — Discovery Implementation is incomplete or expected to continue.
 
 The plugin does not delete a remote repository in version 1.
 
-## Related-experiment synthesis
+## Discovery Comparison
 
-At closeout, detect related Discovery records by comparison target, predecessor, question, or explicit grouping. Recommend synthesis when experiments address the same question from different lenses or contain conflicting evidence.
+At Discovery Review, detect related Discovery Reports by comparison target, predecessor, question, or explicit grouping. Recommend Discovery Comparison when Discovery Implementations address the same question from different lenses or contain conflicting Conformance Proofs.
 
-If approved, create `governance/discoveries/SYNTH-xxxx.md`. A synthesis is non-normative but may generate Governance proposals subject to human approval.
+If approved, create `governance/discoveries/CMPR-xxxx.md`. A Discovery Comparison is non-normative but may generate Governance proposals subject to human approval.

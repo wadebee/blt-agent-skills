@@ -1,25 +1,27 @@
 # Promotion and Adoption
 
-## Separate decisions
+## Independent Discovery Disposition choices
+
+Discovery Governance Promotion and Discovery Code Promotion are forms of Discovery Disposition. They are independent of each other and of repository retention (Archive, Report + Delete, or Keep Active). Both promotions may be selected, and either can be declined or deferred.
 
 ```text
-Discovery
-   ├── Knowledge promotion ──► Governance proposal ──► human decision
-   └── Code promotion ───────► Product review ───────► human decision
+Discovery Implementation
+   ├── Discovery Governance Promotion ──► Governance proposal ──► human decision
+   └── Discovery Code Promotion ───────► Product review ───────► human decision
 ```
 
-A useful finding does not imply useful production code. Good experimental code does not automatically justify a Governance change.
+A useful finding does not imply useful production code. Good Discovery Implementation code does not automatically justify a Governance change.
 
-## Knowledge promotion
+## Discovery Governance Promotion
 
 The agent generates a structured proposal that distinguishes:
 
 - **Finding** — what was observed;
-- **Evidence** — why the finding is credible;
+- **Conformance Proofs** — why the finding is credible;
 - **Implication** — why project intent may need to change;
 - **Target** — Constitution, Policy, Specification, ADR, or none;
 - **Suggested change** — concrete proposed modification;
-- **Source** — Discovery or synthesis identifiers.
+- **Source** — Discovery Implementation or Discovery Comparison identifiers.
 
 The proposal is stored under `proposals/pending/`. The agent cannot promote it directly into normative Governance.
 
@@ -45,9 +47,9 @@ Every accepted Governance proposal records one or more impacts:
 
 The skill summarizes the recommended next action but does not modify Product or advance the submodule automatically.
 
-## Code promotion
+## Discovery Code Promotion
 
-When the developer approves code promotion, conduct an interview and recommend:
+When the developer approves Discovery Code Promotion, conduct an interview and recommend:
 
 ### Transplant
 
@@ -59,7 +61,7 @@ Reuse selected code while refactoring dependencies, structure, tests, error hand
 
 ### Reimplement
 
-Preserve the accepted design and behavior but implement it fresh inside Product because the experimental code carries shortcuts, assumptions, or architecture unsuitable for production.
+Preserve the accepted design and behavior but implement it fresh inside Product because the Discovery Implementation code carries shortcuts, assumptions, or architecture unsuitable for production.
 
 The recommendation evaluates:
 
@@ -68,7 +70,7 @@ The recommendation evaluates:
 - Product conventions;
 - security and portability;
 - integration risk;
-- experimental shortcuts;
+- shortcuts in the Discovery Implementation;
 - clean-room assumptions;
 - migration implications; and
 - whether the code relies on a context unavailable in Product.
@@ -81,8 +83,8 @@ Product does not automatically track Governance. Before advancing the pinned sub
 
 - Product-impact items addressed;
 - required implementation changes complete;
-- derived conformance artifacts updated;
+- derived Conformance Proofs updated;
 - relevant tests pass;
 - known incompatibilities documented.
 
-The skill recommends against advancement when evidence is incomplete, but the developer retains final control. The skill modifies and validates the submodule pointer only when asked; it never commits the change.
+The skill recommends against advancement when Conformance Proofs are incomplete, but the developer retains final control. The skill modifies and validates the submodule pointer only when asked; it never commits the change.

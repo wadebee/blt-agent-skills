@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://beeline-technologies.example/schemas/discovery.schema.json",
+  "$id": "https://beeline-technologies.example/schemas/discovery-manifest.schema.json",
   "title": "Governed Exploratory Development Discovery Manifest",
   "type": "object",
   "additionalProperties": false,
@@ -14,7 +14,7 @@
     "status",
     "governance",
     "workflow",
-    "experiment"
+    "discovery_implementation"
   ],
   "properties": {
     "schema_version": {
@@ -52,7 +52,7 @@
       "required": [
         "repository",
         "commit",
-        "context_mode",
+        "artifacts_selection",
         "snapshot_path",
         "selection_record"
       ],
@@ -65,7 +65,7 @@
           "type": "string",
           "pattern": "^[0-9a-fA-F]{40}$"
         },
-        "context_mode": {
+        "artifacts_selection": {
           "enum": [
             "full",
             "curated"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "experiment": {
+    "discovery_implementation": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -122,7 +122,7 @@
             "spike",
             "prototype-poc",
             "benchmark",
-            "compatibility-experiment",
+            "compatibility-check",
             "adversarial-investigation",
             "other"
           ]
@@ -138,8 +138,8 @@
             "mode": {
               "enum": [
                 "neutral",
-                "divergent",
-                "adversarial",
+                "optimize-quality",
+                "challenge-assumptions",
                 "custom"
               ]
             },
@@ -191,8 +191,8 @@
                 "type": {
                   "enum": [
                     "product",
-                    "discovery",
-                    "discovery-record",
+                    "discovery-implementation",
+                    "discovery-report",
                     "metric-baseline"
                   ]
                 },

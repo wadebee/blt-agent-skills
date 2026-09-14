@@ -5,8 +5,8 @@
 | `README.md` | Entry point and non-negotiable constraints |
 | `docs/01-architecture.md` | Repository roles, diagrams, terminology, architectural sediment |
 | `docs/02-governance-model.md` | Authority model, snapshots, submodule adoption |
-| `docs/03-discovery-lifecycle.md` | Creation interview, execution, successor, closeout, synthesis |
-| `docs/04-promotion-and-adoption.md` | Knowledge/code promotion and Product adoption |
+| `docs/03-discovery-lifecycle.md` | Creation interview, execution, successor, Discovery Review, Discovery Comparison |
+| `docs/04-promotion-and-adoption.md` | Discovery Governance Promotion and Product adoption |
 | `docs/05-plugin-architecture.md` | Beeline marketplace and Agent Skill architecture |
 | `docs/06-implementation-plan.md` | Recommended implementation sequence |
 | `docs/07-acceptance-criteria.md` | System-level requirements |
