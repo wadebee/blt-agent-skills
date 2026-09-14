@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/project-registration.schema.json",
+  "title": "Local Governed Development Project Registration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "projects"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "projects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "product_path",
+          "governance_path",
+          "governance_submodule_path",
+          "discovery_parent_path"
+        ],
+        "properties": {
+          "product_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "governance_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "governance_submodule_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "discovery_parent_path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

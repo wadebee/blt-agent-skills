@@ -1,0 +1,7 @@
+schema_version: "1.0"
+projects:
+  shimmy:
+    product_path: "/absolute/path/to/shimmy"
+    governance_path: "/absolute/path/to/shimmy-governance"
+    governance_submodule_path: ".governance"
+    discovery_parent_path: "/absolute/path/to/discoveries"

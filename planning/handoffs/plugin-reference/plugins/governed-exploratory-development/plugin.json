@@ -1,0 +1,36 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "governed-exploratory-development",
+  "version": "0.1.0",
+  "description": "Create and operate governed Product, Governance, and isolated Discovery repository workflows through one context-aware skill.",
+  "author": {
+    "name": "Beeline Technologies"
+  },
+  "keywords": [
+    "agentic-development",
+    "governance",
+    "discovery",
+    "architecture",
+    "experimentation"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Governed Exploratory Development",
+        "shortDescription": "Run governed clean-room software experiments.",
+        "longDescription": "Onboard projects, create isolated Discovery repositories, close experiments, synthesize evidence, propose Governance changes, review code promotion, and adopt Governance through one context-aware workflow.",
+        "developerName": "Beeline Technologies",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "Set up this project for governed exploratory development.",
+          "Create a clean Discovery repository for this architectural question.",
+          "Close out this experiment and preserve what we learned."
+        ]
+      }
+    }
+  }
+}

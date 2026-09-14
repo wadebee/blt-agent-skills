@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/governance-snapshot.schema.json",
+  "title": "Governance Snapshot Provenance",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "discovery_id",
+    "created_at",
+    "source",
+    "mode",
+    "authority_model",
+    "selection_decisions",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "discovery_id": {
+      "type": "string",
+      "pattern": "^DISC-[0-9]{4,}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{40}$"
+        }
+      }
+    },
+    "mode": {
+      "enum": [
+        "full",
+        "curated"
+      ]
+    },
+    "authority_model": {
+      "type": "array",
+      "const": [
+        "constitution",
+        "policies",
+        "specifications",
+        "active-adrs"
+      ]
+    },
+    "selection_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact",
+          "decision",
+          "relevance",
+          "benefit",
+          "risk_if_included",
+          "risk_if_excluded",
+          "developer_note"
+        ],
+        "properties": {
+          "artifact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "decision": {
+            "enum": [
+              "include",
+              "exclude"
+            ]
+          },
+          "relevance": {
+            "type": "string"
+          },
+          "benefit": {
+            "type": "string"
+          },
+          "risk_if_included": {
+            "type": "string"
+          },
+          "risk_if_excluded": {
+            "type": "string"
+          },
+          "developer_note": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_manifest_sha256"
+      ],
+      "properties": {
+        "content_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      }
+    }
+  }
+}

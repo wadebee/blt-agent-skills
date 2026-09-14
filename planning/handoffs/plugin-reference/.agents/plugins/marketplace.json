@@ -1,0 +1,32 @@
+{
+  "name": "beeline-technologies",
+  "interface": {
+    "displayName": "Beeline Technologies"
+  },
+  "plugins": [
+    {
+      "name": "governed-exploratory-development",
+      "source": {
+        "source": "local",
+        "path": "./plugins/governed-exploratory-development"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "shimmy-onboarding",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shimmy-onboarding"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
