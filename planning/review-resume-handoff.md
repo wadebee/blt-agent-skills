@@ -51,7 +51,7 @@ instructions and applicable repository guidance govern any later edits.
 ## Read in this order
 
 1. [AGENTS.md](../AGENTS.md).
-2. [GLOSSARY.md](../GLOSSARY.md), including relationships and boundary scenarios.
+2. [GLOSSARY.md](../GLOSSARY.md) for terminology. Relationships, choices, and boundary scenarios now live in the authoritative plan's [Capability domain knowledge](notional/governed-exploratory-development.md#capability-domain-knowledge).
 3. [Terminology source and implementation notes](terminology-notes.md).
 4. [The authoritative plan](notional/governed-exploratory-development.md),
    especially status, proposed decisions, inconsistencies, Unresolved, chunks,

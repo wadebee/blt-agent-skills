@@ -541,12 +541,85 @@ The exact Shimmy Product bootstrap contract remains a prerequisite for approving
 
 Active state: **PLAN**, awaiting review of this persisted document. No implementation chunk is active.
 
+## Capability domain knowledge
+
+Relocated from the final three sections of `GLOSSARY.md` by user direction.
+These relationships, choices, and scenarios belong to
+`governed-exploratory-development`; they are not shared marketplace policy or
+requirements for unrelated plugins. The glossary continues to define terms.
+Approved clarifications in this plan, including R5, govern the contracts below;
+remaining proposals retain their recorded review status.
+
+During authorized implementation, carry the applicable invariants and choices
+into `S/SKILL.md`, `S/references/runtime-contract.md`, and the internal workflow
+references. Map the boundary scenarios to the relevant chunk's acceptance checks
+and record coverage or unresolved details at its review gate. Preserve this
+material when the plan moves to `wip` and `complete`; relocation does not authorize
+implementation or assert that these scenarios have been tested.
+
+### Relationships and invariants
+
+```mermaid
+flowchart LR
+    G[Governance Artifacts at exact commit] -->|pinned submodule| P[Product]
+    G -->|selected immutable snapshot| D[Discovery Repo]
+    D -->|findings and Conformance Proofs| R[Discovery Reports / Discovery Comparisons]
+    R -->|proposed normative change| Q[Governance Proposal]
+    Q -->|human acceptance and separate normative edits| G
+    D -->|independent Discovery Code Promotion review| P
+```
+
+The records and proposals in the diagram live in Governance but remain non-normative. The reusable workflow mechanism operates these relationships from the independent marketplace repository.
+
+1. **Authority is fixed:** Constitution > Policies > Specifications > Active ADRs. Same-level supersession must be explicit; unresolved conflicts are surfaced. Tests, Product code, proposals, records, and `AGENTS.md` add no authority levels.
+2. **Recommendations are not choices:** Governance Artifacts selection, framing, Product access, and the charter require explicit developer decisions. Curated selection always includes the Constitution and records selection decisions. An earlier explicit choice need not be asked again for the same action.
+3. **Initial creation is minimal:** the only non-Git root entries are `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`. Full-reference access permits inspection; it does not select an inherited scaffold.
+4. **Provenance is stable:** the snapshot is immutable. Charter and provenance fields should be treated as immutable after coding starts; later findings belong in durable records. Material Governance changes lead to a successor repository.
+5. **Conformance Proofs survive retention choices:** every Discovery Review generates and surfaces its Discovery Report before Discovery Disposition choices. `active`/`closed` manifest status and the promotion and retention choices within Discovery Disposition are distinct concepts; a surfaced record does not by itself mean the Discovery Repo is finished.
+6. **Promotion decisions remain independent:** approving Discovery Governance Promotion can accompany rejecting Discovery Code Promotion, and accepting code can accompany no Governance change. Accepted proposals require Product impact assessment; they do not automatically change Product or its pin.
+7. **Access and scope must agree:** a comparison target or a full snapshot selection cannot waive the Product-access boundary. Version 1 provides policy and workflow guardrails, not a hard technical sandbox.
+8. **Repository actions preserve developer control:** governed-development workflows follow the [approved R5 Git contract](#r5--approved-git-contracts-and-proposed-verification-gate). Only initial project creation may stage approved generated files, create the initial Governance and Product commits, and establish their local submodule connection. Existing-project registration, Discovery Repo creation, and later workflows retain the staging, commit, remote, and hosting restrictions. Marketplace Git permissions and disposable test setup are governed separately by root `AGENTS.md`. This supersedes the former glossary wording that recognized only the fixture exception.
+
+Sources: [Settled decisions](../handoffs/decisions/DECISIONS.md), [Lifecycle](../handoffs/docs/03-discovery-lifecycle.md), [Persisted review decisions](#recorded-design-decisions).
+
+### Required choices and state distinctions
+
+| Concept | Values and meaning |
+|---|---|
+| Discovery Framing | Neutral: no imposed optimization bias. Optimize a quality: optimize an explicit quality. Challenge assumptions: challenge assumptions and seek failure modes. Custom: developer-defined lens. |
+| Product access | Isolated: no Product implementation exposure. Contract-aware: approved public contract exports only. Full-reference: implementation and history may be inspected in a separate Discovery Repo. |
+| Discovery Code Promotion approach | Transplant: reuse code that fits Product with minimal change. Adapt: reuse selected code with production changes. Reimplement: retain the design or behavior but implement it fresh in Product. |
+| Proposal state | `proposals/pending/` → human resolution → `proposals/resolved/`. Resolved metadata records accepted/rejected and optionally a resolving commit. Acceptance leads to separate normative edits. |
+| Discovery Repo status | Manifest values are `active` and `closed`. Findings are recorded separately from the original charter. |
+| Repository retention within Discovery Disposition | Archive: retain implementation and history read-only. Report + Delete: retain Conformance Proofs and allow manual repository removal. Keep Active: continue the Discovery Repo. Concrete local archival mechanics remain an implementation detail. |
+
+Sources: [Lifecycle](../handoffs/docs/03-discovery-lifecycle.md), [Promotion and adoption](../handoffs/docs/04-promotion-and-adoption.md), [Governance model](../handoffs/docs/02-governance-model.md), [Open implementation details](../handoffs/codex/OPEN-IMPLEMENTATION-DETAILS.md).
+
+### Boundary scenarios
+
+These scenarios exercise the specified model; they are not executed acceptance tests.
+
+| Scenario | Expected interpretation |
+|---|---|
+| A test passes while its asserted behavior contradicts a Specification. | Surface the Governance inconsistency. Passing Conformance Proofs do not override the requirement. |
+| A resolved proposal is accepted, but no normative artifact was edited. | The proposal remains Conformance Proofs of a decision; moving or accepting it alone did not change Governance. |
+| Governance advances from G1 to G2 while a Discovery Repo uses G1. | Preserve the G1 snapshot. A material update requires a successor with a new ID and predecessor reference. Product may still pin G1 independently. |
+| DISC-0043 compares with DISC-0042 but does not continue it. | Record a comparison target; do not infer `derived_from` or permission to inspect its implementation. |
+| Isolated mode is selected with Full Governance Artifacts that contain Product-derived implementation Conformance Proofs. | Surface the incompatible choices. The plan proposes requiring a revised choice; silently filtering the content would misrepresent a full snapshot. |
+| A Discovery Repo fails its success criteria but reveals a missing invariant. | Preserve the negative result and supporting Conformance Proofs. Discovery Governance Promotion may be useful even if Discovery Code Promotion is rejected. |
+| A Discovery Report is surfaced and the developer chooses Keep Active. | Preserve the durable record without treating its existence as proof of closed status or immutable final findings. |
+| A plugin update includes a new AGENTS template for an existing Product repository. | Repository ownership continues; do not silently replace the existing instructions. |
+| Both promotion types are approved, followed by Archive. | Record Discovery Code Promotion, Discovery Governance Promotion, and repository retention independently; neither promotion implies the other or Governance adoption. |
+| A benchmark fails and measures a quality unrelated to requirements. | Preserve its measurements and limitations as Conformance Proofs without claiming successful conformance. |
+| A repository edits generated instructions while its Governance Snapshot stays fixed. | Both are Materialized Governance with different update rules; instruction ownership does not permit snapshot mutation or overriding requirements. |
+
 ## Execution protocol
 
 For every chunk:
 
 1. Read `AGENTS.md`, `GLOSSARY.md`, every child context on the path to a changed
-   file, this plan, and the chunk's target files.
+   file, this plan (including [Capability domain knowledge](#capability-domain-knowledge)),
+   and the chunk's target files.
 2. Execute only that chunk's scope.
 3. Run its verification checklist and record `[x]`, `[ ]`, or `[~]` with notes.
 4. Update the cumulative **Lessons learned** block.
@@ -1050,7 +1123,8 @@ Checkpoint: record any local installation changes and their reversal steps; no r
 ## Session bootstrap
 
 Read root instructions, `GLOSSARY.md`, `planning/terminology-notes.md`, this plan
-(including R1–R7 and their review status), the six required handoff documents in
+(including [Capability domain knowledge](#capability-domain-knowledge) and R1–R7
+with their review status), the six required handoff documents in
 order, then the active chunk's references and target files. Glossary-defined
 relationships control alongside terminology. The confirmed handoff paths are:
 
