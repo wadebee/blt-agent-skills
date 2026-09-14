@@ -18,16 +18,16 @@
 
 ## Objective
 
-Implement the capability in this repository, preserving separate Governance, Product, and Discovery Implementation repositories.
+Implement the capability in this repository, preserving separate Governance, Product, and Discovery Repos.
 
 The first increment comprises the handoff’s first two milestones:
 
 1. Marketplace/plugin skeletons and validation infrastructure.
-2. Local Project Configuration, Product/Governance Project Setup, and creation of one valid local Discovery Implementation repository.
+2. Local Project Configuration, Product/Governance Project Setup, and creation of one valid local Discovery Repo.
 
 Retain a human review checkpoint between those milestones. Subsequent lifecycle operations require separate approval.
 
-Success means the single public router can conduct the required interview, honor explicit choices, create the minimal local Discovery Implementation, and validate its immutable Governance provenance. Simplicity is a success criterion: minimize setup steps, extra tools, custom mechanisms, and the amount of code needed to maintain the workflow.
+Success means the single public router can conduct the required interview, honor explicit choices, create the minimal local Discovery Repo, and validate its immutable Governance provenance. Simplicity is a success criterion: minimize setup steps, extra tools, custom mechanisms, and the amount of code needed to maintain the workflow.
 
 Excluded throughout: automatic workflow commits, staging, pushes, remote creation, hosting actions, and duplicated Shimmy bootstrap logic.
 
@@ -109,7 +109,7 @@ planning/
   complete/
 ```
 
-Generated Discovery Implementation layout:
+Generated Discovery Repo layout:
 
 ```text
 <project>-disc-0001-<slug>/
@@ -187,7 +187,7 @@ The following combine settled handoff constraints, explicitly approved review de
 | Data location | Explicit `--data-dir`, otherwise supplied `PLUGIN_DATA`, otherwise `${XDG_DATA_HOME:-$HOME/.local/share}/beeline-technologies/governed-exploratory-development`. Reject storage inside project repositories or the installed plugin tree. |
 | Project Setup | Validate an existing Product/Governance pair and existing committed submodule relationship. Diagnose missing history or pins; do not create them. |
 | Existing files | Seed missing role `AGENTS.md` files once. Preserve existing files and surface conflicts. |
-| Revision selection | Present and explicitly confirm an exact Governance commit; never silently follow HEAD. Product’s adopted pin and a newer Discovery Implementation baseline remain distinct. |
+| Revision selection | Present and explicitly confirm an exact Governance commit; never silently follow HEAD. Product’s adopted pin and a newer Discovery Repo baseline remain distinct. |
 | Snapshot source | Enumerate the selected Git tree and read blobs by object ID. Never copy dirty checkout contents or use archive transformations. |
 | Git compatibility | Initially support the handoff’s SHA-1 commit format. Reject unsupported object formats explicitly. |
 | Integrity | Canonical JSON manifest: sorted relative paths, source classification, mode, byte count, and SHA-256. Hash its exact bytes in `SNAPSHOT.yaml`; exclude the manifest and snapshot from recursive self-hashing. |
@@ -204,7 +204,7 @@ The terminology alignment updates the handoff to match the authoritative glossar
 | Finding | Proposed production handling |
 |---|---|
 | Handoff path drift — resolved | Root `AGENTS.md` now names the confirmed `planning/handoffs/` location. |
-| Templates permit workstation paths in provenance, conflicting with Decision 29 | Add `governance_repository` to the production configuration model; write that stable identity into Discovery Implementation provenance. |
+| Templates permit workstation paths in provenance, conflicting with Decision 29 | Add `governance_repository` to the production configuration model; write that stable identity into Discovery Repo provenance. |
 | Contract export location/provenance is unspecified | Use the separate immutable contract namespace and manifest shown above. |
 | Snapshot digest has no defined content-manifest format | Define the canonical format and semantic cross-document checks in `runtime-contract.md`. |
 | Concurrency is required but deferred by phase outlines | Implement basic atomic reservations and recovery in the first increment. |
@@ -222,7 +222,7 @@ The user approved creating these examples automatically, including their initial
 
 Only test setup may create these example commits. Before doing so, it must verify that the target repositories are inside its own temporary directory and that inherited Git settings cannot redirect writes to a real repository. Test-only identity and configuration must not modify global Git configuration. Cleanup is limited to files owned by that test run.
 
-This exception does not permit commits in this repository or real Product, Governance, or Discovery Implementation repositories. It does not permit pushes or remote creation. The production workflow under test must still leave source history unchanged and the new Discovery Implementation uncommitted. Test setup and workflow execution must be distinguishable in the command audit so fixture commits cannot mask a workflow violation.
+This exception does not permit commits in this repository or real Product, Governance, or Discovery Repos. It does not permit pushes or remote creation. The production workflow under test must still leave source history unchanged and the new Discovery Repo uncommitted. Test setup and workflow execution must be distinguishable in the command audit so fixture commits cannot mask a workflow violation.
 
 ## Unresolved
 
@@ -241,7 +241,7 @@ The exact Shimmy Product bootstrap contract remains a prerequisite for approving
 - [x] Persist proposed plan with explicit user permission, for review only.
 - [ ] Obtain approval to start implementation.
 - [ ] Chunk 1 — Skeleton and validation.
-- [ ] Chunk 2 — Local Project Configuration, Project Setup, and Discovery Implementation creation.
+- [ ] Chunk 2 — Local Project Configuration, Project Setup, and Discovery Repo creation.
 - [ ] Chunk 3 — Successor, Discovery Review, and Discovery Comparison.
 - [ ] Chunk 4 — Governance, promotion, and adoption.
 - [ ] Chunk 5 — Shimmy delegation.
@@ -282,8 +282,8 @@ Create:
 - `S/SKILL.md`
 - `S/references/runtime-contract.md`
 - `S/references/workflows/project-setup.md`
-- `S/references/workflows/discovery-implementation-create.md`
-- `S/references/workflows/discovery-implementation-successor.md`
+- `S/references/workflows/discovery-repo-create.md`
+- `S/references/workflows/discovery-repo-successor.md`
 - `S/references/workflows/discovery-review.md`
 - `S/references/workflows/discovery-compare.md`
 - `S/references/workflows/discovery-governance-promote.md`
@@ -298,7 +298,7 @@ Create:
 - `S/assets/templates/LOCAL-PROJECT-CONFIGURATION.yaml`
 - `S/assets/templates/agents/product/AGENTS.md`
 - `S/assets/templates/agents/governance/AGENTS.md`
-- `S/assets/templates/agents/discovery-implementation/AGENTS.md`
+- `S/assets/templates/agents/discovery-repo/AGENTS.md`
 - `S/scripts/governed.sh`
 - `S/scripts/lib/data.sh` — structured-data operations and template rendering using the user-selected tools
 - `H/plugin.json`
@@ -353,7 +353,7 @@ Checkpoint: record exact changed files, results, and diff in the plan. Rollback 
 
 ### Goal
 
-Complete the first requested increment through two internal phases: Project Setup, then Discovery Implementation creation.
+Complete the first requested increment through two internal phases: Project Setup, then Discovery Repo creation.
 
 ### Files
 
@@ -364,7 +364,7 @@ Create:
 - `S/scripts/lib/interview.sh` — sequential answer state
 - `S/scripts/lib/project_setup.sh` — configuration and pair validation
 - `S/scripts/lib/snapshot.sh` — authority metadata, selected content, and integrity
-- `S/scripts/lib/discovery_implementation.sh` — ID reservation and minimal repository creation
+- `S/scripts/lib/discovery_repo.sh` — ID reservation and minimal repository creation
 - `S/assets/schemas/interview-session.schema.json`
 - `S/assets/schemas/operation.schema.json`
 - `S/assets/schemas/id-reservation.schema.json`
@@ -377,7 +377,7 @@ Create:
 - `tests/test_authority.sh`
 - `tests/test_ids.sh`
 - `tests/test_snapshot.sh`
-- `tests/test_discovery_implementation.sh`
+- `tests/test_discovery_repo.sh`
 - `tests/test_recovery.sh`
 - `tests/test_git_boundary.sh`
 
@@ -388,7 +388,7 @@ Runtime outputs, outside this implementation repository:
 - Plugin data: `projects.yaml`, `sessions/<uuid>.json`, `operations/<uuid>.json`
 - Missing Product/Governance role `AGENTS.md` files
 - Governance reservation files
-- The Discovery Implementation repository shown in the target layout
+- The Discovery Repo shown in the target layout
 
 ### Implementation requirements and suggested reasoning level
 
@@ -400,7 +400,7 @@ Confirm project identity and paths one field at a time. Verify distinct Git repo
 
 Preserve existing instructions and unrelated changes. Local Project Configuration must be idempotent and independent across workstations.
 
-**Phase 2 — Discovery Implementation creation**
+**Phase 2 — Discovery Repo creation**
 
 Conduct explicit choices for context, Discovery Type, framing, Product access, charter, and optional comparison. Curated mode always carries the Constitution and records each candidate’s inclusion/exclusion decision.
 
@@ -421,15 +421,15 @@ Dependencies: accepted Chunk 1 with `yq` and `jv`, the approved disposable test-
 - [ ] Duplicate IDs, invalid supersession, missing Constitution, and malformed provenance fail.
 - [ ] Concurrent creation yields unique IDs or safe failure.
 - [ ] Fault injection leaves no unreported partial repository and preserves user edits.
-- [ ] New Discovery Implementation HEAD is unborn; no remotes or staged files exist.
+- [ ] New Discovery Repo HEAD is unborn; no remotes or staged files exist.
 - [ ] Fixture commits are confined to test-owned temporary repositories; the command audit separately proves the production workflow never commits.
-- [ ] One complete router-driven Project Setup-to-Discovery Implementation walkthrough succeeds.
+- [ ] One complete router-driven Project Setup-to-Discovery Repo walkthrough succeeds.
 
 Commands:
 
 ```text
 bash tests/run.sh local_project_configuration interview project_setup
-bash tests/run.sh authority ids snapshot discovery_implementation recovery git_boundary
+bash tests/run.sh authority ids snapshot discovery_repo recovery git_boundary
 bash tests/run.sh
 git diff --check
 ```
@@ -438,7 +438,7 @@ Record commands and results separately after each internal phase.
 
 ### Human review gate
 
-Review the generated Discovery Implementation tree, approved interview record, provenance, diffs, test Conformance Proofs, and recovery behavior.
+Review the generated Discovery Repo tree, approved interview record, provenance, diffs, test Conformance Proofs, and recovery behavior.
 
 Checkpoint: operation journals identify owned writes. Failed/canceled IDs remain reserved. Rollback never deletes changed user files or rewrites source history.
 

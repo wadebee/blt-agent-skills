@@ -1,4 +1,4 @@
-# Internal Workflow: Discovery Implementation Creation
+# Internal Workflow: Discovery Repo Creation
 
 1. Confirm Local Project Configuration and clean enough source state for snapshotting.
 2. Allocate the next `DISC-xxxx` ID with collision protection.

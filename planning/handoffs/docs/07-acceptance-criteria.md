@@ -22,7 +22,7 @@
 - Role-specific `AGENTS.md` files are generated once and are not later synchronized.
 - Workstation-specific paths remain outside committed repositories.
 
-## Discovery Implementation creation
+## Discovery Repo creation
 
 - A new repo contains only `AGENTS.md`, `DISCOVERY.yaml`, `.governance/`, and Git administrative data.
 - The Governance source commit is exact and recorded.
@@ -32,14 +32,14 @@
 - Isolated and Contract-aware guardrails apply regardless of information transport.
 - No remote repository is created or modified.
 
-## Discovery Implementation continuation and Discovery Review
+## Discovery Repo continuation and Discovery Review
 
 - Governance snapshot content cannot be silently refreshed.
 - A changed Governance baseline creates a successor with `derived_from` and reason.
 - Discovery Review always generates and surfaces a durable record before Discovery Disposition.
 - Repository retention (Archive, Report + Delete, or Keep Active) is independent of Discovery Code Promotion and Discovery Governance Promotion. Both promotions may be selected.
 - Keep Active preserves active status even after reports or promotion decisions exist.
-- Related Discovery Implementations trigger a recommendation, not mandatory Discovery Comparison.
+- Related Discovery Repos trigger a recommendation, not mandatory Discovery Comparison.
 
 ## Promotion
 

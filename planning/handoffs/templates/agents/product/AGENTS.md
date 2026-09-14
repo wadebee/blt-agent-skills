@@ -35,7 +35,7 @@ Existing code is important implementation evidence, not project law. Preserve es
 
 ## Discovery Code Promotion
 
-Do not copy Discovery Implementation code automatically. Use the explicit Transplant / Adapt / Reimplement review and record the developer’s decision.
+Do not copy Discovery Repo code automatically. Use the explicit Transplant / Adapt / Reimplement review and record the developer’s decision.
 
 ## Validation before completion
 

@@ -5,12 +5,12 @@
 Discovery Governance Promotion and Discovery Code Promotion are forms of Discovery Disposition. They are independent of each other and of repository retention (Archive, Report + Delete, or Keep Active). Both promotions may be selected, and either can be declined or deferred.
 
 ```text
-Discovery Implementation
+Discovery Repo
    ├── Discovery Governance Promotion ──► Governance proposal ──► human decision
    └── Discovery Code Promotion ───────► Product review ───────► human decision
 ```
 
-A useful finding does not imply useful production code. Good Discovery Implementation code does not automatically justify a Governance change.
+A useful finding does not imply useful production code. Good Discovery Repo code does not automatically justify a Governance change.
 
 ## Discovery Governance Promotion
 
@@ -21,7 +21,7 @@ The agent generates a structured proposal that distinguishes:
 - **Implication** — why project intent may need to change;
 - **Target** — Constitution, Policy, Specification, ADR, or none;
 - **Suggested change** — concrete proposed modification;
-- **Source** — Discovery Implementation or Discovery Comparison identifiers.
+- **Source** — Discovery Repo or Discovery Comparison identifiers.
 
 The proposal is stored under `proposals/pending/`. The agent cannot promote it directly into normative Governance.
 
@@ -61,7 +61,7 @@ Reuse selected code while refactoring dependencies, structure, tests, error hand
 
 ### Reimplement
 
-Preserve the accepted design and behavior but implement it fresh inside Product because the Discovery Implementation code carries shortcuts, assumptions, or architecture unsuitable for production.
+Preserve the accepted design and behavior but implement it fresh inside Product because the Discovery Repo code carries shortcuts, assumptions, or architecture unsuitable for production.
 
 The recommendation evaluates:
 
@@ -70,7 +70,7 @@ The recommendation evaluates:
 - Product conventions;
 - security and portability;
 - integration risk;
-- shortcuts in the Discovery Implementation;
+- shortcuts in the Discovery Repo;
 - clean-room assumptions;
 - migration implications; and
 - whether the code relies on a context unavailable in Product.

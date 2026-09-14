@@ -110,15 +110,15 @@ The submodule must never automatically follow Governance HEAD. Advancement requi
 
 ## Governance Artifacts selection
 
-Every Discovery Implementation creation requires an explicit choice after the router provides a recommendation.
+Every Discovery Repo creation requires an explicit choice after the router provides a recommendation.
 
 ### Full Governance Artifacts
 
-Copy a complete version-pinned Governance projection into the Discovery Implementation repository. Preserve artifact classes and authority markings. This mode is best when historical decisions and broad alignment are more important than reducing implementation anchoring.
+Copy a complete version-pinned Governance projection into the Discovery Repo. Preserve artifact classes and authority markings. This mode is best when historical decisions and broad alignment are more important than reducing implementation anchoring.
 
 ### Curated Governance Artifacts
 
-Always include the Constitution, then select applicable policies, specifications, ADR constraints, and Conformance Proofs through a decision-by-decision interview. Materially relevant exclusions must be recorded with rationale. Non-normative Discovery Implementation/proposal Conformance Proofs are included only by explicit choice.
+Always include the Constitution, then select applicable policies, specifications, ADR constraints, and Conformance Proofs through a decision-by-decision interview. Materially relevant exclusions must be recorded with rationale. Non-normative Discovery Repo/proposal Conformance Proofs are included only by explicit choice.
 
 The selection interview must explain for each candidate:
 
@@ -132,8 +132,8 @@ The developer accepts, rejects, or modifies each choice.
 
 ## Generated Governance Snapshot
 
-The selected material is copied into `.governance/` with a `SNAPSHOT.yaml` provenance record. The snapshot is immutable for the Discovery Implementation. A material Governance change creates a successor Discovery Implementation repository with a new Governance commit and `derived_from` reference.
+The selected material is copied into `.governance/` with a `SNAPSHOT.yaml` provenance record. The snapshot is immutable for the Discovery Repo. A material Governance change creates a successor Discovery Repo with a new Governance commit and `derived_from` reference.
 
 ## Materialized Governance
 
-Governance Snapshots, generated operational instructions, and other artifacts derived from Governance are Materialized Governance. Copied requirements retain their source authority; derived checks and reports do not gain normative authority. Discovery Implementation snapshots are immutable, while generated `AGENTS.md` instructions become repository-owned and may evolve without automatic plugin regeneration. Conformance Proofs unrelated to Governance requirements need not be Materialized Governance.
+Governance Snapshots, generated operational instructions, and other artifacts derived from Governance are Materialized Governance. Copied requirements retain their source authority; derived checks and reports do not gain normative authority. Discovery Repo snapshots are immutable, while generated `AGENTS.md` instructions become repository-owned and may evolve without automatic plugin regeneration. Conformance Proofs unrelated to Governance requirements need not be Materialized Governance.

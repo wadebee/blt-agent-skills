@@ -14,7 +14,7 @@ Prohibit Product implementation access through:
 - Git remotes or branches;
 - GitHub or other forge connectors;
 - web search;
-- previous Discovery Implementation repositories;
+- previous Discovery Repos;
 - other agents or generated summaries;
 - copied build files, lockfiles, CI, or dependency declarations.
 
@@ -31,11 +31,11 @@ Permit only an explicit export containing public contracts such as:
 - compatibility requirements;
 - supported platform constraints.
 
-Do not include implementation internals, history, or prior Discovery Implementations.
+Do not include implementation internals, history, or prior Discovery Repos.
 
 ### Full-reference mode
 
-Product implementation access is allowed, but the Discovery Implementation remains in a separate repo and still follows the charter and immutable Governance snapshot.
+Product implementation access is allowed, but the Discovery Repo remains in a separate repo and still follows the charter and immutable Governance snapshot.
 
 ## Guardrails
 

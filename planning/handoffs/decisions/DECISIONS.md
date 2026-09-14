@@ -10,21 +10,21 @@ Use a broad collection of Governance Artifacts containing a small, highest-autho
 
 At creation, present **Full Governance Artifacts** and **Curated Governance Artifacts**, explain each briefly, and provide a context-sensitive recommendation. The developer must choose explicitly; no automatic default.
 
-## 3. Generated Governance snapshot in Discovery Implementation — 2/5
+## 3. Generated Governance snapshot in Discovery Repo — 2/5
 
-Copy the chosen, version-pinned Governance Artifacts into `.governance/` with provenance. A checked-out Discovery Implementation must be self-contained and reveal exactly what governed it.
+Copy the chosen, version-pinned Governance Artifacts into `.governance/` with provenance. A checked-out Discovery Repo must be self-contained and reveal exactly what governed it.
 
 ## 4. Immutable snapshot with successor repository — 2/5
 
-Do not refresh Governance inside an active Discovery Implementation. If Governance changes materially, create a new successor repository referencing the predecessor and reason. This preserves causality and reproducibility.
+Do not refresh Governance inside an active Discovery Repo. If Governance changes materially, create a new successor repository referencing the predecessor and reason. This preserves causality and reproducibility.
 
 ## 5. Independent Discovery Disposition choices — 2/5
 
-Discovery Governance Promotion and Discovery Code Promotion are independent forms of Discovery Disposition, alongside an independent repository retention choice. Both promotions may be selected. Discovery Implementation code may be rejected while its findings are accepted, or vice versa.
+Discovery Governance Promotion and Discovery Code Promotion are independent forms of Discovery Disposition, alongside an independent repository retention choice. Both promotions may be selected. Discovery Repo code may be rejected while its findings are accepted, or vice versa.
 
 ## 6. Agent proposal with mandatory human approval — 2/5
 
-Agents may prepare structured Governance Proposals, but humans accept, modify, or reject them. Discovery Implementation creates Conformance Proofs; people decide when evidence justifies separate changes to project requirements.
+Agents may prepare structured Governance Proposals, but humans accept, modify, or reject them. Discovery Repo creates Conformance Proofs; people decide when evidence justifies separate changes to project requirements.
 
 ## 7. Fixed authority hierarchy plus same-level supersession — 2/5
 
@@ -40,7 +40,7 @@ Present Neutral, Optimize a quality, Challenge assumptions, and Custom framing w
 
 ## 10. Developer-selected Product access — 3/5
 
-Present Isolated, Contract-aware, and Full-reference with a recommendation. This lets clean-room Discovery Implementations and integration-aware PoCs coexist without pretending they are equivalent.
+Present Isolated, Contract-aware, and Full-reference with a recommendation. This lets clean-room Discovery Repos and integration-aware PoCs coexist without pretending they are equivalent.
 
 ## 11. Durable record before selectable Discovery Disposition — 3/5
 
@@ -48,11 +48,11 @@ Every Discovery Review first generates and surfaces a durable record. Then prese
 
 ## 12. Discovery Reports live in Governance — 1/5
 
-Store durable `DISC-*` and `CMPR-*` records under `governance/discoveries/` as explicitly non-normative evidence. This keeps institutional memory searchable even when Discovery Implementation repos are removed.
+Store durable `DISC-*` and `CMPR-*` records under `governance/discoveries/` as explicitly non-normative evidence. This keeps institutional memory searchable even when Discovery Repos are removed.
 
-## 13. Truly minimal Discovery Implementation scaffold — 1/5
+## 13. Truly minimal Discovery Repo scaffold — 1/5
 
-Create only `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`. Language, build, dependency, test, and directory choices remain part of the Discovery Implementation rather than preloaded bias.
+Create only `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`. Language, build, dependency, test, and directory choices remain part of the Discovery Repo rather than preloaded bias.
 
 ## 14. Compact structured `DISCOVERY.yaml` — 2/5
 
@@ -88,17 +88,17 @@ Clarify the question and propose success criteria and non-goals through an inter
 
 ## 22. Optional comparison target — 2/5
 
-A Discovery Implementation may compare against Product, another Discovery Implementation, a prior record, a baseline metric, or nothing. When useful, suggest dimensions and record the approved comparison.
+A Discovery Repo may compare against Product, another Discovery Repo, a prior record, a baseline metric, or nothing. When useful, suggest dimensions and record the approved comparison.
 
 ## 23. Optional, recommended Discovery Comparison — 2/5
 
-Detect related Discovery Implementations and recommend Discovery Comparison when evidence warrants it. The developer chooses; accepted Discovery Comparison creates a non-normative `CMPR-*` record.
+Detect related Discovery Repos and recommend Discovery Comparison when evidence warrants it. The developer chooses; accepted Discovery Comparison creates a non-normative `CMPR-*` record.
 
 ## 24. Discovery Code Promotion interview — 2/5
 
-Recommend Transplant, Adapt, or Reimplement based on production quality, dependencies, conventions, security, portability, integration risk, and shortcuts in the Discovery Implementation. The developer decides.
+Recommend Transplant, Adapt, or Reimplement based on production quality, dependencies, conventions, security, portability, integration risk, and shortcuts in the Discovery Repo. The developer decides.
 
-## 25. Small fixed Discovery Implementation taxonomy — 2/5
+## 25. Small fixed Discovery Repo taxonomy — 2/5
 
 Use Architecture Candidate, Spike, Prototype/PoC, Benchmark, Compatibility Check, Adversarial Investigation, or Other. The type aids routing/search but does not override the charter.
 

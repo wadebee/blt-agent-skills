@@ -21,7 +21,7 @@
           "product_path",
           "governance_path",
           "governance_submodule_path",
-          "discovery_implementation_parent_path"
+          "discovery_repo_parent_path"
         ],
         "properties": {
           "product_path": {
@@ -36,7 +36,7 @@
             "type": "string",
             "minLength": 1
           },
-          "discovery_implementation_parent_path": {
+          "discovery_repo_parent_path": {
             "type": "string",
             "minLength": 1
           }

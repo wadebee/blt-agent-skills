@@ -33,7 +33,7 @@ Identify different assumptions, interpretations, tradeoffs, or outcomes.
 ## Recommended next step
 
 - No action
-- Additional Discovery Implementation
+- Additional Discovery Repo
 - Governance proposal
 - Product implementation review
 

@@ -6,7 +6,7 @@ Implement the `Beeline-Technologies` Agent Plugin marketplace described by this 
 
 1. set up a Product/Governance repo pair;
 2. invoke the single `governed-development` public skill;
-3. create a valid local Discovery Implementation repo through the full interview;
+3. create a valid local Discovery Repo through the full interview;
 4. generate immutable Governance provenance; and
 5. validate the result without committing or publishing anything.
 
@@ -38,9 +38,9 @@ If two package files appear inconsistent, preserve the settled decisions and rep
 
 - Do not embed Shimmy bootstrap logic in the plugin.
 - Do not make Governance and Product one repo.
-- Do not replace Discovery Implementation repos with branches or worktrees.
+- Do not replace Discovery Repos with branches or worktrees.
 - Do not automatically update old `AGENTS.md` files.
-- Do not treat tests, Discovery Implementations, Discovery Comparison, or proposals as normative.
+- Do not treat tests, Discovery Repos, Discovery Comparison, or proposals as normative.
 - Do not create a hard-sandbox claim without actual technical isolation.
 - Do not add a rich governance lifecycle database.
 
@@ -52,6 +52,6 @@ The recommended first PR contains:
 - public router `SKILL.md`;
 - Local Project Configuration model and schema;
 - role `AGENTS.md` assets;
-- Discovery Implementation and snapshot schemas/templates;
+- Discovery Repo and snapshot schemas/templates;
 - temporary-repo test harness;
 - no Git-hosting adapter.

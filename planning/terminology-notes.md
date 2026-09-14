@@ -2,7 +2,7 @@
 
 ## Scope and source status
 
-[GLOSSARY.md](../GLOSSARY.md) is authoritative for repository terminology, including the user-approved terminology revision of 2026-09-14. The artifacts share one vocabulary across Governance, Product, Discovery Implementation, and workflow delivery; those responsibilities are described through term metadata and the ownership boundaries in the glossary without introducing new implementation modules.
+[GLOSSARY.md](../GLOSSARY.md) is authoritative for repository terminology, including the user-approved terminology revision of 2026-09-14. The artifacts share one vocabulary across Governance, Product, Discovery Repo, and workflow delivery; those responsibilities are described through term metadata and the ownership boundaries in the glossary without introducing new implementation modules.
 
 As of 2026-09-14, the repository contains a design handoff, reference scaffolding, and a persisted implementation plan. There is no production plugin or test suite. Behavior described here is specified behavior, not a claim that it is implemented. The [persisted plan](notional/governed-exploratory-development.md#plan-status-and-authorization) remains awaiting implementation authorization; maintaining this glossary does not start an implementation milestone.
 
@@ -29,7 +29,9 @@ No new ADR is introduced for the terminology revision. New implementation choice
 
 ## Authorized terminology and format alignment
 
-The 2026-09-14 revision includes human-facing names, reference filenames, schema fields, and example identifiers. Comparison IDs use `CMPR-*`. The Discovery Manifest uses `discovery_implementation` and `governance.artifacts_selection`; snapshot provenance uses `artifacts_selection`. Framing values are `neutral`, `optimize-quality`, `challenge-assumptions`, and `custom`. Comparison targets use `discovery-implementation` or `discovery-report` where applicable. Local Project Configuration uses `discovery_implementation_parent_path`.
+The 2026-09-14 revision includes human-facing names, reference filenames, schema fields, and example identifiers. Comparison IDs use `CMPR-*`. The Discovery Manifest uses `discovery_repo` and `governance.artifacts_selection`; snapshot provenance uses `artifacts_selection`. Framing values are `neutral`, `optimize-quality`, `challenge-assumptions`, and `custom`. Comparison targets use `discovery-repo` or `discovery-report` where applicable. Local Project Configuration uses `discovery_repo_parent_path`.
+
+The subsequent user-authorized rename makes **Discovery Repo** the canonical name throughout the repository, including the handoff and planned implementation paths. The term identifies the separate Git repository used for the exploratory effort; its isolation, charter, immutable snapshot, and lifecycle rules remain unchanged. The glossary also preserves the practical distinctions between Findings and Conformance Proofs and between individual Discovery Reports and separate Discovery Comparisons.
 
 These are pre-production reference changes, not a migration of existing project data. Reference schemas retain their initial `1.0` version because no production format has shipped. Immutable snapshots in future project repositories must never be rewritten merely to rename terminology.
 
@@ -47,3 +49,5 @@ Checks run on 2026-09-14 using temporary audit scripts; no runtime dependency or
 | Bundled skill-creator `quick_validate.py` | Could not run: the available Python environment lacks PyYAML. Existing Ruby YAML parsing and equivalent frontmatter checks passed instead. |
 
 These are documentation, syntax, and targeted cross-file consistency checks. Full JSON Schema validation, plugin installation, and runtime acceptance tests were not run; the approved `jv` validator and production implementation are not present. AT-026–029 specify the new semantic acceptance cases and are not reported as executed tests.
+
+After the Discovery Repo rename, inline Python checks passed for stale names in all 56 working-tree files and paths, 262 local Markdown links and anchors, 6 JSON files, skill workflow references, and glossary alphabetization. Inline Ruby checks passed for 3 YAML files and agreement of the renamed manifest/configuration keys and comparison enum. `git diff --check` also passed. These checks do not constitute full JSON Schema or runtime validation.

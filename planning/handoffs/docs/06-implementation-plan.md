@@ -34,7 +34,7 @@ Exit criteria:
 - existing `AGENTS.md` is never overwritten silently;
 - a second machine can complete Project Setup independently.
 
-## Phase 2 — Discovery Implementation creation
+## Phase 2 — Discovery Repo creation
 
 Implement:
 
@@ -56,10 +56,10 @@ Exit criteria:
 
 Implement:
 
-- successor creation from an existing Discovery Implementation without mutating it;
+- successor creation from an existing Discovery Repo without mutating it;
 - durable Discovery Report generation and review;
 - independent Discovery Disposition recommendations and explicit choices;
-- lookup of related Discovery Implementations;
+- lookup of related Discovery Repos;
 - optional Discovery Comparison workflow and `CMPR-*` record.
 
 Exit criteria:
@@ -117,4 +117,4 @@ Add:
 
 ## Delivery strategy
 
-Prefer thin vertical slices over implementing all parsers first. The first useful milestone should complete Project Setup and create one valid Discovery Implementation repo end to end.
+Prefer thin vertical slices over implementing all parsers first. The first useful milestone should complete Project Setup and create one valid Discovery Repo end to end.

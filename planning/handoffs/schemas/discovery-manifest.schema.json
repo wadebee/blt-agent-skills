@@ -14,7 +14,7 @@
     "status",
     "governance",
     "workflow",
-    "discovery_implementation"
+    "discovery_repo"
   ],
   "properties": {
     "schema_version": {
@@ -101,7 +101,7 @@
         }
       }
     },
-    "discovery_implementation": {
+    "discovery_repo": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -191,7 +191,7 @@
                 "type": {
                   "enum": [
                     "product",
-                    "discovery-implementation",
+                    "discovery-repo",
                     "discovery-report",
                     "metric-baseline"
                   ]

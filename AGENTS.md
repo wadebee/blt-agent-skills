@@ -30,11 +30,11 @@ Report unresolved conflicts rather than inventing a resolution.
 ## Implementation boundaries
 
 - Implement one approved milestone at a time.
-- Begin with the end-to-end Project Setup and Discovery Implementation creation path.
+- Begin with the end-to-end Project Setup and Discovery Repo creation path.
 - Keep the public experience behind one context-aware router skill.
 - Do not expose internal lifecycle modules as a user-facing menu.
-- Do not combine Governance, Product, and Discovery Implementation into one repository.
-- Do not replace Discovery Implementation repositories with branches or worktrees.
+- Do not combine Governance, Product, and Discovery Repo into one repository.
+- Do not replace Discovery Repos with branches or worktrees.
 - Do not create Git commits, pushes, remotes, or hosted repositories.
 - Do not reproduce Shimmy bootstrap logic in this repository.
 - The Shimmy onboarding skill must invoke Product-owned bootstrap logic.

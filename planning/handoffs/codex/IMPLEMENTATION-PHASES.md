@@ -13,7 +13,7 @@
 - Implement Product/Governance Project Setup interview.
 - Implement sequential ID allocator.
 - Implement full/curated snapshot builder.
-- Implement minimal Discovery Implementation repo creation and validation.
+- Implement minimal Discovery Repo creation and validation.
 
 ## Milestone 3 — Continue and close
 

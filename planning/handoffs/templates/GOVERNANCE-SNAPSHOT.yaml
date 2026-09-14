@@ -16,7 +16,7 @@ selection_decisions:
     relevance: "Foundational authority is always included."
     benefit: "Preserves project invariants."
     risk_if_included: "Minimal; foundational principles may still narrow exploration by design."
-    risk_if_excluded: "Discovery Implementation would not be governed."
+    risk_if_excluded: "Discovery Repo would not be governed."
     developer_note: null
 integrity:
   content_manifest_sha256: "0000000000000000000000000000000000000000000000000000000000000000" # replace after snapshot generation

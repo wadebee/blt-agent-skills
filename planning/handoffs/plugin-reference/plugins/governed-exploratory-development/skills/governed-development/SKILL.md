@@ -1,6 +1,6 @@
 ---
 name: governed-development
-description: Set up or operate a project that separates Governance, Product, and isolated Discovery Implementation repositories. Use when the user wants to create, continue, close, compare, promote, or adopt governed exploratory software work without needing to know the lifecycle workflow names.
+description: Set up or operate a project that separates Governance, Product, and isolated Discovery Repos. Use when the user wants to create, continue, close, compare, promote, or adopt governed exploratory software work without needing to know the lifecycle workflow names.
 ---
 
 # Governed Development skill
@@ -14,13 +14,13 @@ Expose one simple, context-aware entry point. Infer the user’s intended lifecy
 Load the matching workflow reference:
 
 - No Local Project Configuration or explicit setup request → `references/workflows/project-setup.md`
-- Start a new Discovery Implementation or alternate implementation → `references/workflows/discovery-implementation-create.md`
-- Continue a Discovery Implementation under changed Governance → `references/workflows/discovery-implementation-successor.md`
-- Finish, archive, or preserve a Discovery Implementation → `references/workflows/discovery-review.md`
-- Compare multiple Discovery Implementations → `references/workflows/discovery-compare.md`
+- Start a new Discovery Repo or alternate implementation → `references/workflows/discovery-repo-create.md`
+- Continue a Discovery Repo under changed Governance → `references/workflows/discovery-repo-successor.md`
+- Finish, archive, or preserve a Discovery Repo → `references/workflows/discovery-review.md`
+- Compare multiple Discovery Repos → `references/workflows/discovery-compare.md`
 - Turn Conformance Proofs into a Governance change → `references/workflows/discovery-governance-promote.md`
 - Accept, modify, or reject a Governance proposal → `references/workflows/governance-resolve.md`
-- Move Discovery Implementation code/design into Product → `references/workflows/discovery-code-promote.md`
+- Move Discovery Repo code/design into Product → `references/workflows/discovery-code-promote.md`
 - Advance Product’s pinned Governance revision → `references/workflows/governance-adopt.md`
 
 If multiple routes are plausible, explain the inferred outcome in plain language and ask one concise clarification. Otherwise proceed directly with the relevant interview.

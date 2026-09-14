@@ -1,4 +1,4 @@
-# Discovery Implementation Lifecycle
+# Discovery Repo Lifecycle
 
 ## Lifecycle overview
 
@@ -15,7 +15,7 @@ Minimal local Git repo
 └── .governance/
    │
    ▼
-Discovery Implementation
+Discovery Repo
    │
    ▼
 Discovery Report is generated and surfaced
@@ -29,7 +29,7 @@ Discovery Report is generated and surfaced
 
 ## Required creation interview
 
-The public router should infer that the user intends to create a Discovery Implementation and then conduct one concise decision at a time.
+The public router should infer that the user intends to create a Discovery Repo and then conduct one concise decision at a time.
 
 ### 1. Governance Artifacts selection
 
@@ -63,7 +63,7 @@ Required choice:
 - **Challenge assumptions** — challenge assumptions and seek failure modes or materially different designs.
 - **Custom** — developer-defined architectural lens.
 
-The router recommends a framing based on whether the Discovery Implementation is a baseline, one of several candidates, or a challenge to a settled design.
+The router recommends a framing based on whether the Discovery Repo is a baseline, one of several candidates, or a challenge to a settled design.
 
 ### 4. Product access
 
@@ -71,9 +71,9 @@ Required choice:
 
 - **Isolated** — no Product implementation access through any transport.
 - **Contract-aware** — only explicitly exported public interfaces, schemas, formats, compatibility constraints, and extension contracts.
-- **Full-reference** — Product implementation and history may be inspected, while work remains in a separate Discovery Implementation repo.
+- **Full-reference** — Product implementation and history may be inspected, while work remains in a separate Discovery Repo.
 
-The access rule applies equally to Git, GitHub, web search, local files, previous Discovery Implementation repositories, other agents, and connected tools.
+The access rule applies equally to Git, GitHub, web search, local files, previous Discovery Repos, other agents, and connected tools.
 
 ### 5. Discovery Charter
 
@@ -91,7 +91,7 @@ The agent proposes concrete criteria and non-goals; the developer reviews and ap
 Possible targets:
 
 - current Product implementation;
-- another Discovery Implementation repository;
+- another Discovery Repo;
 - a durable Discovery Report;
 - a quantitative baseline;
 - none.
@@ -154,18 +154,18 @@ The record is non-normative.
 
 ### Stage 2: Discovery Disposition
 
-Record three independent choices: Discovery Governance Promotion, Discovery Code Promotion, and repository retention. Both promotion types may be selected. Neither promotion requires closing the Discovery Implementation or determines retention. Record promotion decisions and rationale in the Discovery Report.
+Record three independent choices: Discovery Governance Promotion, Discovery Code Promotion, and repository retention. Both promotion types may be selected. Neither promotion requires closing the Discovery Repo or determines retention. Record promotion decisions and rationale in the Discovery Report.
 
 For repository retention, present with a recommendation:
 
 - **Archive** — preserve implementation and history read-only.
 - **Report + Delete** — preserve durable Conformance Proofs, then allow the local/remote repo to be removed manually.
-- **Keep Active** — Discovery Implementation is incomplete or expected to continue.
+- **Keep Active** — Discovery Repo is incomplete or expected to continue.
 
 The plugin does not delete a remote repository in version 1.
 
 ## Discovery Comparison
 
-At Discovery Review, detect related Discovery Reports by comparison target, predecessor, question, or explicit grouping. Recommend Discovery Comparison when Discovery Implementations address the same question from different lenses or contain conflicting Conformance Proofs.
+At Discovery Review, detect related Discovery Reports by comparison target, predecessor, question, or explicit grouping. Recommend Discovery Comparison when Discovery Repos address the same question from different lenses or contain conflicting Conformance Proofs.
 
 If approved, create `governance/discoveries/CMPR-xxxx.md`. A Discovery Comparison is non-normative but may generate Governance proposals subject to human approval.

@@ -30,10 +30,10 @@ The user should express intent naturally. The router infers the likely lifecycle
 Examples:
 
 - “Set this project up for governed exploration.” → Project Setup
-- “Explore an alternate engine lifecycle.” → Discovery Implementation creation
-- “Governance changed; continue the Discovery Implementation.” → successor Discovery Implementation
-- “Wrap up this Discovery Implementation.” → Discovery Review
-- “Compare these Discovery Implementations.” → Discovery Comparison
+- “Explore an alternate engine lifecycle.” → Discovery Repo creation
+- “Governance changed; continue the Discovery Repo.” → successor Discovery Repo
+- “Wrap up this Discovery Repo.” → Discovery Review
+- “Compare these Discovery Repos.” → Discovery Comparison
 - “Turn this finding into project policy.” → Governance proposal
 - “Accept or reject this proposal.” → proposal resolution
 - “Move this implementation into Product.” → Discovery Code Promotion
@@ -50,8 +50,8 @@ skills/governed-development/
 ├── SKILL.md
 ├── references/workflows/
 │   ├── project-setup.md
-│   ├── discovery-implementation-create.md
-│   ├── discovery-implementation-successor.md
+│   ├── discovery-repo-create.md
+│   ├── discovery-repo-successor.md
 │   ├── discovery-review.md
 │   ├── discovery-compare.md
 │   ├── discovery-governance-promote.md
@@ -81,9 +81,9 @@ If the bootstrap entrypoint cannot be established from Product sources, stop and
 
 ## Materialized Governance
 
-Materialized Governance includes snapshots, generated instructions, and other artifacts derived from Governance. Materialization does not add authority or impose one update policy. Discovery Implementation snapshots remain immutable and preserve source authority classifications. Derived checks remain Conformance Proofs.
+Materialized Governance includes snapshots, generated instructions, and other artifacts derived from Governance. Materialization does not add authority or impose one update policy. Discovery Repo snapshots remain immutable and preserve source authority classifications. Derived checks remain Conformance Proofs.
 
-The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup or Discovery Implementation creation. It then transfers ownership to the repository.
+The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup or Discovery Repo creation. It then transfers ownership to the repository.
 
 Rules:
 
@@ -95,7 +95,7 @@ Rules:
 
 ## Local project configuration
 
-Workstation-specific metadata lives in user-local plugin storage, not a repository. It includes project name, Product path, Governance path, Product submodule path, and Discovery Implementation parent directory.
+Workstation-specific metadata lives in user-local plugin storage, not a repository. It includes project name, Product path, Governance path, Product submodule path, and Discovery Repo parent directory.
 
 Another workstation repeats Project Setup. Repository-intrinsic state remains committed in the repos.
 
