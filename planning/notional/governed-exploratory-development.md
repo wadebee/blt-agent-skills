@@ -210,21 +210,25 @@ The following combine settled handoff constraints, explicitly approved review de
 | Installation verification | Successful local packaged installation, skill discovery, and namespacing verification are required before Chunk 2 acceptance. Broader installation hardening remains in Chunk 6. Approved on 2026-09-14; the checks have not run. |
 | Router | One public governed-development skill routes project creation and on-demand Discovery Repo creation to separate internal workflows. Do not expose those internal modules as a user-facing menu. Project creation never implies a Discovery Repo request. Natural-language routing and recommendations belong in the skill; deterministic helpers validate state and perform filesystem operations. |
 | Repository boundaries | Governance, Product, and each Discovery Repo are separate Git repositories. Do not combine them into one repository or replace Discovery Repos with branches or worktrees. This governs this capability's projects, not the architecture of unrelated marketplace plugins. |
-| Interviews | One outstanding decision at a time. Persist answers locally. Recommendations never populate missing choices. Reuse explicit authorization already given for the same action. |
+| Interviews | One outstanding decision at a time. Persist answers locally with their relevant inputs. Preserve applicable approvals on resume and revisit only affected decisions; explain uncertain applicability before re-asking. Recommendations never populate missing choices. Resumption rule approved on 2026-09-14. |
+| Creation decisions | Preserve portable creation decisions and their approval context in `DISCOVERY.yaml` after successful creation: approved choices, relevant inputs, provided rationale, approval dates, and material revisions/exposure. Reference the detailed reading-scope record. Workstation paths and recovery logs remain local. Approved on 2026-09-14; detailed schema adaptation remains R1 work. |
+| Initial Governance maturity | Constitution must exist and may begin as an empty placeholder with no constitutional rules until matured Governance is deliberately promoted. Do not turn setup goals into starter rules. Provide non-normative guidance from domain questions through Discovery and promotion. Existence/empty-content distinction approved on 2026-09-14. |
 | Local Project Configuration | Store confirmed project paths and a stable, credential-free Governance identity outside repositories. |
 | Governance identity | Use the canonical repository URL when established, otherwise a developer-confirmed stable identifier for a local-only repository. Record that identity in provenance; keep workstation checkout locations in local configuration. Approved on 2026-09-14. |
+| Governance retrieval | Use an established portable clone URL when available, otherwise a confirmed relative source for local-only projects. Keep absolute paths/local overrides on the workstation. Explain the source, availability, and next action in plain language; guide location repairs without requiring Git configuration knowledge. Approved on 2026-09-14. |
 | Data location | Explicit `--data-dir`, otherwise supplied `PLUGIN_DATA`, otherwise `${XDG_DATA_HOME:-$HOME/.local/share}/beeline-technologies/governed-exploratory-development`. Reject storage inside project repositories or the installed plugin tree. |
 | Project creation | Create the initial Governance and Product repositories and establish Product's Governance submodule, then save Local Project Configuration. This user clarification supersedes the earlier registration-only assumption. The approved initialization Git contract belongs to this capability's R5 and future skill instructions; chunk execution remains separately gated. |
-| Existing-project setup | Retain registration and validation for an existing pair; preserve its history, Product pin/index, and owned files. Do not recreate repositories or treat registration as initial project creation. |
+| Existing-project setup | Allow ordinary unfinished edits outside the read-only Governance submodule when identity/path/Git checks pass; report and preserve them. Diagnose unresolved conflicts, changed Governance contents, and unexplained pin discrepancies before completing registration. Preserve history/index and never repair automatically. Approved on 2026-09-14; pending adoption is reviewed separately. |
 | Existing files | Seed missing role `AGENTS.md` files once. Preserve existing files and surface conflicts. |
 | Revision selection | Discovery Repo creation interviews for Governance revision, offering the registered Governance checkout's HEAD as the default. Resolve and confirm its exact commit, then freeze that choice. Product's adopted pin remains independent and unchanged. Approved clarification on 2026-09-14. |
+| Discovery independence | Discovery creation validates its selected Governance source and its own resulting submodule. It does not inspect or verify Product adoption as a prerequisite, rerun Product registration, or wait for Product commits. Product-derived inputs are checked only when explicitly selected and permitted. Corrected on 2026-09-14 to preserve the accepted independent-pin model. |
 | Governance source | Initialize a read-only submodule at the approved exact commit; validate source identity, Git link, checkout, and clean state. Never consume dirty source-checkout content. |
 | Git compatibility | Initially support the handoff’s SHA-1 commit format. Reject unsupported object formats explicitly. |
 | Governance Reading Scope | Full permits the pinned tree; Curated permits explicit paths and excludes all other bodies across agent transports. Both retain the complete submodule and remain subject to Product Access Mode. |
 | Contract exports | Explicit allowlist, source identity, optional source commit, and per-file hashes. No arbitrary Product scanning or inferred exports. |
 | Discovery IDs | Governance-owned `discoveries/.reservations/DISC-xxxx.json`; atomic exclusive creation and collision retries. Failed reservations remain consumed; IDs are sequential, not necessarily gapless. |
 | Concurrency | Guarantee local uniqueness against the same Governance checkout. Do not claim coordination across independent clones. |
-| Recovery | Journal operation-owned files locally. Remove only unchanged files created by the failed operation; preserve unexpected edits. |
+| Recovery | Offer exactly Resume and Roll back after failed/interrupted setup. Explain the failure, show remaining resources, and recommend recovery based on observed state. Preview cleanup before rollback; preserve unexpected edits and report anything retained. Approved on 2026-09-14. |
 | Isolation | Policy and workflow guardrails across transports. Detect obvious contamination and surface exposure; make no hard-sandbox claim. |
 
 ## Package inconsistencies and proposed handling
@@ -275,9 +279,9 @@ dependency choices and glossary relationships remain recorded decisions.
 
 | Gate | Owner / required before | Recommendation and tradeoff | Status |
 |---|---|---|---|
-| R1 — Data pipeline and schemas | Chunk 1 | Adopt the constrained metadata profile and cross-document checks below. Broader YAML support would preserve more input flexibility but needs a demonstrated validation mechanism. | Constrained YAML and offline-schema approach approved on 2026-09-14; remaining general schema details proposed; reading-scope schema adapted under R8; tool canaries unexecuted |
-| R2 — Authority and selection | Chunk 2; schema shape in Chunk 1 | Classify the complete source tree before selection; reject ambiguous supersession. This can reject a curated source because of invalid excluded metadata, but avoids silently changing authority. | Source-wide authority validation, no reactivation through exclusion, and blocking broken/ambiguous supersession approved on 2026-09-14; R8 approves scope through agent exclusions; detailed authority classification still proposed |
-| R3 — Identity, topology, approval binding | Chunk 2 | Create the original Governance and Product repositories through project creation; retain Product's pinned submodule and interview for Discovery Governance revision with Governance HEAD as default. Retain unaffected answers on resume. | Initial pair creation, separate on-demand Discovery creation, normal pin divergence, HEAD default, and URL-or-stable-local-identifier rule approved; source-locator details, initialization recovery, and resume mechanics remain proposed |
+| R1 — Data pipeline and schemas | Chunk 1 | Adopt the constrained metadata profile and cross-document checks below. Broader YAML support would preserve more input flexibility but needs a demonstrated validation mechanism. | Constrained YAML, offline-schema approach, and portable creation-decision content approved on 2026-09-14; creation-decision schema and remaining general schema details require adaptation/review; reading-scope schema adapted under R8; tool canaries unexecuted |
+| R2 — Authority and selection | Chunk 2; schema shape in Chunk 1 | Classify the complete source tree before selection; reject ambiguous supersession. This can reject a curated source because of invalid excluded metadata, but avoids silently changing authority. | Source-wide authority validation, no reactivation through exclusion, and blocking broken/ambiguous supersession approved; Constitution is required but may have no promoted rules; R8 scope applies to the placeholder too. Detailed classification/metadata and supported paths remain open |
+| R3 — Identity, topology, approval binding | Chunk 2 | Create the original Governance and Product repositories through project creation; retain Product's pinned submodule and interview for Discovery Governance revision with Governance HEAD as default. Retain unaffected answers on resume. | Initial pair creation, independent pins, source/identity rules, guidance, recovery, decision records, reuse of approvals, and registration with ordinary unfinished edits are approved. Constitution must exist but may start empty; premature rules are rejected. Exact guide/metadata representation, pending-adoption details, and persisted schemas remain open |
 | R4 — Allocation | Chunk 2, extended in Chunks 3–4 | Validate choices before reservation; count reports and consumed reservations. Reserve independent later namespaces. This allows gaps and provides only local coordination. | Allocation after interview approval, no reuse of occupied IDs, gaps, independent sequences, and same-checkout concurrency approved on 2026-09-14; reference-order conflict resolved in favor of approved plan behavior |
 | R5 — Git contracts and packaging gate | Before initial project creation or fixture execution; packaging by Chunk 2 acceptance | Keep marketplace Git permissions and disposable test setup in root guidance; put initialization permissions in this capability's contract. Require basic installation verification at the first usable increment. | Resolved: Git scope separation, test setup, and the required Chunk 2 installation gate approved on 2026-09-14; root guidance applied; installation verification unexecuted |
 | R6 — Repeat review and retention | Before Chunk 3 | Preserve human edits and append reviewed report updates; journal finalization; record promotion intentions separately from execution. Specify local Archive mechanics. | Proposed; detailed state contract still required |
@@ -330,6 +334,10 @@ custom Governance content inventory, duplicate hashing format, or copy builder.
 Contract Exports still require their own approved paths and source/file provenance
 under `.contracts/`; they are not stored in the read-only submodule.
 
+Apply consuming-repository checks to the workflow's actual subject: Discovery's
+own submodule during creation, and Product's during explicit Product setup or
+adoption. They are not a mandate to inspect both consumers during either workflow.
+
 Native submodule initialization needs `.gitmodules`, a staged Governance Git link,
 and local submodule configuration. Carry this narrow Discovery creation allowance
 into R5 and reference Decision 30; leave all other generated files unstaged and
@@ -372,6 +380,19 @@ submodule/scope-record paths, and generating workflow identity/version across
 manifest, reading record, reservation, and generated instruction metadata. Later plugin upgrades must not compare
 old provenance against the currently installed version or rewrite owned files.
 
+Adapt the production Discovery Manifest schema/template to carry the approved
+[portable creation-decision record](#approved-portable-creation-decision-record)
+under R3. Define its structured fields in the Chunk 1 schema review. Validation
+must bind approvals to the actual approved values and relevant input revisions,
+not merely to field names whose values may later change. At creation, final
+approved choices must agree with the manifest and referenced reading-scope record;
+clearly identified superseded choices remain historical and may differ. Validate
+approval dates and references, preserve provided rationale without inventing it,
+and reject workstation paths or local recovery data in the portable record.
+Reading-scope amendments must preserve the creation record's original context
+under R8. This schema work is planned; the reference schema has not been changed
+to implement the newly approved record.
+
 Preserve the marketplace mapping explicitly: provenance `Beeline-Technologies`,
 catalog name `beeline-technologies`, display name `Beeline Technologies`. They
 identify the same distribution boundary in different fields; do not require
@@ -401,8 +422,13 @@ Enumerate the entire selected Git commit before curation, including committed
 reservation metadata and unknown/supporting files. Use the source's normative
 directories (`constitution/`, `policies/`, `specs/`, `adr/`) and validated
 frontmatter; classify other content as non-normative supporting material, with
-operational instructions explicitly distinguished. Require at least one valid
-Constitution artifact. Surface ambiguous class/path or missing normative metadata
+operational instructions explicitly distinguished. Approved on 2026-09-14:
+require at least one valid Constitution artifact, while accepting an initial
+placeholder containing no constitutional rules. Existence and identifying
+metadata are distinct from substantive requirements; do not require starter
+clauses to pass validation. Detailed metadata representation remains under R1/R2
+review. A missing or malformed artifact is not an empty valid Constitution.
+Surface ambiguous class/path or missing required metadata in artifacts
 instead of inferring authority from prose or filename alone.
 
 Build the normative ID/supersession graph source-wide. Reject duplicate IDs,
@@ -443,13 +469,31 @@ HEAD later moves. This never advances Product's pin and does not implicitly fetc
 or choose a remote branch's tip. Product G1 with Governance HEAD G2 is an ordinary
 supported state, not an inconsistency requiring repair.
 
+**Discovery creation is independent of Product adoption.** The user's
+2026-09-14 correction identified an erroneous dependency in the pending-adoption
+proposal below. For an already registered project, use the confirmed local
+project/Governance configuration and validate the selected original Governance
+source directly. Do not revalidate Product's HEAD/index/submodule, require
+adoption intent, report its pending state, or wait for a Product commit merely
+to create a Discovery. Product's inaccessible checkout or unfinished adoption
+does not block an Isolated Discovery with valid independent inputs.
+
+Validate the selected Governance identity/commit, Constitution and authority,
+reading scope, destination, reservations, and the new Discovery's own submodule
+and metadata. Product state is relevant only to an explicitly selected input,
+such as a permitted comparison or Contract Export; validate that input's own
+source/provenance, not Product's general adoption readiness. Permission to use
+Full-reference access does not itself require scanning Product. First-time
+project creation/registration retains its separately reviewed contract; Discovery
+does not silently rerun that operation on every request.
+
 Scope resolved by the user on 2026-09-14: the agent's project-creation workflow
 creates both initial repositories and their relationship. It is not merely a
 registration workflow for an externally prepared pair. Discovery Repo creation
 is a separate internal workflow invoked on demand through the same public router.
 The plan's earlier registration-only assumption is withdrawn. Git initialization
-permissions are approved under the narrow R5 exception; initial Governance content and recovery
-behavior must be specified before Chunk 2. Existing-project registration remains
+permissions are approved under the narrow R5 exception; initial Governance content
+must be specified before Chunk 2. Recovery is approved below. Existing-project registration remains
 available without modifying history or advancing the pin.
 
 Approved on 2026-09-14: confirm a credential-free logical Governance identity
@@ -458,8 +502,189 @@ a developer-confirmed stable identifier (represented as a URN) for a local-only
 repository. Record this identity in provenance; keep workstation checkout paths
 in local configuration. Moving a checkout does not change its identity. Do not
 invent a remote or treat a shared commit alone as proof of repository identity.
-Another workstation confirms the same identity during its own setup. The precise
-retrieval-locator handling remains separate from this approved identity rule.
+Another workstation confirms the same identity during its own setup. The approved
+retrieval rule below separately establishes where Git obtains that repository.
+
+#### Approved Governance retrieval and user guidance
+
+Approved on 2026-09-14: retain the confirmed source identity in
+provenance and use a separately confirmed clone location for Git. Use a
+credential-free clone URL in `.gitmodules` when an established portable URL is
+available. For a local-only project, use a developer-approved relative
+source location reflecting a portable project layout, such as
+`../payments-governance` for sibling repositories. Keep the actual absolute
+checkout path and any local source override in workstation configuration.
+Initialize from the registered local Governance source under the approved R5
+allowance; do not add an unrequested network fetch or top-level remote.
+
+Git requires the submodule URL and supports relative locations; those locations
+resolve against the parent repository's default remote, or its working directory
+when no default remote exists. These behaviors were checked against the official
+[gitmodules documentation](https://git-scm.com/docs/gitmodules) and
+[submodule command documentation](https://git-scm.com/docs/git-submodule).
+Validate the resolved source identity and availability of the selected exact
+commit before initialization. Moving repositories or adding/changing remotes
+requires rechecking retrieval assumptions; never substitute another commit.
+
+If no portable URL or acceptable relative layout can be confirmed, surface the
+missing source arrangement before creation rather than recording a machine path,
+inventing a remote, or treating a logical URN as a clone URL. A new workstation
+must have an available copy of the retained commit and may need an explicit local
+override; registration still preserves existing Git state under R5. Do not claim
+that verifying a local source proves the portable URL serves the commit. Any
+needed existing-repository repair or remote access remains separately directed.
+
+Accepted tradeoff: this supports local-only projects and keeps machine paths out of
+versioned files, while requiring a confirmed relative layout or local override
+when retrieval conditions differ. No submodule or fixture operations were
+executed during review.
+
+The user required understandable, actionable guidance because the explanation
+of Git's resolution rules was difficult to follow. Apply this to setup, creation,
+resumption, and recovery guidance in Chunk 2:
+
+- Lead with the practical result: where Governance will come from, whether the
+  required revision is available, and what the user needs to do next. Use the
+  project name and an understandable folder location or repository link. Keep
+  Git configuration keys and resolution details in supporting diagnostics.
+- Use previously confirmed configuration and permitted checks to identify the
+  source before asking. Reuse applicable approvals. If input is needed, ask one
+  concrete question, such as where the Governance folder was moved; do not ask
+  the user to calculate relative URLs or edit Git configuration by hand.
+- Distinguish a moved/missing folder, unavailable server or access, wrong
+  repository, and missing required revision. Describe the observed problem and
+  recommend a specific next step; identify suspected causes as uncertain. Do
+  not present every retrieval failure as a request to choose another revision.
+- Explain the effect of any proposed repair: which local setting or shared
+  source declaration would change, and that a location fix retains the selected
+  Governance revision. Preview concrete changes and apply only what the current
+  authorization permits under R5; guide separately directed repairs to existing
+  repositories. User-friendly handling does not expand Git or network permissions.
+- When initialization succeeds from a local source, say that the local source
+  was verified. If retrieval from a shared URL is unverified, describe the
+  consequence plainly: another computer will need access to a copy containing
+  this revision. Never imply that a local check verified a remote source.
+- Include short examples in `docs/project-setup.md`,
+  `docs/discovery-creation.md`, and `docs/recovery.md`. A useful success summary
+  is: "I found this project's Governance in [folder] and verified the required
+  revision. Setup can continue." A missing-folder summary is: "I couldn't find
+  Governance in [old folder]. If you moved it, tell me its new location so I can
+  check it." Include details only when they help resolve the actual problem.
+
+#### Initial Governance correction and promotion guidance
+
+User direction, 2026-09-14: retain a minimal starting point, but do not turn vague
+getting-started goals into constitutional rules before understanding their durable
+requirements. Premature canonical rules can drive repeated architectural changes
+and leave Architectural Sediment. The earlier proposal to draft a starting
+Constitution from setup goals is withdrawn. Approval of initial file wording is
+not, by itself, a finding that those goals belong at the highest authority level.
+
+Provide a visible trail from current understanding to the appropriate promotion
+process. The user explicitly invoked the domain-modeling skill: clarify terms
+against the canonical glossary, probe concrete scenarios and edge cases, compare
+claims with available implementation/Conformance Proofs, record resolved language
+within authorization, and offer ADRs sparingly. That skill does not itself specify
+the entire Governance promotion workflow; this capability's report, proposal,
+resolution, and adoption contracts supply those steps.
+
+The following content direction is established. The required-but-possibly-empty
+Constitution rule is approved below; exact guide layout and metadata representation
+remain under review:
+
+1. **Orient:** explain what is known, what remains uncertain, and where existing
+   authoritative requirements come from. Preserve any genuinely established
+   obligations supplied by the developer. Label goals, assumptions, and candidate
+   meanings accurately; none become requirements merely by being saved.
+2. **Clarify and investigate:** guide a user from an unclear term or assumption
+   to concrete scenarios, a bounded Discovery Charter, and relevant investigation.
+   Keep resolved vocabulary in the canonical glossary and supporting context in
+   its assigned location. A vocabulary decision cannot smuggle a new requirement
+   into Governance. Create documents lazily when there is content to record.
+3. **Preserve what was learned:** link the Discovery Report to Findings and their
+   Conformance Proofs, including uncertainty, counterexamples, and failed ideas.
+   Do not invent Findings or supporting material during setup.
+4. **Propose:** when warranted, connect the source report and supporting material
+   to a Governance Proposal with concrete wording, rationale, alternatives, and
+   an appropriate target. A proposal may recommend further investigation or no
+   normative change. A durable behavior may belong in a Specification; a Policy
+   governs work; an ADR records a qualifying architectural decision. Constitution
+   is reserved for understood foundational commitments, never the default target.
+5. **Review and adopt:** human proposal resolution precedes separate normative
+   edits and Product Impact Assessment. Preserve rejected reasons. Product
+   adoption remains independent, and existing Discovery pins stay fixed.
+
+For example, "must work offline" begins with clarifying which users, tasks,
+outages, and failure consequences matter. A Discovery might investigate editing
+saved work without a connection and record reconnection failures. Its report
+could support a precise Specification about saved-work editing while leaving
+other offline behavior unresolved. There is no automatic promotion to a blanket
+constitutional rule. Existing externally established requirements need their
+source and scope understood, not an invented experiment to make them binding.
+
+Recommended artifact arrangement, still proposed: put a short non-normative
+"Start here" guide in Governance's `README.md`, reached from the generated role
+instructions. It should explain each next step in ordinary language, name the
+artifact it produces, and link to available local material and the single public
+router. It must not become a new source of requirements. Resolve context/glossary
+locations from repository conventions and create them when needed. Create the
+required Constitution placeholder, but do not seed empty ADRs, fake reports, or
+invented normative clauses. Keep Discovery's minimal
+layout unless a separate reviewed change is needed. Links into Governance obey
+the reading scope and Product Access Mode; navigation grants no additional access.
+Do not make generated guidance depend on a personal absolute skill-install path.
+
+**Approved R2/R3 starting Constitution:** the user clarified on 2026-09-14 that
+a Constitution must exist, but may simply be an empty placeholder until matured
+Governance has been promoted into it. This replaces the proposal to allow no
+Constitution at all. Initial Discovery can proceed with that placeholder after
+the normal approval and validation checks; it cannot proceed without the required
+Constitution artifact.
+
+"Empty" means no constitutional rules have yet been established. Identification
+metadata and a document heading may identify the artifact without supplying
+rules; the exact schema/template form remains R1/R2 work. Keep explanatory
+promotion guidance in the non-normative guide and role instructions. Do not add
+sample principles, TODO requirements, or getting-started advice as constitutional
+clauses. A missing file, malformed required metadata, or unexplained change to
+previously populated content is not silently accepted as an initial placeholder.
+Existing-project registration must not repair those states by replacing content.
+
+R8 still requires Full/Curated coverage of the Constitution path, even while
+empty, and the complete submodule stays pinned. The creation record and summary
+must describe that starting revision accurately: Constitution present, no
+constitutional rules yet. This makes no claim that the project has no other
+requirements or is proven conformant; any established Policies, Specifications,
+Active ADRs, charter limits, and operational controls retain their roles.
+
+Later constitutional content requires deliberate promotion and separate
+authoritative edits with the associated rationale and Product Impact Assessment.
+Its new Governance revision does not rewrite creation history or advance existing
+Discovery pins. Work requiring that revision follows the successor rule; Product
+adoption stays independent. No new authority level or mandatory lifecycle-status
+database is introduced by the placeholder distinction.
+
+**Chunk dependency:** basic guidance belongs in Chunk 2 with new-project setup;
+report automation arrives in Chunk 3 and proposal/resolution automation in Chunk
+4. The guide must distinguish documented manual review steps from available
+handlers and never claim unavailable automation completed. Guidance does not
+authorize starting later chunks or modifying normative files automatically. Any
+change to milestone scope must be explicit. Exact starting-artifact and bootstrap
+representation choices remain open rather than silently expanding the first
+increment.
+
+#### Existing-project and pending-adoption details
+
+Approved on 2026-09-14: permit registration with ordinary uncommitted edits
+outside the read-only Governance submodule when identity, paths, and the relevant
+Git relationship validate. For example, an edited Product README does not by
+itself require cleanup before registration. Report that existing work and preserve
+it; registration is not an assessment of those edits or of Product conformance.
+Unresolved Git conflicts, modified consuming Governance contents, and unexplained
+relationship/pin discrepancies require diagnosis before registration completes.
+The pending-adoption state below remains a separate case to finalize. This policy
+avoids unnecessary interruption of normal work while requiring checks to identify
+the actual source of a discrepancy instead of treating every edit the same way.
 
 Use the original writable Governance checkout outside Product, distinct from
 Product's and Discovery's read-only Governance submodules. Verify logical
@@ -467,12 +692,50 @@ identity and commit availability. Existing-project registration preserves dirty
 files and never stages or repairs the relationship automatically. Record three observations separately: Product HEAD gitlink,
 Product index gitlink, and checked-out submodule commit.
 
-After unstaged adoption, HEAD and index remain at G1 while the checkout is G2.
-Recognize this as pending adoption rather than silently calling G2 the committed
-Adopted Governance Revision. Later setup/creation surfaces the state and requires
-an explicit source-revision choice. Unrelated index conflicts remain diagnostic
-failures. Test adoption followed by setup and creation in Chunk 4; establish the
-state interpretation with synthetic inputs in Chunk 2.
+**R3 pending Product adoption (proposed, Product-scoped):** permit explicit
+existing-project registration while an approved Product adoption is applied
+locally but not yet committed. Show the saved Product revision and the pending
+revision separately and preserve both. This proposal concerns registration and
+Product-side adoption handling only. Its earlier extension to Discovery creation
+was incorrect and is withdrawn; Discovery requires no pending-adoption check.
+
+After this workflow's unstaged adoption, HEAD and index remain at G1 while the
+checkout is G2. Recognize a verified intentional change as pending adoption
+rather than silently calling G2 the committed Adopted Governance Revision.
+An operation record or explicit developer confirmation must establish adoption
+intent; differing commits alone do not prove an approved adoption occurred.
+Require the expected source identity, exact commits, and clean submodule contents.
+
+| Product HEAD link | Product index link | Submodule checkout | Proposed interpretation |
+|---|---|---|---|
+| G1 | G1 | G1 | Committed baseline; no pending pin change |
+| G1 | G1 | G2 | Approved adoption applied locally and unstaged; pending commit |
+| G1 | G2 | G2 | Approved adoption staged by the developer; still pending commit |
+| G2 | G2 | G2 | New revision recorded in Product history |
+
+For either pending row, show the state and preserve HEAD, index, and checkout;
+the workflow does not stage, unstage, commit, or reset them. Conflicts, unexpected
+combinations, unverified intent, or modified submodule files require diagnosis
+instead of automatic repair or a guessed state. A completed Git commit alone
+is not conformance proof. Unrelated index conflicts remain diagnostic failures.
+
+In an explicit Product setup/adoption workflow, explain: "Product's saved revision
+is G1. Your approved update to G2 is present locally but hasn't been committed."
+The proposed tradeoff is permitting registration while making that provisional
+Product state visible. Test adoption followed by explicit registration in Chunk
+4; establish the Product state interpretation with synthetic inputs in Chunk 2.
+Separately verify that Discovery creation does not consult this state or depend
+on its verification. Pending-adoption recovery remains R7 work, and the
+Product-scoped proposal remains unapproved.
+
+#### Approved interview resumption
+
+Approved on 2026-09-14: preserve previously approved answers that remain
+applicable; revisit only decisions affected by changed inputs. Record each
+answer's relevant inputs locally and check them on resume and before creation.
+If applicability is uncertain, explain the uncertainty and revisit that answer.
+The accepted tradeoff is dependency bookkeeping in exchange for fewer repeated
+questions without carrying stale approval into creation.
 
 Bind each persisted answer to its project identity and relevant input revisions,
 with the destination recorded only in local state. Source-commit changes require
@@ -483,6 +746,121 @@ integrity. Destination-only changes revalidate containment, collision and final
 creation approval, retaining source and Charter choices. A changed project
 identity starts a new interview. Never infer approval from elapsed time or a
 recommendation. Revalidate bindings immediately before reservation and writes.
+
+Preserve previous answers and approvals as history when superseded; distinguish
+them from the current approved state and identify why a decision needs renewal.
+The local interview record describes approved choices; the operation journal
+describes attempted/completed side effects. Consult both before continuing so
+reusing an approval does not repeat completed work. On successful creation,
+retain the portable decision content in the manifest as specified below.
+Exact persisted field structure remains schema work; this approval resolves
+the resumption behavior. It does not permit changing an existing Discovery pin.
+
+#### Approved portable creation-decision record
+
+Approved on 2026-09-14: retain creation decisions and their approval context in
+the Discovery Manifest after successful creation, so they remain understandable
+on another workstation and during later Discovery Reviews. The manifest already
+records the selected Governance revision, charter, framing, and Product access;
+the new record explains the basis and approval of those choices.
+
+- Preserve developer-approved choices, the relevant inputs/revisions considered,
+  the approval date, and rationale when provided. Do not invent a reason or
+  convert an agent recommendation into developer approval.
+- Retain material revisions to those choices, their recorded reasons, and any
+  relevant prior exposure. Distinguish superseded choices from the final approved
+  creation state; a later access choice cannot erase earlier exposure.
+- Reference `GOVERNANCE-READING-SCOPE.yaml` for detailed per-path decisions rather
+  than copying that full list into the manifest. Preserve the scope context used
+  at creation if an approved later amendment occurs, as required by R8.
+- Use portable project/source identities, exact commits, and repository-relative
+  artifact references. Keep workstation paths, failed commands, local session
+  details, and cleanup progress in local interview/operation records. The
+  manifest must remain useful without access to those local records. Summaries
+  must respect the approved reading and Product-access boundaries.
+- Preserve this as historical creation provenance. Later changes follow their
+  own approval rules and must not silently rewrite the creation record. It does
+  not authorize subsequent actions, change normative authority, or establish
+  conformance.
+
+For example, the record can show that Isolated Product access was approved for
+the retry-handling charter under Governance G1, with the provided reason of
+exploring independently of Product's implementation. A destination move between
+local directories stays in the local session record.
+
+The accepted tradeoff is a larger manifest and additional consistency checks in
+exchange for durable decision provenance. Keep the addition within the existing
+manifest and reading-scope artifacts; no new top-level file or lifecycle database
+is needed. R1 owns the schema/template adaptation in Chunk 1; Chunk 2 owns
+generation from the approved interview, validation, and preservation after
+successful creation. Exact field structure remains to be reviewed with R1.
+
+#### Approved setup recovery and troubleshooting
+
+Approved on 2026-09-14: offer exactly **Resume** and **Roll back** for failed or
+interrupted setup, with substantial troubleshooting support. On a detected
+failure, or the next invocation after interruption, explain the failure and
+current state before asking for that choice. No destructive cleanup happens
+without the user's selection. Closing the session or providing no answer is
+not a recovery choice; re-present the two actions when work resumes.
+
+- **Resume:** verify completed work against approved inputs and continue missing
+  steps without repeating initial commits or overwriting subsequent edits.
+  Identify prerequisites that must be fixed before continuing. Check an
+  interrupted step's actual result before retrying; absence of a success message
+  does not prove that the step made no changes.
+- **Roll back:** show the exact resources to remove or restore, then reverse
+  only setup-owned local effects that remain unchanged. A wholly new repository
+  containing only setup's initial state may be removed, including its initial
+  commit; never reset or rewrite a pre-existing source repository. Check known
+  dependent submodules and remove operation-owned dependants first. Preserve
+  user changes, unexpected commits, shared repositories, and unclear ownership;
+  explain any cleanup limitation and seek revised direction for those resources.
+
+The failure report must help the user act, not merely expose a raw error:
+
+1. **Failure and cause:** identify the failed step, intended result, relevant
+   tool error/exit status, and confirmed cause. Clearly label a suspected cause;
+   when unknown, give the next diagnostic check rather than guessing.
+2. **Current state:** list completed, failed, pending, and uncertain steps;
+   identify affected paths, repository/pin/index state where relevant, and local
+   configuration changes. Show what remains usable and what setup left behind.
+3. **Recovery recommendation:** recommend Resume or Roll back with a specific
+   reason, required fixes, expected effect, and limitations. Offer both actions
+   even when one needs prerequisites resolved. Preserve developer choice.
+4. **Actionable troubleshooting:** provide ordered diagnostic checks and fixes
+   appropriate to the actual error, explain what each result would establish,
+   and distinguish read-only checks from changes. Do not recommend blind reruns,
+   forced resets, weakened checks, or bypassing normal signing/hooks. A recovery
+   choice does not authorize unrelated configuration or external-system changes.
+5. **Inspectible details:** retain a small local operation report with its ID,
+   step/status history, relevant tool versions and diagnostic output, owned
+   resources, cleanup progress, and references to the pertinent recovery guidance.
+   Link it in the concise summary. Exclude credentials, unrelated environment
+   dumps, and content outside the approved reading boundary; do not automatically
+   transmit diagnostics. Use the existing operation journal, not another service
+   or a separate troubleshooting framework.
+
+Record intended writes and ownership before attempting side effects and reconcile
+actual state after interruption. Restore only this operation's local configuration
+entries, preserving unrelated entries and user changes. Both recovery actions
+must tolerate retries. If rollback fails or is interrupted, retain cleanup
+progress, explain what was removed and what remains, and allow another Roll back
+selection to continue safely. Never claim a complete rollback while resources
+remain. Arbitrary hook or external-system effects are outside the local rollback
+guarantee and must be identified if observed.
+
+For Discovery creation, consumed ID reservations remain consumed under R4 even
+after its partial directory is removed. Report those small intentional records
+separately from leftover working directories. Retain only the compact diagnostic
+record needed to explain the outcome, not redundant temporary work trees.
+
+Deliver user-facing recovery guidance in Chunk 2. Cover causes such as an
+unavailable source commit, conflicting destination, permission failure,
+commit/signing/hook failure, submodule mismatch, malformed metadata, and a
+failure during cleanup. Examples must connect the observed symptom to evidence,
+a fix or diagnostic next step, and the appropriate recovery action. Runtime
+recovery behavior and these diagnostics remain unimplemented during this review.
 
 ### R4 — Proposed allocation and recovery
 
@@ -542,8 +920,11 @@ unstaged generated files; the native Git pin becomes durable with the developer�
 Discovery commit.
 The implementation must preserve normal Git author identity, signing and hook
 behavior; a failure is surfaced without bypassing them. Before the initial
-Governance commit, present the initial Constitution and other generated content
-for developer review; do not commit invented project requirements as placeholders.
+Governance commit, present all generated content for developer review, including
+the required Constitution, which may initially contain no rules. Do not commit
+invented project requirements as placeholder content. R3 distinguishes a valid
+empty Constitution from starter rules; setup approval alone does not promote
+goals into normative artifacts.
 Retried creation must recognize completed initialization and never create a
 second initial commit. Detailed interrupted-creation behavior belongs to Chunk 2.
 
@@ -597,6 +978,16 @@ The exact Shimmy Product bootstrap contract remains a prerequisite for approving
 - [x] Resolve R5: require successful local installation, discovery, and namespacing verification before Chunk 2 acceptance; retain broader hardening in Chunk 6.
 - [x] Resolve R8: common Governance submodules, Curated agent reading rules, and removal of obsolete copied-tree mechanisms.
 - [x] Approve R3's portable Governance identity rule: canonical URL when established, otherwise a developer-confirmed stable local identifier; workstation checkout locations remain local configuration.
+- [x] Approve exactly Resume and Roll back for setup recovery, with cause analysis, actionable diagnostics, a recovery recommendation, cleanup preview, and an account of retained resources.
+- [x] Approve retaining portable creation decisions and approval context in the Discovery Manifest after successful creation; keep paths and recovery details local.
+- [x] Approve preserving applicable interview answers on resume and revisiting only decisions affected by changed inputs, with uncertainty explained.
+- [x] Approve the Governance source-location policy with practical source/status guidance and guided repairs that do not require Git configuration knowledge.
+- [x] Record the user's rejection of premature starter constitutional rules and requirement for guidance from domain understanding through deliberate promotion.
+- [x] Require a Constitution while permitting an empty placeholder until matured Governance is deliberately promoted; initial Discovery can use that baseline under normal checks.
+- [x] Allow existing-project registration with ordinary unfinished edits outside the read-only Governance submodule when relevant checks pass; preserve/report them and diagnose conflicts or Governance discrepancies.
+- [x] Correct the accidental Product-adoption prerequisite: Discovery creation uses independent Governance inputs and does not revalidate Product adoption or require its commit.
+- [ ] Finalize placeholder metadata/template representation, related validation/provenance checks, and the minimal guidance artifacts; preserve existing chunk boundaries.
+- [ ] Finalize the R1 creation-decision schema and R3 persisted interview binding schema.
 - [ ] Resolve remaining first-increment details in R1–R4; R5 and R8 design decisions are recorded.
 - [ ] Obtain approval to start implementation.
 - [ ] Chunk 1 — Skeleton and validation.
@@ -671,6 +1062,7 @@ These scenarios exercise the specified model; they are not executed acceptance t
 | A test passes while its asserted behavior contradicts a Specification. | Surface the Governance inconsistency. Passing Conformance Proofs do not override the requirement. |
 | A resolved proposal is accepted, but no normative artifact was edited. | The proposal remains Conformance Proofs of a decision; moving or accepting it alone did not change Governance. |
 | Governance advances from G1 to G2 while a Discovery Repo uses G1. | Preserve the G1 submodule pin and reading scope. A material update requires a successor with a new ID and predecessor reference. Product may still pin G1 independently. |
+| A registered project's Product has an unfinished adoption or is unavailable, while the selected Governance source is available. | Create an Isolated Discovery using its independently approved inputs without inspecting Product or requiring its adoption to be verified or committed. |
 | DISC-0043 compares with DISC-0042 but does not continue it. | Record a comparison target; do not infer `derived_from` or permission to inspect its implementation. |
 | Isolated mode is selected with Full reading scope over Product-derived implementation Conformance Proofs. | Require a revised reading scope or compatible Product access before body reads. Curated excludes reading those bodies while the complete submodule remains present. |
 | A Discovery Repo fails its success criteria but reveals a missing invariant. | Preserve the negative result and supporting Conformance Proofs. Discovery Governance Promotion may be useful even if Discovery Code Promotion is rejected. |
@@ -766,6 +1158,8 @@ Dependencies: Bash, Git, existing platform utilities, and the user-selected tool
 - [ ] Portable manifests, marketplace paths, skill metadata, and references validate.
 - [ ] Exactly one governed-development public skill exists.
 - [ ] Templates render deterministically and satisfy schemas.
+- [ ] Initial Constitution representation permits no normative clauses while satisfying the reviewed identity/metadata contract; no starter rules are inserted to satisfy validation.
+- [ ] Creation-decision metadata represents approved choices, input bindings, provided rationale, approval dates, and superseded decisions; final-choice disagreement or local recovery data fails validation.
 - [ ] Invalid YAML, unknown fields, malformed dates, and missing substitutions fail clearly.
 - [ ] Reviewed R1 canaries pass, including original-input duplicates, offline references, calendar dates, and safe string round-trips.
 - [ ] Actual standalone skill parsing succeeds through the documented app-server API.
@@ -816,6 +1210,7 @@ Create:
 - `S/assets/schemas/id-reservation.schema.json`
 - `S/assets/schemas/contract-export.schema.json`
 - `docs/project-setup.md`, `docs/discovery-creation.md`
+- `docs/recovery.md` — troubleshooting, failure reports, and Resume/Roll back guidance
 - `tests/test_local_project_configuration.sh`
 - `tests/test_interview.sh`
 - `tests/test_project_setup.sh`
@@ -843,16 +1238,32 @@ Runtime outputs, outside this implementation repository:
 Suggested reasoning: high.
 
 Resolve R2–R5 before this chunk starts. Their detailed source classification,
-approval-binding, occupancy and pending-adoption contracts govern the checks
-below once reviewed; unresolved proposals are not implementation defaults.
+approval-binding and occupancy contracts govern the checks below once reviewed.
+Pending-adoption interpretation applies to explicit Product/project registration,
+not Discovery creation; unresolved proposals are not implementation defaults.
+Implement R3’s approved two-action recovery policy and troubleshooting report for
+both internal phases, including interruption and partial rollback. Use the
+existing operation journal and keep the user summary actionable.
 
 **Phase 1 — Local Project Configuration and Project Setup**
+
+Implement the approved R3 retrieval rule and plain-language guidance. Confirm the
+actual source and selected commit, and show the useful result before technical
+details. Include guided handling of moved folders, access failures, and missing
+revisions in setup and recovery documentation.
 
 Route new-project creation separately from existing-project registration. For a
 new project, confirm identity and destinations, interview for initial Governance,
 present generated content, and initialize both repositories and Product's
 Governance submodule under the reviewed R5 exception. Save local configuration
 after validating the pair. Do not create a Discovery Repo as a side effect.
+
+Apply R3's initial-Governance correction: provide guidance toward domain
+clarification, Discovery, Findings/Conformance Proofs, and deliberate promotion;
+do not turn setup goals into constitutional rules. Require the Constitution
+artifact and permit an initial empty placeholder under R2/R3. Finalize its
+metadata/template form and guide placement before implementation. Document later
+report/promotion steps without advertising unavailable Chunk 3–4 handlers.
 
 For existing-project registration, confirm project identity and paths one field
 at a time. Verify distinct Git repositories, Product's committed gitlink, index
@@ -871,13 +1282,24 @@ commit. Conduct explicit choices for context, Discovery Type, framing, Product
 access, charter, and optional comparison. Curated mode always carries the
 Constitution and records each candidate's allow/exclude reading decision.
 
+Use the registered Governance source directly. Validate only configuration/input
+fields needed by this operation; do not rerun Product-pair registration or inspect
+Product's adoption/pin/index state as a preflight check. Access Product only when
+needed for an explicitly selected, permitted input, within its approved scope.
+
 Validate approved inputs before allocating an ID or creating a destination. Initialize Governance at the approved exact commit from the registered local source; disable replacement-object interpretation and unrequested fetches. Validate supported paths and Git state. Source body inspection obeys the approved scope; excluded paths expose only minimal metadata for authority checks.
 
 Initialize a local Git repository without inherited templates. Establish and stage only its Governance submodule relationship under R5. Generate the manifest, root instructions, and reading record outside `.governance/`. Validate Git pin/state, authority classifications, scope agreement, Contract Export provenance, and obvious contamination. Before any body read, enforce both reading scope and Product Access Mode.
 
+Generate the manifest's portable creation-decision record from the approved
+interview under R3. Retain it after successful creation and include it in the
+creation summary; local recovery state remains in the operation journal. Do not
+require the originating workstation's session files to understand the manifest.
+
 Dependencies: accepted Chunk 1 with `yq` and `jv`, reviewed initial-project Git
 permissions and disposable test-fixture setup. Discovery creation consumes the
-valid committed pair created in Phase 1 or registered from an existing project.
+confirmed project/Governance configuration established in Phase 1 and the selected
+Governance commit. It does not depend on Product's current adoption or clean state.
 
 ### Verification checklist
 
@@ -886,17 +1308,32 @@ valid committed pair created in Phase 1 or registered from an existing project.
 - [ ] Full and Curated reading scopes produce valid repositories with the same complete Governance submodule.
 - [ ] Missing choices cannot become defaults; rejected recommendations are honored.
 - [ ] Existing-project registration and Discovery creation preserve existing files, Product index/pins, and source history.
+- [ ] With established configuration and valid Governance inputs, Isolated Discovery creation succeeds while Product is inaccessible, has uncommitted adoption, or has unrelated conflicts; command auditing proves no Product status/adoption inspection occurred.
+- [ ] Product-derived comparisons/exports validate only the explicitly approved input and its provenance; Product adoption readiness is not a general Discovery prerequisite.
+- [ ] Existing-project registration succeeds with ordinary unrelated staged/unstaged edits when relevant checks pass, reports the existing work, and preserves it; unresolved conflicts or unexplained Governance discrepancies prevent completion without automatic cleanup.
+- [ ] Hosted and local-only source declarations follow R3; moved folders, changed remotes, unavailable sources, and missing exact commits produce useful diagnostics without silent pin changes or unrequested Git/network mutations.
+- [ ] Source guidance identifies the location, verified availability, and next action in plain language; repair examples work without asking the user to calculate relative URLs or edit Git configuration. Local verification is not presented as remote availability.
 - [ ] New-project creation produces the reviewed initial Governance and Product state, with Product pinned to the initial Governance commit and no automatically created Discovery Repo.
 - [ ] New-project retries cannot add unintended commits or overwrite user changes; existing-project registration never enters the initialization exception.
-- [ ] Dirty/untracked source files do not become committed Governance input; dirty, untracked, or ignored files in the consuming submodule block reliance without destructive repair.
-- [ ] Duplicate IDs, invalid supersession, missing Constitution, and malformed provenance fail.
+- [ ] Dirty/untracked source files do not become committed Governance input; dirty, untracked, or ignored files in the consuming submodule actually being used by the operation block reliance without destructive repair. Product-submodule discrepancies do not block independent Discovery creation.
+- [ ] Duplicate IDs, invalid supersession, malformed provenance, and a missing/malformed Constitution fail. A valid initial Constitution placeholder with no normative clauses succeeds without invented rules.
+- [ ] Curated scope includes the Constitution placeholder; its omission or exclusion fails coverage. Other established Governance obligations remain applicable.
+- [ ] Creation provenance identifies an initially empty Constitution accurately; unexplained removal of existing constitutional content is surfaced, and later promotion preserves existing pins and creation history.
+- [ ] Setup guidance distinguishes goals/assumptions from established requirements and shows a usable route to investigation, reports, proposals, human review, and appropriate target artifacts without generating starter normative rules or claiming unavailable automation.
 - [ ] Concurrent creation yields unique IDs or safe failure.
 - [ ] Fault injection leaves no unreported partial repository and preserves user edits.
+- [ ] Failed/interrupted setup offers exactly Resume and Roll back, explains confirmed versus suspected causes, lists remaining/uncertain resources, and recommends recovery with concrete prerequisites.
+- [ ] Recovery diagnostics cover commit/signing/hook failure, missing source commit, path/permission conflicts, submodule/metadata mismatch, and failed cleanup without bypassing protections or leaking secrets/excluded content.
+- [ ] Resume detects already-completed side effects and avoids duplicate initialization; repeated or interrupted rollback preserves user changes and lists exactly what remains.
+- [ ] Rollback previews exact cleanup, preserves consumed Discovery IDs, and reports partial cleanup honestly.
 - [ ] New Discovery Repo HEAD is unborn; only `.gitmodules` and the Governance Git link are staged; only required Governance submodule configuration exists, with no Product remote.
 - [ ] Command auditing separates fixture setup, reviewed initial-project initialization, and later workflows; commits occur only within the applicable approved boundary.
 - [ ] One complete router-driven Project Setup-to-Discovery Repo walkthrough succeeds.
 - [ ] Excluding a superseder cannot reactivate a predecessor; Curated permissions include explicit decisions for supporting and committed reservation files.
 - [ ] Changed interview inputs invalidate only affected approvals; destination changes preserve unrelated choices.
+- [ ] Unchanged inputs resume at the first unanswered decision; uncertain applicability is explained, and superseded answers remain historical. Saved approvals cannot cause completed side effects to be repeated.
+- [ ] Successful creation preserves portable decisions and approval context in the manifest; it remains understandable without local session files, agrees with the approved creation inputs, and contains no workstation paths or recovery logs.
+- [ ] Superseded choices and relevant prior exposure remain identifiable; later reading-scope amendments or reviews do not rewrite the creation history.
 - [ ] Existing reports without reservations and consumed failed reservations prevent ID reuse.
 - [ ] Successful local packaged installation discovers both plugins with correct namespacing and only one governed router; unavailable or failing verification blocks Chunk 2 acceptance.
 
@@ -995,8 +1432,10 @@ Update the corresponding workflow references, router, CLI, and validation.
 
 Suggested reasoning: high. Depends on accepted Chunk 3.
 
-Resolve R7 before starting. Verify pending adoption followed by another router
-operation and preserve Product HEAD/index during unstaged adoption.
+Resolve R7 before starting. Verify pending adoption followed by explicit Product
+registration/adoption handling and preserve Product HEAD/index during unstaged
+adoption. Separately verify independent Discovery creation performs no Product
+adoption preflight or readiness check.
 
 Keep pending/resolved proposal state in directories. Accepted proposals require separate normative edits and Product impact assessment. Discovery Governance Promotion and Discovery Code Promotion remain independent. Adoption requires explicit developer direction after conformance review and does not commit or stage the result.
 
@@ -1069,11 +1508,10 @@ Create:
 - `tests/test_path_safety.sh`
 - `tests/test_schema_versions.sh`
 - `docs/installation.md`
-- `docs/recovery.md`
 - `docs/schema-versioning.md`
 
-Expand `tests/test_installation.sh` and `scripts/check_installation.sh` from
-Chunk 2. Update affected helpers, capability-specific dependencies, packaging
+Expand `tests/test_installation.sh`, `scripts/check_installation.sh`, and
+`docs/recovery.md` from Chunk 2. Update affected helpers, capability-specific dependencies, packaging
 documentation, and root README.
 
 ### Implementation requirements and suggested reasoning level
@@ -1229,6 +1667,155 @@ Checkpoint: record any local installation changes and their reversal steps; no r
 - Updated the decision table, progress checklist, terminology notes, and resume
   handoff to avoid reopening the identity choice. This is planning maintenance;
   no repository identities were assigned and no runtime files were created.
+
+### Setup recovery decision — 2026-09-14
+
+- The user selected exactly Resume and Roll back and required substantial help
+  understanding failures and recommended recovery. R3 now records both choices,
+  troubleshooting output, retry/cleanup boundaries, and diagnostic preservation.
+- Recovery guidance moves into Chunk 2 with the first usable workflows; Chunk 6
+  expands it. The verification checklist covers uncertain side effects,
+  interrupted cleanup, useful diagnosis, and preservation of user changes.
+- Current HEAD is `5cfaaf7`, containing the preceding submodule/reading-scope
+  revision committed outside this review. Preserve the ongoing identity and
+  recovery plan edits. This turn changes planning documents only.
+- Validation: `git diff --check` and the temporary document/reference audit
+  passed. A targeted search confirmed the withdrawn third recovery choice is
+  absent. No runtime recovery tests were executed.
+
+### Portable creation-decision approval — 2026-09-14
+
+- The user approved retaining portable creation decisions and approval context
+  in the Discovery Manifest after successful creation. R3 records the content
+  and ownership boundary; R1 and Chunks 1–2 own its schema and generation checks.
+- The approval followed an explanation of local interview bookkeeping. It
+  approved durable manifest content; reuse of unaffected answers remained
+  unanswered at that checkpoint and was approved separately below.
+- Preserve the existing identity/recovery edits. Only planning documents are
+  updated for this decision; reference schemas/templates and production files
+  remain unchanged. Runtime and full schema validation remain unexecuted.
+- Validation: `git diff --check` passed; `git diff --exit-code --
+  planning/handoffs GLOSSARY.md` confirmed those sources unchanged. An inline
+  Ruby audit passed for 28 local links/anchors and five planning consistency
+  checks across the three planning documents. `git diff --stat` confirmed the
+  change surface remains those three documents, including preserved earlier edits.
+
+### Interview-resumption approval — 2026-09-14
+
+- The user approved retaining applicable interview answers and revisiting only
+  decisions affected by changed inputs. Destination changes repeat path checks
+  and creation confirmation; selected Governance commit changes repeat authority
+  classification and reading-scope approval. Uncertain applicability is explained.
+- Updated R3, the recorded decisions, progress, and Chunk 2 verification. Exact
+  persisted schema fields and the remaining source retrieval, initial Governance,
+  existing-project, and pending-adoption details remain open.
+- This is planning maintenance only. Preserve all earlier planning edits; no
+  implementation, dependency installation, commits, or publication is authorized.
+- Validation: `git diff --check` passed; `git diff --exit-code --
+  planning/handoffs GLOSSARY.md` confirmed reference/glossary preservation. The
+  inline Ruby audit passed for 28 local links/anchors and six planning consistency
+  checks. `git diff --stat` showed only the same three planning documents changed.
+  Official Git documentation informed the next source-location proposal; no
+  runtime, fixture, or full schema checks ran.
+
+### Governance retrieval and guidance approval — 2026-09-14
+
+- The user approved the recommended source-location rule and required more
+  understandable guidance. R3 now requires practical source/status summaries,
+  one concrete question when needed, specific recovery advice, and details of
+  proposed repairs. Technical Git mechanics belong in supporting diagnostics.
+- Updated the decision register, progress, and Chunk 2 requirements/verification.
+  The source-location behavior is settled; existing-project state validation and
+  exact schema fields remain open. Initial Governance content is the next proposal.
+- Only the same three planning documents are changed; preserve earlier edits.
+  No source templates, runtime files, dependencies, or Git state were changed.
+- Validation: `git diff --check` and `git diff --exit-code --
+  planning/handoffs GLOSSARY.md` passed. The inline Ruby audit passed for 28 local
+  links/anchors and seven planning consistency checks. `git diff --stat` confirmed
+  the same three-document scope. Runtime and full schema checks remain unexecuted.
+
+### Initial-Governance correction — 2026-09-14
+
+- The user rejected drafting a starter Constitution from getting-started goals:
+  durable requirements must be understood first. Recorded the requested guidance
+  toward domain clarification and deliberate promotion, using domain-modeling
+  practices alongside this capability's promotion contracts.
+- Withdrew the earlier R3 starting-content proposal and flagged its conflict with
+  R2's proposed mandatory Constitution and Chunk 2's missing-Constitution test.
+  Initial Discovery without a Constitution was proposed at that checkpoint; the
+  user subsequently resolved this below by requiring a possibly empty placeholder.
+  Exact guidance and metadata representation still need finalization.
+- A read-only parallel review confirmed that blocking the first Discovery until
+  constitutional rules exist would reproduce the pressure the user described.
+  Existing glossary meanings support the correction; no new term or ADR is needed.
+- Preserve the three documents' prior edits. Only planning maintenance is in
+  scope; source references, glossary, production code, and Git state remain unchanged.
+- Validation: `git diff --check` and `git diff --exit-code --
+  planning/handoffs GLOSSARY.md` passed. An inline Ruby audit passed for 28 local
+  links/anchors and eight planning consistency checks. `git diff --stat` confirmed
+  only the same three planning documents are modified. Runtime and schema
+  acceptance checks remain unexecuted.
+
+### Required Constitution placeholder — 2026-09-14
+
+- The user clarified that a Constitution must exist but may be an empty
+  placeholder until matured Governance is promoted into it. Recorded this in the
+  glossary and R2/R3, replacing the proposal to permit no Constitution.
+- Restored required existence in R5 and Chunk 2 while allowing no substantive
+  constitutional rules. Added placeholder coverage, provenance, and missing/
+  malformed/removal distinctions to planned checks. The guide remains
+  non-normative and later promotion does not advance existing Discovery pins.
+- A read-only parallel review confirmed that the existing reference layout and
+  minimal metadata can support this distinction without a new lifecycle database.
+  Exact metadata/template representation remains R1/R2 work; source template
+  rationales must eventually describe both empty and populated Constitutions.
+- This update changes planning documents and the glossary clarification only.
+  Preserve all earlier edits. Source references, implementation files, dependencies,
+  and Git state remain unchanged; no runtime or schema acceptance tests have run.
+- Validation: `git diff --check` and `git diff --exit-code -- planning/handoffs`
+  passed. The inline Ruby audit passed for 269 local links/anchors and nine
+  planning consistency checks across four documents. The glossary diff contains
+  only the placeholder clarification; all pre-existing planning edits remain.
+
+### Existing-project unfinished-work approval — 2026-09-14
+
+- The user approved allowing ordinary unfinished edits during existing-project
+  setup when the relevant Governance checks pass. Updated R3, the decision table,
+  progress, and Chunk 2 verification; preserve and report work without claiming
+  to have assessed Product conformance or repaired Git state.
+- Pending Product adoption remains a separate proposed decision. R3 now makes
+  saved, staged, and checked-out revisions explicit, including developer-staged
+  adoption. Recognition requires established intent and valid submodule state.
+  Its initial extension to Discovery creation was subsequently corrected below.
+- Used the available Shimmy-backed `rg` successfully for repository searches,
+  following the user's correction. No tool installation or engine repair was needed.
+- Preserve the existing glossary and planning edits. Only planning documents
+  are updated in this turn; implementation and Git mutations remain unapproved.
+- Validation: `git diff --check` and `git diff --exit-code -- planning/handoffs`
+  passed. Targeted `rg -n -F` checks confirmed the approved registration wording
+  and separately proposed adoption wording. The inline Ruby audit resolved all
+  269 local links/anchors across four documents. Runtime checks remain unexecuted.
+
+### Discovery/Product independence correction — 2026-09-14
+
+- The user questioned why Discovery creation needed to verify Product's pending
+  Governance update. It does not: the prior proposal conflated explicit Product
+  registration/adoption with an independent Discovery request. Removed that
+  prerequisite and corrected the stale "valid committed pair" dependency.
+- R3 and Chunk 2 now validate Discovery's own inputs and submodule without
+  Product status inspection. Product-derived inputs remain subject to their
+  explicit access/provenance choices. Pending-adoption handling remains a
+  Product-scoped proposal for separate review; no new approval is inferred.
+- Added negative-access checks and a boundary scenario for unavailable Product,
+  unrelated conflicts, and pending adoption. Source references and glossary
+  definitions already support independent pins and remain unchanged this turn.
+- Validation: `git diff --check`, source-reference preservation, and the inline
+  Ruby audit of 269 local links/anchors passed. Targeted `rg` searches confirmed
+  Discovery independence and the Product-only proposal scope. The first sandboxed
+  search reported an unreachable Podman connection; the same read-only command
+  succeeded with exact outer-command escalation (exit 0), as did the final
+  targeted check. No profile/engine repair or installation occurred; persistent
+  approval is not inferred. Runtime checks remain unexecuted.
 
 ## Session bootstrap
 

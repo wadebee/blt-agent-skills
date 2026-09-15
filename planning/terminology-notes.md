@@ -60,15 +60,65 @@ exclusions, and their representation; it does not silently settle R1–R4's othe
 details or R6–R7 lifecycle mechanics. R5's Chunk 2 installation gate is approved.
 
 Remaining details include the data tools' demonstrated input validation, general
-schema adaptations, exact authority classification, source retrieval locations,
-interrupted creation and interview recovery, allocation storage,
+schema adaptations, exact authority classification, pending Product adoption,
+persisted interview binding schemas and allocation storage,
 repeated reviews, and Product-context promotion. The Shimmy bootstrap contract
 must come from the selected Product source before Chunk 5.
 
 The user subsequently approved R3's identity rule: use a canonical repository URL
 when established, otherwise a developer-confirmed stable identifier for a
 local-only repository. Record that identity in provenance and keep workstation
-checkout locations in local configuration. Retrieval mechanics remain separate.
+checkout locations in local configuration. The separately approved retrieval rule
+uses an established portable clone URL when available, otherwise a confirmed
+relative Governance source for local-only projects; absolute paths and local
+overrides stay on the workstation. The user required practical guidance: identify
+the source, verify the required revision, and guide any needed repair without
+requiring Git configuration knowledge. Runtime checks remain unexecuted.
+
+Setup recovery now has exactly two approved actions: Resume and Roll back. R3
+requires failure/cause evidence, a resource inventory, actionable troubleshooting,
+a reasoned recommendation, a local diagnostic record, and a concrete cleanup
+preview. Recovery guidance belongs to Chunk 2; no automatic destructive cleanup
+is approved. Runtime verification remains outstanding.
+
+The user also approved retaining portable creation decisions and approval context
+in the Discovery Manifest after successful creation: approved choices, relevant
+inputs, provided rationale, approval dates, and material revisions/exposure.
+Detailed per-path choices remain in the referenced reading-scope record; local
+paths and recovery history remain local. R3 records the content contract and R1
+owns schema adaptation. The reference manifest schema/template have not yet been
+adapted for this addition. The user separately approved preserving applicable
+answers on resume and revisiting only affected decisions, with uncertain
+applicability explained. Exact interview binding fields remain schema work.
+
+Initial Governance must not turn vague setup goals into constitutional rules.
+The user rejected that starting-content proposal and requested breadcrumb guidance
+through domain clarification, concrete scenarios, Discovery, Findings/Conformance
+Proofs, proposals, and deliberate promotion. This fits the existing meanings of
+Constitution, Architectural Sediment, and Governance Proposal; no new glossary
+term is established. The domain-modeling skill informs clarification and careful
+recording, while the capability's contracts define promotion and adoption.
+The user then clarified that a Constitution must exist, but may start as an empty
+placeholder until matured Governance is deliberately promoted into it. The
+glossary and R2/R3 record that resolved distinction. Missing/malformed artifacts
+remain invalid; a valid placeholder adds no constitutional requirements and still
+belongs in the approved reading scope. Existing obligations and pinning rules
+remain intact. Exact placeholder metadata/template form and non-normative guide
+layout remain open; later automated handlers stay in their existing chunks.
+Reference schemas/templates remain unchanged and their future adaptation must
+avoid descriptions that assume every Constitution already contains rules.
+
+Existing-project setup may proceed with ordinary unfinished edits outside the
+read-only Governance submodule when identity/path/Git checks pass. The user
+approved reporting and preserving that work, with conflicts and unexplained
+Governance discrepancies diagnosed before completion. Recognizing and permitting
+pending Product adoption remains a separate R3 proposal for explicit Product
+registration/adoption; its committed revision must not be conflated with a locally
+applied change. The user corrected the proposed coupling to Discovery creation:
+Discovery validates its own Governance source and submodule, without verifying
+Product adoption or waiting for a Product commit. Product-derived inputs are
+checked only when explicitly selected and permitted. This preserves the existing
+independent-pin model rather than changing glossary relationships.
 
 ## Verification of earlier terminology work
 

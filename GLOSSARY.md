@@ -135,6 +135,10 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 The narrow, highest-authority part of the ***Governance Artifacts*** containing foundational principles, non-negotiable invariants, project philosophy, and governance rules.
 
+The Constitution must exist, but may initially be an empty placeholder with no
+constitutional rules. Matured Governance is added through deliberate promotion;
+the placeholder's existence does not itself establish requirements.
+
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Discovery Report template](planning/handoffs/templates/DISCOVERY-REPORT.md), [Discovery Comparison template](planning/handoffs/templates/DISCOVERY-COMPARISON.md), decisions 5–8, 12, 23, 31–35.
 
 ### Contract Export
