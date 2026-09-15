@@ -16,6 +16,27 @@ workflow contracts define its behavior in the projects it operates on.
 - Run checks appropriate to the changed files and behavior, and report the
   commands and results at the task's review checkpoints.
 
+## CLI tools and installation
+
+- Use CLI tools only through activated Shimmy shims. This applies to
+  implementation, investigation, validation, tests, and troubleshooting.
+  Verify the command resolves to its Shimmy shim before using it; an existing
+  host binary is not an allowed fallback.
+- Agents must not download, install, build, or bootstrap CLI tools. This includes
+  standalone binaries, archives, package-manager installs, and temporary copies
+  under `/tmp`, the workspace, or user-local directories. Temporary acquisition
+  counts as installation for this rule even without a PATH change.
+- Approval to implement a plan, selection of a dependency, or a tool execution
+  permission does not authorize tool acquisition or installation.
+- If a required shim is absent or unusable, report the exact tool and blocker
+  and let the user provision or repair it through Shimmy. Continue only work
+  that does not depend on that tool. Do not bypass a shim with direct host
+  executables, downloaded binaries, or ad hoc container commands.
+- Carry these requirements into implemented skills and their helper/test
+  instructions. Existing plan acquisition guidance is superseded by this rule;
+  dependency documentation must describe required Shimmy tools, not agent-run
+  installers.
+
 ## Git permissions
 
 - Creating commits, pushing, configuring remotes, or publishing this
@@ -58,7 +79,7 @@ this handoff, read these documents in order before implementation:
 6. `planning/handoffs/codex/ACCEPTANCE-TEST-MATRIX.md`
 
 Follow relevant references as needed, and read the authoritative
-[implementation plan](planning/notional/governed-exploratory-development.md)
+[implementation plan](planning/wip/governed-exploratory-development.md)
 for approved clarifications, unresolved decisions, and execution gates.
 Update this link when the plan changes lifecycle location.
 

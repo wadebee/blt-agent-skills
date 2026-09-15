@@ -2,6 +2,13 @@
 
 ## Plan status and authorization
 
+**Current execution authorization — 2026-09-15:** the user requested “implement
+the next step in this plan.” Chunk 1 is active, through its Milestone 1 review
+gate. This supersedes the planning-only status statements retained below as
+review history. Chunks 2–10 remain unstarted and require their own authorization.
+The authoritative plan has moved to `planning/wip/governed-exploratory-development.md`.
+Marketplace commits, pushes and publication remain unauthorized.
+
 [GLOSSARY.md](../../GLOSSARY.md) is authoritative for terminology and explicitly defined relationships. The user authorized repository-wide terminology alignment on 2026-09-14, including this plan and the handoff. Production implementation remains unapproved.
 
 - State: **PLAN — persisted for review; implementation is not authorized.**
@@ -216,6 +223,16 @@ gain no Governance authority. No copied Governance content manifest is needed.
 `discoveries/` means a directory relative to the Governance repository root. No extra nested `governance/` directory will be introduced.
 
 ## Capabilities and dependency choices
+
+**Tool provisioning correction — 2026-09-15:** the user prohibits agent tool
+downloads and installation and requires CLI usage through activated Shimmy
+shims. This supersedes standalone-binary acquisition and installation guidance
+elsewhere in this plan, including temporary validation copies. Selecting `yq`
+and `jv` approves their capabilities, not installation by an agent. If a shim
+is unavailable, report it for user provisioning; do not use host binaries or
+direct container execution as substitutes. Carry this rule into the production
+skill, runtime contract, helpers, test instructions, and dependency documentation.
+Do not infer an exception from implementation authorization or execution approval.
 
 **No Python dependency.** Remove the earlier Python runtime, package requirements, virtual environment, and Python test-runner proposal. Do not replace them with another general-purpose runtime requirement by default.
 
@@ -1590,7 +1607,7 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [x] Approve separate Product-scoped work session for Discovery Code Promotion, with report/source/proof handoff, explicit approach selection, Product checks and no Product-internal feedback into the isolated Discovery.
 - [x] Approve workflow-owned local journal lifecycle: create before writes, update during work, retain unfinished recovery, compact terminal outcomes, and clean completed records only on explicit request.
 - [x] Resolve R7: proposal resolution, separate Product-scoped promotion handoff and coordinated Governance Adoption/recovery; preserve unrelated work and subsequent developer changes.
-- [ ] Obtain approval to start implementation.
+- [x] Obtain approval to start implementation — Chunk 1 authorized on 2026-09-15.
 - [ ] Chunk 1 — Packaging and shared validation; Milestone 1 gate.
 - [ ] Chunk 2 — Governance source and reading-boundary validation.
 - [ ] Chunk 3 — Project Setup and Activation, interviews, and recovery.
@@ -1602,7 +1619,7 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [ ] Chunk 9 — Shimmy onboarding delegation.
 - [ ] Chunk 10 — Cross-platform and lifecycle hardening.
 
-Active state: **PLAN**, awaiting review of this persisted document. No implementation chunk is active.
+Active state: **WIP — Chunk 1**, authorized on 2026-09-15; acceptance pending.
 
 ## Capability domain knowledge
 
@@ -2625,6 +2642,19 @@ or marketplace commit is part of this gate.
 
 ## Lessons learned
 
+### Tool provisioning correction — 2026-09-15
+
+- Implementation authorization did not authorize downloading CLI dependencies.
+  Temporary acquisition is covered by the same prohibition as permanent installation.
+- Removed the session-created `yq` and `jv` binaries, downloaded archive,
+  release metadata, and canary files from `/tmp`; verified their absence.
+  No global installation or PATH change had been made.
+- Root `AGENTS.md` now requires activated Shimmy shims for CLI usage and user
+  provisioning of missing tools. The production skill does not yet exist;
+  its implementation must carry this requirement forward.
+- Earlier direct-binary canaries are exploratory evidence only. Required
+  verification remains incomplete and must run through the provisioned shims.
+
 Historical entries below retain the chunk numbers used when written. Use the
 [implementation sequence and ownership](#implementation-sequence-and-ownership)
 for current numbering, dependencies, and review gates. Current contracts and
@@ -3278,6 +3308,17 @@ session handoff was consolidated and removed at the user's request; this does
 not authorize implementation or change the source package in `planning/handoffs/`.
 
 ### Current review state
+
+**Execution update, 2026-09-15:** Chunk 1 is now authorized and active. The
+planning-only notes below describe the prior review state; use the current
+authorization and progress above when resuming. Do not advance to Chunk 2 until
+Chunk 1 is accepted and Chunk 2 is authorized.
+
+**Tool-use update:** agents may not download or install tools, including temporary
+copies. All CLI usage must go through activated Shimmy shims. The temporary
+dependency downloads from the initial execution attempt have been removed.
+Await user provisioning for missing shims; do not follow older direct-binary
+acquisition guidance or treat implementation authorization as installation approval.
 
 - Remain in **PLAN / REVIEW**. No implementation chunk, dependency installation,
   marketplace commit, push, or publication is authorized. Last inspected HEAD
