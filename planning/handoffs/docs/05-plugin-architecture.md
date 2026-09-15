@@ -29,7 +29,8 @@ The user should express intent naturally. The router infers the likely lifecycle
 
 Examples:
 
-- “Set this project up for governed exploration.” → Project Setup
+- “Create a new governed project.” → Project Setup
+- “Use this existing project for governed exploration.” → Project Activation
 - “Explore an alternate engine lifecycle.” → Discovery Repo creation
 - “Governance changed; continue the Discovery Repo.” → successor Discovery Repo
 - “Wrap up this Discovery Repo.” → Discovery Review
@@ -50,6 +51,7 @@ skills/governed-development/
 ├── SKILL.md
 ├── references/workflows/
 │   ├── project-setup.md
+│   ├── project-activation.md
 │   ├── discovery-repo-create.md
 │   ├── discovery-repo-successor.md
 │   ├── discovery-review.md
@@ -75,7 +77,7 @@ The skill should:
 3. explain material effects and prerequisites;
 4. invoke that bootstrap only after appropriate user authorization;
 5. validate the resulting installation; and
-6. optionally hand off to governed Project Setup when the user is developing Shimmy rather than merely installing it.
+6. optionally hand off to governed Project Activation when the user is developing Shimmy rather than merely installing it.
 
 If the bootstrap entrypoint cannot be established from Product sources, stop and surface the missing contract. Do not invent a command.
 
@@ -83,7 +85,7 @@ If the bootstrap entrypoint cannot be established from Product sources, stop and
 
 Materialized Governance includes generated instructions and other artifacts derived from Governance. Materialization does not add authority. Product and Discovery consume versioned source through read-only Governance submodules; Discovery reading scope is an independent agent boundary. Derived checks remain Conformance Proofs.
 
-The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup or Discovery Repo creation. It then transfers ownership to the repository.
+The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup, safe missing-file generation in Project Activation, or Discovery Repo creation. It then transfers ownership to the repository.
 
 Rules:
 
@@ -97,13 +99,13 @@ Rules:
 
 Workstation-specific metadata lives in user-local plugin storage, not a repository. It includes project name, Product path, Governance path, Product submodule path, and Discovery Repo parent directory.
 
-Another workstation repeats Project Setup. Repository-intrinsic state remains committed in the repos.
+Another workstation uses Project Activation. Repository-intrinsic state remains committed in the repos.
 
 The concrete local path is an implementation detail; code must use the plugin runtime’s writable data location when available.
 
 ## Git boundary
 
-The capability follows Decision 30 and the authoritative plan. Initial project creation may stage approved generated files, create one initial commit in each newly created Governance/Product repository, and establish their local submodule connection. Existing-project registration preserves history, index, and pins.
+The capability follows Decision 30 and the authoritative plan. Initial project creation may stage approved generated files, create one initial commit in each newly created Governance/Product repository, and establish their local submodule connection. Project Activation preserves history, index, and pins.
 
 Discovery creation may configure its local Governance submodule and stage only `.gitmodules` and its Governance Git link. It creates no commit and adds no Product remote. Other generated Discovery files remain unstaged. Later workflows do not stage, commit, or advance Discovery pins.
 

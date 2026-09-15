@@ -2,7 +2,7 @@
 
 | ID | Scenario | Expected result |
 |---|---|---|
-| AT-001 | Invoke router in unregistered Product repo | Router infers Project Setup and asks for confirmation/required fields without listing internal workflows |
+| AT-001 | Invoke router in an existing Product repo without local configuration | Router infers Project Activation and asks for confirmation/required fields without listing internal workflows |
 | AT-002 | Set up valid Product/Governance pair | Local Project Configuration written; role `AGENTS.md` generated only when safe; submodule validated |
 | AT-003 | Existing `AGENTS.md` present | No overwrite without explicit approval |
 | AT-004 | Create Discovery Repo with Full Governance Reading Scope | Complete Governance submodule initialized at exact commit; Full reading scope recorded; minimal repo produced |

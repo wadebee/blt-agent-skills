@@ -17,22 +17,24 @@ Exit criteria:
 - skills are discoverable by current OpenAI tooling;
 - only approved initial Governance/Product creation may commit; no network publication occurs.
 
-## Phase 1 — Project Setup and Local Project Configuration
+## Phase 1 — Project Setup, Project Activation and Local Project Configuration
 
 Implement:
 
+- Project Setup creating the initial Governance/Product pair and pinning Product to Governance's first commit;
+- Project Activation connecting an existing pair on this workstation;
 - project-role detection suggestions;
 - one-time interview for Product/Governance paths, project name, and submodule path;
-- validation that each path is a Git repo;
-- validation that Product has the expected Governance submodule or a clear remediation plan;
+- validation of newly created repositories for Setup and existing repositories for Activation;
+- validation of the created relationship during Setup; Activation preserves existing Git state and diagnoses discrepancies without automatic repair;
 - generation of Governance and Product `AGENTS.md` files;
 - Local Project Configuration.
 
 Exit criteria:
 
-- Project Setup is repeatable and idempotent;
+- interrupted Project Setup resumes without duplicate initialization; repeated Project Activation reuses valid configuration without recreating repositories;
 - existing `AGENTS.md` is never overwritten silently;
-- a second machine can complete Project Setup independently.
+- a second machine can complete Project Activation independently.
 
 ## Phase 2 — Discovery Repo creation
 
@@ -99,7 +101,7 @@ Deliver:
 - prerequisite and side-effect review;
 - invocation wrapper that delegates to Product bootstrap;
 - post-install validation;
-- optional handoff to governed-development Project Setup for contributors.
+- optional handoff to governed-development Project Activation for contributors.
 
 Exit criteria:
 

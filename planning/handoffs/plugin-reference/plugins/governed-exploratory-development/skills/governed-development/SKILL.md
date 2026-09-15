@@ -13,7 +13,9 @@ Expose one simple, context-aware entry point. Infer the user’s intended lifecy
 
 Load the matching workflow reference:
 
-- No Local Project Configuration or explicit setup request → `references/workflows/project-setup.md`
+- Create a new Governance/Product pair → `references/workflows/project-setup.md`
+- Connect an existing pair, including first use on another workstation → `references/workflows/project-activation.md`
+- Missing Local Project Configuration alone does not imply new-project creation; infer existing-pair Activation or clarify intent.
 - Start a new Discovery Repo or alternate implementation → `references/workflows/discovery-repo-create.md`
 - Continue a Discovery Repo under changed Governance → `references/workflows/discovery-repo-successor.md`
 - Finish, archive, or preserve a Discovery Repo → `references/workflows/discovery-review.md`

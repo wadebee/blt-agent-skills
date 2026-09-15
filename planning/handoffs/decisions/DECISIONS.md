@@ -122,17 +122,17 @@ Use immutable IDs such as `DISC-0042` and readable names such as `shimmy-disc-00
 
 Version 1 initializes local repos but leaves GitHub or other hosting to the developer. This avoids provider coupling and destructive remote operations.
 
-## 28. One-time Project Setup interview — 2/5
+## 28. Project Setup and Project Activation — 2/5
 
-Confirm project name, Product path, Governance path, and submodule path. The plugin may infer likely values but never assumes them silently.
+Project Setup creates the initial Governance/Product pair, with Product pinned to Governance's first commit, and saves Local Project Configuration. Project Activation connects an existing pair on a workstation and establishes or reuses Local Project Configuration. Confirm project name, identity, paths and submodule relationship as applicable; inferred values remain suggestions. Activation does not recreate repositories or perform Governance Adoption. Both remain internal workflows behind the public router.
 
 ## 29. Local Project Configuration — 2/5
 
-Store workstation paths in plugin-local data, not committed repositories. Another machine repeats Project Setup; repositories retain only intrinsic state.
+Store workstation paths in plugin-local data, not committed repositories. Another machine uses Project Activation; repositories retain only intrinsic state.
 
 ## 30. Capability-specific Git initialization contract — 1/5
 
-Initial project creation may stage approved generated files, create one initial commit in each new Governance/Product repository, and establish their local submodule connection, as recorded in the authoritative plan. Existing-project registration and later workflows preserve history and the index.
+Initial project creation may stage approved generated files, create one initial commit in each new Governance/Product repository, and establish their local submodule connection, as recorded in the authoritative plan. Project Activation and later workflows preserve history and the index.
 
 Discovery creation may initialize its local Governance submodule and stage only `.gitmodules` and the Governance Git link needed to establish that relationship. It creates no commit, stages no other generated files, and adds no Product remote. Present the staged submodule changes alongside unstaged generated files for developer review and commit. Local submodule configuration is allowed for this initialization; it does not authorize hosting, pushing, or later automatic pin changes.
 
@@ -164,4 +164,4 @@ It guides agent behavior, local workflow, and validation but cannot create or ov
 
 ## 37. One public context-aware router with modular internals — 3/5 internal, ~1/5 user-facing
 
-Expose one governed-development skill. Hide Project Setup, creation, Discovery Review, Discovery Comparison, proposal, promotion, and adoption mechanics behind AI intent routing and concise interviews. Additional internal complexity is justified by much lower user cognitive load.
+Expose one governed-development skill. Hide Project Setup, Project Activation, Discovery creation, Discovery Review, Discovery Comparison, proposal, promotion, and adoption mechanics behind AI intent routing and concise interviews. Additional internal complexity is justified by much lower user cognitive load.

@@ -9,7 +9,7 @@
 - Objective and planning root were confirmed by the user.
 - The user confirmed `planning/handoffs/` as the authoritative handoff, replacing the absent `docs/handoffs/governed-exploratory-development/` location named in the original request and root instructions.
 - The user authorized creation of this plan only: “do not start implementation until I have reviewed from persisted plan”.
-- This document persists the proposed plan presented in chat. Its design choices and implementation chunks remain subject to review; permission to create this file is not approval to execute them.
+- This document persists the plan and its approved design contracts. Concrete implementation artifacts remain subject to review at their owning chunk's gate; permission to create this file is not approval to execute a chunk.
 - No implementation chunk is active. Do not move this plan to `wip`, install dependencies, or modify implementation files until explicitly authorized.
 - The latest review prohibits a Python dependency and makes simplicity a standing goal and review metric. Bash is acceptable; any additional tool must address a specific capability and be chosen by the user before it becomes a requirement.
 - The user selected Mike Farah’s `yq` for YAML/JSON processing and `jv` from santhosh-tekuri/jsonschema for schema validation. No Python dependency is permitted.
@@ -115,10 +115,12 @@ Abbreviations:
 These identify exact path prefixes, not additional directories.
 
 Use the [glossary definitions](../../GLOSSARY.md#terminology-index) for domain
-terms throughout this plan. **Project Setup** covers the interview establishing
-the confirmed Product/Governance pair, paths, and submodule relationship;
-new-project creation and existing-project registration are its two paths here.
-Both produce **Local Project Configuration**. **Discovery Repo** names the
+terms throughout this plan. **Project Setup** creates the initial Governance/Product
+pair, pins Product to Governance's first commit, and saves Local Project Configuration.
+**Project Activation** connects an existing pair on a workstation and establishes
+or reuses **Local Project Configuration**. Activation does not recreate repositories
+or perform Governance Adoption. Missing local configuration alone does not imply
+a request for new-project creation. **Discovery Repo** names the
 separate exploratory repository, **Discovery Review** names the process, and
 **Discovery Report** and **Discovery Comparison** name its written outputs.
 The comparison workflow produces the optional separate Discovery Comparison;
@@ -155,20 +157,56 @@ planning/
   complete/
 ```
 
-Generated Discovery Repo layout:
+### Per-repository Governance manifest and metadata layout
+
+Approved on 2026-09-14: keep Governance context in an independent
+`governance.yaml` owned by each consuming repository. Each Discovery Repo has
+its own record; Product uses its own independent record where needed. This is
+not one mutable project-wide record shared by Product and all Discovery Repos.
+The Discovery Manifest and other local consumers resolve that repository's
+Governance context through a defined location convention.
+
+The Governance record owns source identity, Pinned Governance Revision, and
+submodule location; it locates the Discovery's Governance Reading Scope record.
+Product's pin retains its separate Adopted Governance Revision meaning. Local
+Project Configuration continues to own workstation paths. This metadata is not
+another normative authority level, a copy of Governance content, or a replacement
+for the actual pinned Git submodule.
+
+Approved on 2026-09-14: use `.governed/` for repository manifests and supporting
+artifacts, with the following fixed layout. Create only files applicable to the
+repository's role and approved Product Access Mode:
 
 ```text
-<project>-disc-0001-<slug>/
-  .git/
-  .gitmodules
+<discovery-repo>/
   AGENTS.md
-  DISCOVERY.yaml
-  GOVERNANCE-READING-SCOPE.yaml
-  .governance/              # complete read-only submodule at fixed commit
-  .contracts/               # contract-aware mode only
-    EXPORT.yaml
-    files/<approved exports>
+  .gitmodules
+  .governance/                  # pinned read-only Governance submodule
+  .governed/
+    governance.yaml            # this repository's Governance context
+    discovery.yaml             # Discovery Manifest
+    reading-scope.yaml         # Governance Reading Scope
+    contracts/                 # Contract-aware mode only
+      export.yaml
+      files/<approved exports>
 ```
+
+Resolve local context at `<repository-root>/.governed/governance.yaml`, without
+searching parent directories or falling back to another repository. Root
+`AGENTS.md` directs agents there before Governance body reads. Shared schema
+definitions remain packaged with the plugin; `.governed/` holds generated
+repository records and approved exports. Product has its own Governance record
+without Discovery-only files. Local Project Configuration and recovery journals
+remain workstation-local; durable Discovery Reports remain Governance-owned.
+Historical approvals and durable reports must retain the context they originally
+covered, including when a Discovery Repo is later deleted.
+
+This approved layout and ownership split replace the earlier root manifests
+and repeated current Governance fields. Production schemas/templates and role
+instructions must emit and consume the paths above together. Protected handoff
+assets remain historical adaptation inputs. Cross-document validation follows
+the approved R1 creation-completion contract; concrete checks remain implementation work.
+Discovery Report context embedding is approved below.
 
 Decision 13 now includes the Git submodule metadata and external reading-scope
 record. Contract exports remain Product-derived Conformance Proofs with their own
@@ -222,9 +260,9 @@ Start with a small shell entrypoint and a few supporting files. Add modules only
 
 ## Recorded design decisions
 
-The following combine settled handoff constraints, explicitly approved review decisions, and proposed implementation details. The dependency selection and disposable-test-fixture exception are approved. Starting implementation still requires explicit authorization.
+The following summarize settled handoff constraints and explicitly approved review decisions. Concrete implementation and verification remain pending. Starting implementation still requires explicit authorization. [Unresolved](#unresolved) records no pending design decisions; [Design contracts and review status](#design-contracts-and-review-status) retains the detailed approved contracts.
 
-| Area | Proposed behavior |
+| Area | Approved behavior |
 |---|---|
 | Authority | Constitution > Policies > Specifications > Active ADRs. Resolve explicit same-level supersession; surface ambiguous conflicts. Conformance Proofs and operational instructions never become additional normative levels. |
 | Simplicity | Minimize setup, dependencies, custom mechanisms, and maintenance effort; report the metrics above at every review. |
@@ -234,17 +272,17 @@ The following combine settled handoff constraints, explicitly approved review de
 | Router | One public governed-development skill routes project creation and on-demand Discovery Repo creation to separate internal workflows. Do not expose those internal modules as a user-facing menu. Project creation never implies a Discovery Repo request. Natural-language routing and recommendations belong in the skill; deterministic helpers validate state and perform filesystem operations. |
 | Repository boundaries | Governance, Product, and each Discovery Repo are separate Git repositories. Do not combine them into one repository or replace Discovery Repos with branches or worktrees. This governs this capability's projects, not the architecture of unrelated marketplace plugins. |
 | Interviews | One outstanding decision at a time. Persist answers locally with their relevant inputs. Preserve applicable approvals on resume and revisit only affected decisions; explain uncertain applicability before re-asking. Recommendations never populate missing choices. Resumption rule approved on 2026-09-14. |
-| Creation decisions | Preserve portable creation decisions and their approval context in `DISCOVERY.yaml` after successful creation: approved choices, relevant inputs, provided rationale, approval dates, and material revisions/exposure. Reference the detailed reading-scope record. Workstation paths and recovery logs remain local. Approved on 2026-09-14; detailed schema adaptation remains R1 work. |
+| Creation decisions | Preserve portable creation decisions and their approval context in `.governed/discovery.yaml` after successful creation: approved choices, relevant inputs, provided rationale, approval dates, and material revisions/exposure. Reference the detailed reading-scope record. Workstation paths and recovery logs remain local. Approved on 2026-09-14; detailed schema adaptation remains R1 work. |
 | Initial Governance maturity | Constitution must exist and may begin as an empty placeholder with no constitutional rules until matured Governance is deliberately promoted. Do not turn setup goals into starter rules. Provide non-normative guidance from domain questions through Discovery and promotion. Existence/empty-content distinction approved on 2026-09-14. |
 | Local Project Configuration | Store confirmed project paths and a stable, credential-free Governance identity outside repositories. |
 | Governance identity | Use the canonical repository URL when established, otherwise a developer-confirmed stable identifier for a local-only repository. Record that identity in provenance; keep workstation checkout locations in local configuration. Approved on 2026-09-14. |
 | Governance retrieval | Use an established portable clone URL when available, otherwise a confirmed relative source for local-only projects. Keep absolute paths/local overrides on the workstation. Explain the source, availability, and next action in plain language; guide location repairs without requiring Git configuration knowledge. Approved on 2026-09-14. |
 | Data location | Explicit `--data-dir`, otherwise supplied `PLUGIN_DATA`, otherwise `${XDG_DATA_HOME:-$HOME/.local/share}/beeline-technologies/governed-exploratory-development`. Reject storage inside project repositories or the installed plugin tree. |
-| Project creation | Create the initial Governance and Product repositories and establish Product's Governance submodule, then save Local Project Configuration. This user clarification supersedes the earlier registration-only assumption. The approved initialization Git contract belongs to this capability's R5 and future skill instructions; chunk execution remains separately gated. |
-| Existing-project setup | Allow ordinary unfinished edits outside the read-only Governance submodule when identity/path/Git checks pass; report and preserve them. Diagnose unresolved conflicts, changed Governance contents, and unexplained pin discrepancies before completing registration. Preserve history/index and never repair automatically. Approved on 2026-09-14; pending adoption is reviewed separately. |
+| Project creation | Create the initial Governance and Product repositories and establish Product's Governance submodule, then save Local Project Configuration. This user clarification supersedes the earlier activation-only assumption. The approved initialization Git contract belongs to this capability's R5 and future skill instructions; chunk execution remains separately gated. |
+| Project Activation | Allow ordinary unfinished edits outside the read-only Governance submodule when identity/path/Git checks pass; report and preserve them. Diagnose unresolved conflicts, changed Governance contents, and unexplained pin discrepancies before completing activation. Preserve history/index and never repair automatically. Ordinary-edit handling approved on 2026-09-14; intentional pending-adoption Activation approved on 2026-09-15. |
 | Existing files | Seed missing role `AGENTS.md` files once as Materialized Governance. The receiving repository owns them thereafter; they remain subordinate to Governance. Preserve existing files and surface conflicts. |
 | Revision selection | Discovery Repo creation interviews for Governance revision, offering the registered Governance checkout's HEAD as the default. Resolve and confirm its exact commit, then freeze that choice. Product's adopted pin remains independent and unchanged. Approved clarification on 2026-09-14. |
-| Discovery independence | Discovery creation validates its selected Governance source and its own resulting submodule. It does not inspect or verify Product adoption as a prerequisite, rerun Product registration, or wait for Product commits. Product-derived inputs are checked only when explicitly selected and permitted. Corrected on 2026-09-14 to preserve the accepted independent-pin model. |
+| Discovery independence | Discovery creation validates its selected Governance source and its own resulting submodule. It does not inspect or verify Product adoption as a prerequisite, rerun Product activation, or wait for Product commits. Product-derived inputs are checked only when explicitly selected and permitted. Corrected on 2026-09-14 to preserve the accepted independent-pin model. |
 | Governance source | Initialize a read-only submodule at the approved exact commit; validate source identity, Git link, checkout, and clean state. Never consume dirty source-checkout content. |
 | Git compatibility | Initially support the handoff’s SHA-1 commit format. Reject unsupported object formats explicitly. |
 | Governance Reading Scope | Full permits the pinned tree; Curated permits explicit paths and excludes all other bodies across agent transports. Both retain the complete submodule and remain subject to Product Access Mode. |
@@ -256,12 +294,12 @@ The following combine settled handoff constraints, explicitly approved review de
 
 ## Package inconsistencies and proposed handling
 
-The terminology alignment updates the handoff to match the authoritative glossary. The rows below distinguish resolved documentation drift from remaining implementation proposals.
+The terminology alignment updates the handoff to match the authoritative glossary. The rows below distinguish resolved documentation drift from approved production adaptations that remain unimplemented.
 
-| Finding | Proposed production handling |
+| Finding | Approved production handling |
 |---|---|
 | Handoff path drift — resolved | Root `AGENTS.md` now names the confirmed `planning/handoffs/` location. |
-| Project creation scope — clarified by user on 2026-09-14 | The agent creates the initial Governance/Product pair and submodule relationship. Earlier plan text and the reference Project Setup workflow only registered existing repos. The glossary's Project Setup definition covers establishing the pair and relationship; this plan specifies creation and registration paths within that term. Preserve the reference workflow as historical source and adapt its production counterpart under R3/R5; no glossary change is needed. |
+| Project Setup / Activation scope — clarified on 2026-09-15 | Project Setup creates the initial Governance/Product pair and first pin. Project Activation connects an existing pair on a workstation. The glossary, router and reference workflows now distinguish these activities; neither implicitly invokes Discovery creation or Governance Adoption. |
 | Templates permit workstation paths in provenance, conflicting with Decision 29 | Add `governance_repository` to the production configuration model; write that stable identity into Discovery Repo provenance. |
 | Contract export location/provenance is unspecified | Use the separate immutable contract namespace and manifest shown above. |
 | Governance storage — resolved by R8 | Use Git pin and dirty-state validation; remove copied-tree integrity infrastructure. Validate reading-scope and manifest agreement separately. |
@@ -295,20 +333,56 @@ commits cannot mask a workflow violation.
 
 ## Unresolved
 
-The resumed consistency review on 2026-09-14 found that the first increment is
-not yet decision-complete. The following register distinguishes approved rules
-from proposals awaiting review; neither grants permission to execute a chunk. Existing
-dependency choices and glossary relationships remain recorded decisions.
+None. R1–R8 and the Shimmy separation boundary are resolved as of 2026-09-15.
+Approved decisions remain in [Design contracts and review status](#design-contracts-and-review-status).
+Unexecuted verification belongs in the [Progress Checklist](#progress-checklist)
+and each chunk's verification checklist. Implementation authorization remains separate.
 
-| Gate | Owner / required before | Recommendation and tradeoff | Status |
+## Implementation preparation and readiness
+
+Readiness update, 2026-09-15: **all recorded design issues are resolved.**
+The plan is ready for implementation authorization, beginning with Chunk 1.
+Concrete schemas, templates and checks remain implementation work. External
+Shimmy repositories and their bootstrap implementations remain outside this
+repository's scope. Implementation has not been authorized.
+
+The following are preparation or implementation tasks, not separate unanswered
+user decisions unless completing them exposes a material behavioral ambiguity:
+
+- Translate approved record content into concrete field names/types and schemas.
+  Prepare the shared schema contract for Chunk 1 review, preserving approved
+  actual-value bindings, explicit replacement, and historical provenance.
+- Adapt schema/template producers and consumers to `.governed/`, with current
+  Governance context owned once by `governance.yaml`. Protected reference assets
+  remain historical inputs; production adaptation belongs to authorized chunks.
+- Encode local interview/journal records from the approved resumption/recovery
+  behavior; do not seek a new approval for each mechanical field choice.
+- Run the already specified `yq`/`jv` canaries and installation/runtime checks in
+  their owning chunks. Their unexecuted status is verification work, not an
+  unresolved dependency choice or evidence of a tool capability failure.
+
+Prepare concrete shared schemas from the approved contracts and review their
+encoding at the assigned gates. No recorded design decision remains pending.
+Implementation authorization and chunk acceptance gates remain separate.
+
+## Design contracts and review status
+
+This section retains the R1–R8 contracts, approval records, rationale, and
+supporting references. R1–R8 are resolved; concrete schema encoding, implementation
+and verification remain work for their owning chunks.
+Use [Unresolved](#unresolved) for the current decision status and
+[Lessons learned](#lessons-learned) for the history of reviews and corrections.
+Neither a recorded approval nor this reorganization authorizes implementation.
+
+| Contract | Implementation owner / verification timing | Approved behavior and tradeoff | Status |
 |---|---|---|---|
-| R1 — Data pipeline and schemas | Shared formats before Chunk 1; normative metadata before 2, local state before 3, reservation/export and creation integration before 4 | Adopt the constrained metadata profile and cross-document checks below. Broader YAML support would preserve more input flexibility but needs a demonstrated validation mechanism. | Constrained YAML, offline-schema approach, and portable creation-decision content approved on 2026-09-14; creation-decision schema and remaining general schema details require adaptation/review; reading-scope schema adapted under R8; tool canaries unexecuted |
-| R2 — Authority and selection | Chunk 2; schema shape in Chunk 1 | Classify the complete source tree before selection; reject ambiguous supersession. This can reject a curated source because of invalid excluded metadata, but avoids silently changing authority. | Source-wide authority validation, no reactivation through exclusion, and blocking broken/ambiguous supersession approved; Constitution is required but may have no promoted rules; R8 scope applies to the placeholder too. Detailed classification/metadata and supported paths remain open |
-| R3 — Identity, topology, approval binding | Shared field implications before Chunk 1; setup/local-state details before 3; Discovery-specific bindings before 4 | Create the original Governance and Product repositories through project creation; retain Product's pinned submodule and interview for Discovery Governance revision with Governance HEAD as default. Retain unaffected answers on resume. | Initial pair creation, independent pins, source/identity rules, guidance, recovery, decision records, reuse of approvals, and registration with ordinary unfinished edits are approved. Constitution must exist but may start empty; premature rules are rejected. Exact guide/metadata representation, pending-adoption details, and persisted schemas remain open |
-| R4 — Allocation | Chunk 4; independent CMPR/GOVP sequences in Chunk 6 | Validate choices before reservation; count reports and consumed reservations. Reserve independent later namespaces. This allows gaps and provides only local coordination. | Allocation after interview approval, no reuse of occupied IDs, gaps, independent sequences, and same-checkout concurrency approved on 2026-09-14; reference-order conflict resolved in favor of approved plan behavior |
+| R1 — Data pipeline and schemas | Shared formats in Chunk 1; normative metadata in 2, local state in 3, reservation/export and creation integration in 4 | Adopt the constrained metadata profile and cross-document checks below. Broader YAML support would preserve more input flexibility but needs a demonstrated validation mechanism. | Constrained YAML, offline-schema approach, and portable creation-decision content approved on 2026-09-14; basic Charter-objective, calendar-date, and paired predecessor/reason validation approved on 2026-09-14; individual creation-decision record structure approved on 2026-09-14; creation-decision reference/selection rules approved on 2026-09-14; per-repository Governance context, `.governed/` layout, and Discovery Report embedding approved; fixed pin/scope and successor requirement approved; in-place scope revisions withdrawn; creation-completion checks approved on 2026-09-15; R1 resolved; concrete schemas require preparation/review; reference reading-scope schema predates the approved ownership/layout adaptation; tool canaries unexecuted |
+| R2 — Authority and selection | Chunk 2; schema shape in Chunk 1 | Classify the complete source tree before selection; reject ambiguous supersession. This can reject a curated source because of invalid excluded metadata, but avoids silently changing authority. | Source-wide authority validation, no reactivation through exclusion, and blocking broken/ambiguous supersession approved; Constitution is required but may have no promoted rules; R8 scope applies to the placeholder too. Content-based classification independent of folder location approved; prompt for missing/ambiguous classification or ignore with a warning approved; minimum Constitution ID/class/title representation approved; detailed supersession checks and initial Git entry/path support boundary approved; R2 resolved, implementation and verification pending |
+| R3 — Identity, topology, approval binding | Shared field implications in Chunk 1; setup/local-state encoding in 3; Discovery-specific bindings in 4 | Create the original Governance and Product repositories through project creation; retain Product's pinned submodule and interview for Discovery Governance revision with Governance HEAD as default. Retain unaffected answers on resume. | Initial pair creation, independent pins, source/identity rules, guidance, recovery, decision records, reuse of approvals, and activation with ordinary unfinished edits are approved. Constitution must exist but may start empty; premature rules are rejected. Project Activation during intentional pending adoption and initial README guidance arrangement approved on 2026-09-15; R3 resolved; persisted schema encoding remains preparation work |
+| R4 — Allocation | Chunk 4; independent CMPR/GOVP sequences in Chunk 6 | Validate choices before reservation; count reports and consumed reservations. Reserve independent later namespaces. This allows gaps and provides only local coordination. | Allocation after interview approval, no reuse of occupied IDs, gaps, independent sequences, and same-checkout concurrency approved on 2026-09-14; reference-order conflict resolved in favor of approved plan behavior; allocation/occupancy, exclusive reservation, bounded retries and Resume/Roll back semantics approved on 2026-09-15; R4 resolved |
 | R5 — Git contracts and packaging gate | Before fixture execution in Chunk 1 and each runtime mutation; installed smoke in Chunk 1 and again by Chunk 4 acceptance | Keep marketplace Git permissions and disposable test setup in root guidance; put initialization permissions in this capability's contract. Require basic installation verification at the first usable increment. | Resolved: Git scope separation, test setup, and first-increment installation gate approved on 2026-09-14; rebundled timing is described in R5; root guidance applied; installation verification unexecuted |
-| R6 — Repeat review and retention | Before Chunk 5 | Preserve human edits and append reviewed report updates; journal finalization; record promotion intentions separately from execution. Specify local Archive mechanics. | Proposed; detailed state contract still required |
-| R7 — Proposal resolution and Product handoff | Proposal details before Chunk 6; code handoff before 7; adoption recovery before 8 | Keep modified proposals pending until revised content is accepted/rejected; perform code promotion in Product context without returning Product knowledge to an isolated investigation. | Proposed; detailed handoff contract still required |
+| R6 — Repeat review and retention | Chunk 5 | Preserve human edits and append reviewed report updates; journal finalization; record promotion intentions separately from execution. Archive closes in place; Report + Delete retains selected evidence before manual removal guidance. | Report context embedding, repeated reviews, in-place Archive and Report + Delete retention contract approved; R6 resolved, implementation/verification pending |
+| R7 — Proposal resolution and Product handoff | Proposal lifecycle in Chunk 6; code handoff in 7; adoption recovery in 8 | Keep modified proposals pending until revised content is accepted/rejected; perform code promotion in Product context without returning Product knowledge to an isolated investigation. | Proposal resolution, separate Product-scoped handoff, coordinated adoption updates and recovery approved on 2026-09-15; R7 resolved |
 | R8 — Common Governance submodules and reading scope | Shared contract in Chunk 1; validation in 2; setup/creation in 3–4; later workflows preserve it | Reuse pinned submodules; enforce Curated scope through agent exclusions over the complete checkout. Native Git checks replace custom Governance hashing. | Approved on 2026-09-14, including locally present excluded files; documentation/reference adaptation authorized; runtime unimplemented |
 
 ### R8 — Approved Governance submodule and reading-scope contract
@@ -322,8 +396,10 @@ all documentation and reference assets. Production execution remains unapproved.
 **Pinned Governance Revision** identifies the exact commit for either repository.
 **Adopted Governance Revision** retains Product's deliberate-adoption and belief-
 in-conformance meaning. A Discovery pin establishes a fixed baseline without
-that claim. Changes to its revision require a successor, preserving the original
-pin, charter, and prior reading decisions.
+that claim. Both the pin and Governance Reading Scope are fixed at creation.
+Changing either requires a Successor Discovery Repo, preserving the predecessor's
+pin, Charter, scope and prior exposure. A successor may use the same Governance
+commit with a different scope; this is a different investigation context.
 
 **Governance Reading Scope** has Full and Curated modes. Full permits artifact
 bodies in the pinned tree subject to Product Access Mode. Neither mode authorizes
@@ -333,9 +409,12 @@ file path. Excluded or unlisted bodies must not enter agent context through file
 reads, searches, Git, links, nested instructions, connectors, summaries, or
 another agent. These are workflow/agent rules; excluded files remain present.
 
-Write `GOVERNANCE-READING-SCOPE.yaml` outside the submodule. Bind it to Discovery
-ID, source identity and commit, `.governance` path, mode, and generating workflow
-identity/version. Record each Curated path's relevance, benefit, reading risk,
+Write `.governed/reading-scope.yaml` outside the submodule. Obtain source identity,
+pin, and submodule location from `.governed/governance.yaml` by convention; the
+Discovery Manifest owns the Discovery ID. The scope record owns its mode, reading
+decisions, and generating workflow provenance. Historical bindings follow the
+approved R1 contract; their concrete encoding remains implementation work.
+Record each Curated path's relevance, benefit, reading risk,
 exclusion risk, and developer decision. Full records an empty decisions list.
 Use exact normalized repository-relative file paths; no globs or implicit directory
 expansion. Validate unique paths, source membership, Constitution coverage, and
@@ -347,19 +426,41 @@ supersession links) for excluded candidates during interviews and authority
 validation. Body exposure cannot be screened by first reading the prohibited body;
 unknown exposure requires developer classification before allowing access. A
 reading exclusion cannot remove obligations or reactivate superseded artifacts.
-Both reading scope and Product Access Mode must permit access. Scope amendments
-need explicit affected choices and rationale; retain the scope used by previous
-reviews and record prior exposure. Instruction edits alone grant no new access.
+Both reading scope and Product Access Mode must permit access. Approved on
+2026-09-14: Governance Reading Scope is part of the investigation's Governance
+context and is fixed at creation. Adding or removing permitted paths, or changing
+Full/Curated mode, requires a Successor Discovery Repo even at the same commit.
+There is no in-place scope-amendment workflow. Scope differences do not change
+artifact authority or remove obligations, but they change the Governance context
+under which the agent investigates. Instruction edits alone grant no new access.
 
 Git supplies the pinned commit and change detection. Check manifest/scope/source
 agreement, parent HEAD and index links, checkout commit, and modified, untracked,
 or ignored submodule contents. Preserve and surface discrepancies. There is no
 custom Governance content inventory, duplicate hashing format, or copy builder.
 Contract Exports still require their own approved paths and source/file provenance
-under `.contracts/`; they are not stored in the read-only submodule.
+under `.governed/contracts/`; they are not stored in the read-only submodule.
+
+**Task-bound responsibility clarified on 2026-09-14:** the agent scaffolds the
+Discovery Repo, conducts the requested investigation under its approved context,
+and reports the results. It does not continuously monitor the repository or
+police end-user actions. No watcher, background service, periodic drift scan,
+or guarantee of detecting every external change belongs to this capability.
+
+Existing validation is bounded to the inputs and outputs of the requested
+workflow: verify the scaffold the agent creates and the context needed for its
+own permitted work. Reading-scope rules govern the agent's access; they are not
+an enforcement mechanism against repository owners. Do not introduce extra
+monitoring checkpoints merely to detect hypothetical user interference.
+If relevant contradictory state is encountered during ordinary task execution,
+report its effect on the investigation and avoid unsupported conclusions or
+silently treating it as new approval. An inconclusive or interrupted investigation
+can still produce a Discovery Report with limitations; discrepancy handling must
+not prohibit reporting what is actually known. Exact recovery remains bounded by
+the existing workflow contract and authorization.
 
 Apply consuming-repository checks to the workflow's actual subject: Discovery's
-own submodule during creation, and Product's during explicit Product setup or
+own submodule during creation, and Product's during explicit Project Activation or
 adoption. They are not a mandate to inspect both consumers during either workflow.
 
 Native submodule initialization needs `.gitmodules`, a staged Governance Git link,
@@ -392,30 +493,86 @@ only. Validate schemas and instances offline, using the validator's bundled
 Draft 2020-12 support and explicit format assertions. Reject external references
 before resolution; do not fetch schema URLs from instance data. This restriction
 was approved during the guided review on 2026-09-14; it is a production design
-choice, not an existing handoff requirement. The general schema details below remain proposed until the Chunk 1 scope review;
-R8 separately approves the reading-scope representation.
+choice, not an existing handoff requirement. The three basic validation rules
+below are approved; concrete schema encoding remains preparation work. R8
+separately approves the reading-scope representation.
 
-Add required `discovery_repo.objective` for the Charter, separate from
-`framing.objective`. Add asserted `format: date` to `created_at`; require both
-predecessor/reason values to be null or both populated. Keep pre-production
-schema version `1.0`; no migration is required. Validate semantic agreement of
-Discovery ID, Governance identity and exact lowercase commit, artifact selection,
-submodule/scope-record paths, and generating workflow identity/version across
-manifest, reading record, reservation, and generated instruction metadata. Later plugin upgrades must not compare
-old provenance against the currently installed version or rewrite owned files.
+**Basic manifest validation approved on 2026-09-14:**
+
+- Require `discovery_repo.objective` for the Discovery Charter, distinct from
+  its research question and `framing.objective`.
+- Validate `created_at` as a real calendar date, using asserted `format: date`
+  in addition to its existing date-shape check.
+- Require `derived_from` and `successor_reason` to be either both null or both
+  populated; a predecessor requires a reason and a reason requires a predecessor.
+
+Carry these rules into the production schema/template and Chunk 1 validation
+cases. This approval does not change the protected reference assets or execute
+schema tests.
+
+Keep pre-production schema version `1.0`; no migration is required. The earlier
+proposal to repeat and compare current Governance fields across every record is
+superseded by `.governed/governance.yaml` ownership. Complete the validation
+contract around that record, the actual pinned submodule, approved creation
+inputs, and references to historical scope. Do not require independent artifact
+generation events to have identical workflow versions. Later plugin upgrades
+must not compare old provenance against the currently installed version or
+rewrite repository-owned files. The creation-completion contract below governs failure/consistency handling;
+the superseded duplication proposal is not a default.
 
 Adapt the production Discovery Manifest schema/template to carry the approved
 [portable creation-decision record](#approved-portable-creation-decision-record)
-under R3. Define its structured fields in the Chunk 1 schema review. Validation
+under R3 using the individual-record structure approved below. Finalize exact field types in the Chunk 1 schema review, preserving the approved reference/selection rules below. Validation
 must bind approvals to the actual approved values and relevant input revisions,
 not merely to field names whose values may later change. At creation, final
 approved choices must agree with the manifest and referenced reading-scope record;
 clearly identified superseded choices remain historical and may differ. Validate
 approval dates and references, preserve provided rationale without inventing it,
 and reject workstation paths or local recovery data in the portable record.
-Reading-scope amendments must preserve the creation record's original context
-under R8. This schema work is planned; the reference schema has not been changed
+The creation record and approved scope remain fixed after creation under R8;
+changed Governance context belongs to a Successor Discovery Repo. This schema work is planned; the reference schema has not been changed
 to implement the newly approved record.
+
+**Individual creation-decision structure approved on 2026-09-14:** store a list
+of individual decision records inside the Discovery Manifest. Each record carries:
+
+- A stable decision ID and subject.
+- The actual approved value.
+- Relevant inputs and revisions considered for that approval.
+- The approval date and rationale when the developer supplied one.
+- A reference to any earlier decision it replaces.
+- Relevant prior exposure, when applicable.
+
+Retain superseded records. For example, changing Product access from Full-reference
+to Isolated preserves both decisions and any relevant prior Product exposure;
+the later restriction cannot erase knowledge already acquired. Per-file reading
+choices remain in the referenced reading-scope record, without duplicating its
+full list in the manifest. This structure implements the previously approved
+portable history policy; it grants no new access or permission to change a pin.
+
+Accepted tradeoff: focused decision history requires validation to identify the
+final applicable decision for each subject. Reference/selection behavior is now
+approved below; exact field types remain implementation work for Chunk 1 review. No claim of complete
+schema approval or runtime validation follows from these decisions.
+
+**Creation-decision reference and selection rules approved on 2026-09-14:**
+
+- A replacement explicitly references the earlier decision about the same subject.
+- Approval records identify the actual inputs considered, including relevant
+  revisions and other decision IDs.
+- Creation requires one applicable approved decision for each required subject.
+- Missing references, replacement cycles, or competing decisions block creation
+  until clarified. Dates and list order cannot resolve ambiguity.
+
+For example, conflicting Product-access approvals without a replacement link
+require clarification. An explicit replacement preserves the earlier record and
+identifies which approval applies, subject to its input bindings remaining valid.
+Apply R3's approved resumption behavior when inputs change; retain applicable
+answers and revisit affected decisions. This does not authorize automatic repair
+or erase prior exposure. The accepted tradeoff is stricter consistency checking
+and occasional clarification when records conflict. Exact schema representation
+and concrete cross-document checks implement the approved creation-completion
+contract below.
 
 Preserve the marketplace mapping explicitly: provenance `Beeline-Technologies`,
 catalog name `beeline-technologies`, display name `Beeline Technologies`. They
@@ -431,34 +588,173 @@ Chunk 1 canaries must exercise nested/escaped duplicate keys, a second YAML
 document, forbidden YAML features, invalid leap dates, unavailable external
 references, and safe string round-trips. The selected tools have not been
 installed or behavior-tested here. Record exact tested binary versions during
-authorized implementation. General schema adaptations, such as Charter objective
-and calendar-date assertions, remain separate R1 review items.
+authorized implementation. The basic validation rules above are settled; portable
+creation-decision field types, remaining schema encoding, and cross-document
+checks remain implementation preparation under the approved R1 contract.
 
-### R2 — Proposed source classification and coverage
+### Fixed Discovery Governance context — approved
+
+Approved on 2026-09-14: the Pinned Governance Revision and Governance Reading
+Scope together define the Discovery Repo's Governance context. Both are fixed
+when the Discovery Repo is created. A different reading scope is a different
+Governance context for the investigation, including when its source commit is
+unchanged. Changing either requires a Successor Discovery Repo with a new
+Discovery ID, approved Charter/context, predecessor ID and reason.
+
+Example: DISC-0042 uses G1 and may read the Constitution and retry Specification.
+To additionally read the timeout Specification at G1, create DISC-0043 with that
+expanded scope and DISC-0042 as predecessor. DISC-0042 retains its original scope.
+Narrowing permitted reads also requires a successor; retain relevant prior
+exposure rather than claiming a new repository erases knowledge already acquired.
+
+The proposed current-scope pointer and list of scope revisions inside one
+Discovery Repo are withdrawn. `.governed/reading-scope.yaml` holds that Repo's
+single approved scope. Interview choices can still change before creation under
+the approved resumption rules; they do not authorize post-creation changes.
+Unexpected scope edits must not be treated as new approval or used to broaden
+reads. Preserve and surface the discrepancy; the fixed-context contract governs
+recovery and successor guidance. A changed pin or scope does not silently create
+a successor or authorize its creation.
+
+The remainder of the earlier consolidated R1 proposal was not approved wholesale.
+The subsequent creation-completion approval below settles the remaining
+consistency/failure behavior against this simpler model. Routine field encoding
+remains preparation work. The protected handoff's
+scope-amendment wording is superseded for production by this plan and glossary;
+reference files remain unchanged and require explicit reconciliation if maintained.
+
+### Creation-completion consistency contract — approved
+
+Approved on 2026-09-15: before reporting successful creation, verify the scaffold
+produced by the agent against the approved interview and its own operation records:
+
+- The Discovery Manifest contains the reserved Discovery ID and approved Charter.
+- `.governed/governance.yaml` identifies the approved Governance source and pin.
+- The created Governance submodule actually contains that exact revision.
+- The reading-scope record contains the approved reading choices.
+- Creation-decision records describe the actual approved inputs and resolve their
+  required references under the already approved decision-selection rules.
+
+A failed check means creation is incomplete. Explain the failed check and follow
+the approved Resume/Roll back process; do not invent approval or silently change
+choices to make validation pass. R4 preserves reservation ownership and consumed
+IDs during that recovery. Do not claim successful creation until required checks pass.
+
+This is validation of the agent's own creation work, not ongoing drift monitoring
+or policing of end-user actions. Relevant contradictory state encountered during
+an investigation is explained and reflected in report limitations, consistent
+with the task-bound responsibility already approved. No periodic audit, automatic
+repair or new approval framework follows from this decision. R1 is resolved;
+concrete schema encoding and executable checks remain implementation work.
+
+### Approved Discovery Report context embedding
+
+Approved on 2026-09-14: embed important historical context directly in the
+Discovery Report. This approval applies specifically to Discovery Reports;
+it does not settle the representation of every other historical record.
+
+Preserve the Discovery ID, Governance source identity and exact Pinned Governance
+Revision, Discovery Charter, Product Access Mode, and Governance Reading Scope
+and relevant prior exposure used for the reported review. Existing report
+requirements for Findings, Conformance Proofs, limitations and disposition remain.
+Include the scope's approved path decisions and their recorded rationale in the
+report or retain detailed supporting scope material durably in Governance; a
+link solely into the disposable Discovery Repo cannot preserve that context.
+Exact report formatting remains part of the R6 report contract.
+
+The report's embedded context describes the investigation as reviewed, even if
+Product later adopts another revision or the Discovery Repo is removed under
+Report + Delete. It must remain understandable without the removed repository's
+`.governed/governance.yaml`, reading-scope record, or workstation configuration.
+Preserve earlier review context when a later review is added. Recording a commit
+identifier does not itself guarantee continued access to that Git commit or to
+referenced Conformance Proofs; retention must account for those separately.
+
+This is historical provenance, not another editable source of current Governance
+context. The repository's current local consumers continue to use its own
+`.governed/governance.yaml` by convention. Chunk 5 owns report generation and
+retention verification. No source template or production implementation is changed
+by this approval.
+
+### R2 — Approved source classification and coverage
 
 Approved on 2026-09-14: validate authority across the entire selected Governance
 commit before selection; exclusion cannot reactivate a superseded artifact.
 Broken or ambiguous supersession blocks creation even for excluded artifacts.
-The detailed classification, coverage, and exposure rules below remain proposals
-where they extend beyond that approved rule.
+The subsequent classification, fallback, Constitution, supersession and initial
+source-entry decisions below are approved. R2 is resolved; implementing and
+verifying its contract remain work for the owning chunks.
 
 Enumerate the entire selected Git commit before curation, including committed
-reservation metadata and unknown/supporting files. Use the source's normative
-directories (`constitution/`, `policies/`, `specs/`, `adr/`) and validated
-frontmatter; classify other content as non-normative supporting material, with
-operational instructions explicitly distinguished. Approved on 2026-09-14:
+reservation metadata and unknown/supporting files. Approved on 2026-09-14:
+classify Governance authority from artifact content, independently of directory
+location. Folder structure is a human organizational convenience, not an authority
+signal or a prerequisite for normative status. Withdraw the proposed mandatory
+class/directory agreement and the rule that artifacts outside designated folders
+are necessarily non-normative. Use explicit identifying content where available;
+concrete metadata encoding remains implementation work under R1/R2. Missing/ambiguous classification
+follows the approved prompt-or-ignore rule below. Operational instructions remain distinct from normative artifacts. Approved on 2026-09-14:
 require at least one valid Constitution artifact, while accepting an initial
 placeholder containing no constitutional rules. Existence and identifying
 metadata are distinct from substantive requirements; do not require starter
-clauses to pass validation. Detailed metadata representation remains under R1/R2
-review. A missing or malformed artifact is not an empty valid Constitution.
-Surface ambiguous class/path or missing required metadata in artifacts
-instead of inferring authority from prose or filename alone.
+clauses to pass validation. The minimum Constitution representation is approved
+below; translating it into the production schema/template is implementation work. A missing or malformed artifact is not an empty valid Constitution.
+Surface ambiguous or missing authority declarations; paths and filenames cannot
+resolve them. Content-based classification must still respect Governance Reading
+Scope: minimal identifying metadata may be inspected before selection, while
+excluded artifact bodies must not be read to infer their class. The user may need
+to classify an artifact when permitted identifying content is insufficient.
 
-Build the normative ID/supersession graph source-wide. Reject duplicate IDs,
-missing targets, self-links, cycles, and cross-level supersession links. For competing
-successors, require a unique descendant resolving the branches; otherwise surface
-the ambiguity. Preserve superseded status even when a superseder is excluded.
+**Minimum Constitution representation approved on 2026-09-14:** require a unique
+artifact ID, an explicit `class: constitution`, and a title in identifying
+frontmatter. A document heading may accompany these fields; no substantive
+constitutional rules are required. Location does not establish its authority.
+
+```markdown
+---
+id: CONST-0001
+class: constitution
+title: Project Constitution
+---
+
+# Project Constitution
+```
+
+The ID and title above are illustrative, not mandatory literal values or a new
+required ID prefix. Generate a unique artifact ID and appropriate title. Keep
+setup/promotion guidance in separate non-normative material; do not add starter
+principles, sample rules or TODO requirements to make the placeholder seem full.
+A missing artifact or invalid required identifying content does not satisfy the
+required Constitution. General classification fallback still applies to other
+unclassified material and cannot waive this existence requirement.
+
+**Missing/ambiguous authority classification approved on 2026-09-14:** prompt the
+user to classify the artifact. Recommend a class from permitted content when
+there is sufficient context; a recommendation is not itself a classification.
+If classification is declined or remains unavailable, ignore the artifact as a
+source of normative requirements and warn the user. Name the artifact, explain
+that its authority could not be established, and identify the resulting limitation
+on the investigation. Do not silently classify it, assert that it has no actual
+requirements, or treat the omission as proof of complete Governance coverage.
+
+This is an authorized fallback, not permission to read excluded bodies, delete
+files, rewrite the pinned Governance source, or waive known requirements. Retain
+the classification outcome/omission in creation context and relevant Discovery
+Report limitations. A human classification applies to the exact artifact at the
+selected commit. The record's mechanical encoding remains schema preparation.
+The required valid Constitution must still be present; ignoring the only candidate
+does not satisfy that requirement. Existing explicit authority and supersession
+conflicts retain their separately reviewed handling.
+
+**Detailed Supersession checks approved on 2026-09-14:** build the normative
+ID/supersession graph source-wide. Duplicate artifact IDs require correction or
+clarification. Missing targets require resolution. Reject self-links, cycles and
+cross-authority-level supersession. Competing replacements require an explicit
+relationship establishing which applies, or a later same-level artifact replacing
+both; do not choose by date, filename, folder, or reading exclusion. These explicit
+relationship problems are not resolved by the prompt-or-ignore fallback for
+unclassified material. Surface them during source preparation without silently
+repairing the pinned source. Preserve superseded status even when a superseder is excluded.
 Derive the source-wide ID/class/relationship index from minimal metadata at the
 pinned commit. This validation does not grant access to excluded artifact bodies
 or require a duplicate provenance database.
@@ -470,12 +766,20 @@ tree only with compatible Product access. Grouping for display cannot conceal
 individual Curated choices. Unknown exposure is resolved by the developer before
 body reading. R8 and source Decision 20 define the agent reading boundary.
 
-The initial implementation proposes rejecting unsupported symlinks, nested
-Git links, unsafe paths, and filesystem name collisions before initialization.
-This avoids bypassing reading permissions through indirection. Detailed authority
-classification and these supported-entry limits remain Chunk 2 review items.
+**Initial file-support boundary approved on 2026-09-14:** support ordinary tracked
+files in any directory, including names containing spaces or Unicode. Reject
+Governance sources containing symbolic links or nested Git submodules, even if
+those entries would be excluded from reading. Reject paths that escape the
+checkout and names that collide on the target filesystem, such as Policy.md and
+policy.md on a case-insensitive filesystem. Explain the unsupported entry during
+source preparation without following it, renaming it, or removing it.
 
-### R3 — Proposed identity, topology, and resumed choices
+This concerns entries inside the Governance source; it permits the consuming
+Discovery Repo's own `.governance/` submodule. The accepted tradeoff is predictable
+source handling at the cost of requiring preparation for repositories containing
+unsupported entries. It introduces no ongoing repository monitoring.
+
+### R3 — Approved identity, topology, and resumed choices
 
 User clarification, 2026-09-14: initial project creation establishes Governance
 at its first commit and Product's submodule points to that same commit. Governance
@@ -495,7 +799,7 @@ supported state, not an inconsistency requiring repair.
 
 **Discovery creation is independent of Product adoption.** The user's
 2026-09-14 correction identified an erroneous dependency in the pending-adoption
-proposal below. For an already registered project, use the confirmed local
+proposal below. For an already connected project, use the confirmed local
 project/Governance configuration and validate the selected original Governance
 source directly. Do not revalidate Product's HEAD/index/submodule, require
 adoption intent, report its pending state, or wait for a Product commit merely
@@ -508,26 +812,26 @@ and metadata. Product state is relevant only to an explicitly selected input,
 such as a permitted comparison or Contract Export; validate that input's own
 source/provenance, not Product's general adoption readiness. Permission to use
 Full-reference access does not itself require scanning Product. First-time
-project creation/registration retains its separately reviewed contract; Discovery
+Project Setup and Project Activation retain their separately reviewed contracts; Discovery
 does not silently rerun that operation on every request.
 
 Scope resolved by the user on 2026-09-14: the agent's project-creation workflow
 creates both initial repositories and their relationship. It is not merely a
-registration workflow for an externally prepared pair. Discovery Repo creation
+activation workflow for an externally prepared pair. Discovery Repo creation
 is a separate internal workflow invoked on demand through the same public router.
-The plan's earlier registration-only assumption is withdrawn. Git initialization
+The plan's earlier activation-only assumption is withdrawn. Git initialization
 permissions are approved under the narrow R5 exception; initial Governance content
-must be specified before Chunk 3, with its metadata representation validated in
-Chunk 2. Recovery is approved below. Existing-project registration remains
+follows the approved R2/R3 contracts, with metadata validation in Chunk 2 and
+concrete setup guidance in Chunk 3. Recovery is approved below. Project Activation remains
 available without modifying history or advancing the pin.
 
 Approved on 2026-09-14: confirm a credential-free logical Governance identity
-once during Project Setup. Use a canonical repository URL when established, or
+during Project Setup or Project Activation. Use a canonical repository URL when established, or
 a developer-confirmed stable identifier (represented as a URN) for a local-only
 repository. Record this identity in provenance; keep workstation checkout paths
 in local configuration. Moving a checkout does not change its identity. Do not
 invent a remote or treat a shared commit alone as proof of repository identity.
-Another workstation confirms the same identity during its own setup. The approved
+Another workstation confirms the same identity during Project Activation. The approved
 retrieval rule below separately establishes where Git obtains that repository.
 
 #### Approved Governance retrieval and user guidance
@@ -555,7 +859,7 @@ If no portable URL or acceptable relative layout can be confirmed, surface the
 missing source arrangement before creation rather than recording a machine path,
 inventing a remote, or treating a logical URN as a clone URL. A new workstation
 must have an available copy of the retained commit and may need an explicit local
-override; registration still preserves existing Git state under R5. Do not claim
+override; activation still preserves existing Git state under R5. Do not claim
 that verifying a local source proves the portable URL serves the commit. Any
 needed existing-repository repair or remote access remains separately directed.
 
@@ -614,8 +918,8 @@ the entire Governance promotion workflow; this capability's report, proposal,
 resolution, and adoption contracts supply those steps.
 
 The following content direction is established. The required-but-possibly-empty
-Constitution rule is approved below; exact guide layout and metadata representation
-remain under review:
+Constitution rule is approved below and its minimum ID/class/title representation
+is settled in R2; the README guidance arrangement is approved below:
 
 1. **Orient:** explain what is known, what remains uncertain, and where existing
    authoritative requirements come from. Preserve any genuinely established
@@ -650,7 +954,7 @@ other offline behavior unresolved. There is no automatic promotion to a blanket
 constitutional rule. Existing externally established requirements need their
 source and scope understood, not an invented experiment to make them binding.
 
-Recommended artifact arrangement, still proposed: put a short non-normative
+Approved on 2026-09-15: put a short non-normative
 "Start here" guide in Governance's `README.md`, reached from the generated role
 instructions. It should explain each next step in ordinary language, name the
 artifact it produces, and link to available local material and the single public
@@ -671,12 +975,12 @@ Constitution artifact.
 
 "Empty" means no constitutional rules have yet been established. Identification
 metadata and a document heading may identify the artifact without supplying
-rules; the exact schema/template form remains R1/R2 work. Keep explanatory
+rules; R2 specifies the approved ID/class/title representation. Production schema/template adaptation remains implementation work. Keep explanatory
 promotion guidance in the non-normative guide and role instructions. Do not add
 sample principles, TODO requirements, or getting-started advice as constitutional
 clauses. A missing file, malformed required metadata, or unexplained change to
 previously populated content is not silently accepted as an initial placeholder.
-Existing-project registration must not repair those states by replacing content.
+Project Activation must not repair those states by replacing content.
 
 R8 still requires Full/Curated coverage of the Constitution path, even while
 empty, and the complete submodule stays pinned. The creation record and summary
@@ -697,33 +1001,33 @@ report automation arrives in Chunk 5 and proposal/resolution automation in Chunk
 6. The guide must distinguish documented manual review steps from available
 handlers and never claim unavailable automation completed. Guidance does not
 authorize starting later chunks or modifying normative files automatically. Any
-change to milestone scope must be explicit. Exact starting-artifact and bootstrap
-representation choices remain open rather than silently expanding the first
-increment.
+change to milestone scope must be explicit. The initial README guide and minimal
+Constitution arrangement are approved. Producing their concrete template wording
+is implementation work within those constraints, not an open R3 design decision.
 
 #### Existing-project and pending-adoption details
 
-Approved on 2026-09-14: permit registration with ordinary uncommitted edits
+Approved on 2026-09-14: permit activation with ordinary uncommitted edits
 outside the read-only Governance submodule when identity, paths, and the relevant
 Git relationship validate. For example, an edited Product README does not by
-itself require cleanup before registration. Report that existing work and preserve
-it; registration is not an assessment of those edits or of Product conformance.
+itself require cleanup before activation. Report that existing work and preserve
+it; activation is not an assessment of those edits or of Product conformance.
 Unresolved Git conflicts, modified consuming Governance contents, and unexplained
-relationship/pin discrepancies require diagnosis before registration completes.
-The pending-adoption state below remains a separate case to finalize. This policy
+relationship/pin discrepancies require diagnosis before activation completes.
+The pending-adoption state below was separately approved on 2026-09-15. This policy
 avoids unnecessary interruption of normal work while requiring checks to identify
 the actual source of a discrepancy instead of treating every edit the same way.
 
 Use the original writable Governance checkout outside Product, distinct from
 Product's and Discovery's read-only Governance submodules. Verify logical
-identity and commit availability. Existing-project registration preserves dirty
+identity and commit availability. Project Activation preserves dirty
 files and never stages or repairs the relationship automatically. Record three observations separately: Product HEAD gitlink,
 Product index gitlink, and checked-out submodule commit.
 
-**R3 pending Product adoption (proposed, Product-scoped):** permit explicit
-existing-project registration while an approved Product adoption is applied
+**R3 pending Product adoption (approved on 2026-09-15, Activation-scoped):** permit explicit
+Project Activation while an approved Product adoption is applied
 locally but not yet committed. Show the saved Product revision and the pending
-revision separately and preserve both. This proposal concerns registration and
+revision separately and preserve both. This approved allowance concerns Project Activation and
 Product-side adoption handling only. Its earlier extension to Discovery creation
 was incorrect and is withdrawn; Discovery requires no pending-adoption check.
 
@@ -734,7 +1038,7 @@ An operation record or explicit developer confirmation must establish adoption
 intent; differing commits alone do not prove an approved adoption occurred.
 Require the expected source identity, exact commits, and clean submodule contents.
 
-| Product HEAD link | Product index link | Submodule checkout | Proposed interpretation |
+| Product HEAD link | Product index link | Submodule checkout | Approved interpretation |
 |---|---|---|---|
 | G1 | G1 | G1 | Committed baseline; no pending pin change |
 | G1 | G1 | G2 | Approved adoption applied locally and unstaged; pending commit |
@@ -747,14 +1051,15 @@ combinations, unverified intent, or modified submodule files require diagnosis
 instead of automatic repair or a guessed state. A completed Git commit alone
 is not conformance proof. Unrelated index conflicts remain diagnostic failures.
 
-In an explicit Product setup/adoption workflow, explain: "Product's saved revision
+In an explicit Project Activation/adoption workflow, explain: "Product's saved revision
 is G1. Your approved update to G2 is present locally but hasn't been committed."
-The proposed tradeoff is permitting registration while making that provisional
-Product state visible. Test adoption followed by explicit registration in Chunk
+The accepted tradeoff is permitting activation while making that provisional
+Product state visible. Test adoption followed by explicit activation in Chunk
 8; establish the Product state interpretation with synthetic inputs in Chunk 3.
 Separately verify that Discovery creation does not consult this state or depend
-on its verification. Pending-adoption recovery remains R7 work, and the
-Product-scoped proposal remains unapproved.
+on its verification. Activation recognition and R7's adoption-execution/recovery
+contract are separately approved; Chunk 8 implements the latter. Neither approval
+performs adoption or certifies Product conformance.
 
 #### Approved interview resumption
 
@@ -788,9 +1093,11 @@ the resumption behavior. It does not permit changing an existing Discovery pin.
 
 Approved on 2026-09-14: retain creation decisions and their approval context in
 the Discovery Manifest after successful creation, so they remain understandable
-on another workstation and during later Discovery Reviews. The manifest already
-records the selected Governance revision, charter, framing, and Product access;
-the new record explains the basis and approval of those choices.
+on another workstation and during later Discovery Reviews. The Discovery Manifest
+records the Charter, framing and Product access, and obtains current Governance
+context from that repository's `.governed/governance.yaml` by convention.
+Creation-decision records preserve the actual approved values and input revisions
+as historical provenance; they do not duplicate ownership of current Governance context.
 
 - Preserve developer-approved choices, the relevant inputs/revisions considered,
   the approval date, and rationale when provided. Do not invent a reason or
@@ -798,9 +1105,9 @@ the new record explains the basis and approval of those choices.
 - Retain material revisions to those choices, their recorded reasons, and any
   relevant prior exposure. Distinguish superseded choices from the final approved
   creation state; a later access choice cannot erase earlier exposure.
-- Reference `GOVERNANCE-READING-SCOPE.yaml` for detailed per-path decisions rather
+- Reference `.governed/reading-scope.yaml` for detailed per-path decisions rather
   than copying that full list into the manifest. Preserve the scope context used
-  at creation if an approved later amendment occurs, as required by R8.
+  at creation for the lifetime of this Discovery Repo; changes require a successor under R8.
 - Use portable project/source identities, exact commits, and repository-relative
   artifact references. Keep workstation paths, failed commands, local session
   details, and cleanup progress in local interview/operation records. The
@@ -821,7 +1128,7 @@ exchange for durable decision provenance. Keep the addition within the existing
 manifest and reading-scope artifacts; no new top-level file or lifecycle database
 is needed. R1 owns the shared manifest schema/template adaptation in Chunk 1; Chunk 3 owns
 local interview bindings; Chunk 4 owns generation from that approved interview,
-complete cross-document validation, and preservation after successful creation. Exact field structure remains to be reviewed with R1.
+complete cross-document validation, and preservation after successful creation. R1 records the approved individual-record structure and reference/selection rules; exact field types remain implementation work for Chunk 1 review.
 
 #### Approved setup recovery and troubleshooting
 
@@ -891,20 +1198,55 @@ failure during cleanup. Examples must connect the observed symptom to evidence,
 a fix or diagnostic next step, and the appropriate recovery action. Runtime
 recovery behavior and these diagnostics remain unimplemented during this review.
 
-### R4 — Proposed allocation and recovery
+#### Approved local operation journal lifecycle
+
+Approved on 2026-09-15: the Governed Development skill's workflow helpers own
+journal creation, updates, completion and requested cleanup. The agent invokes
+these helpers during requested operations; no background service or manual journal
+editing is required. Journals live at `<data-root>/operations/<operation-id>.json`,
+with the existing data-root precedence: explicit `--data-dir`, supplied `PLUGIN_DATA`,
+then `${XDG_DATA_HOME:-$HOME/.local/share}/beeline-technologies/governed-exploratory-development`.
+Local `projects.yaml` and interview `sessions/` share that data root. None belong
+inside Product, Governance, Discovery Repos or the installed plugin directory.
+
+- Before side effects, create the journal with approved inputs and owned resources.
+- Update it as operation steps complete; reconcile actual state on interruption.
+- Retain recovery information for failed/interrupted operations until recovery or
+  explicit abandonment. Do not automatically expire unfinished work.
+- On successful completion or completed rollback, remove temporary recovery
+  payloads and retain a compact outcome record with useful diagnostics.
+- Retain completed outcome records until explicit user-requested cleanup. Cleanup
+  removes only completed records; unfinished operations require explicit abandonment.
+  Abandoning bookkeeping does not itself undo or authorize deletion of project files.
+
+Repository manifests and Discovery Reports retain durable decisions, provenance
+and findings independently of these local records. A journal is operation recovery
+bookkeeping, not another authoritative Governance context record. Journal lifecycle
+and coordinated adoption updates/recovery are separately approved under R3 and R7.
+Concrete schema encoding and lifecycle helpers remain implementation work.
+
+### R4 — Approved allocation and recovery
 
 Approved on 2026-09-14: allocate only after the creation interview is approved;
 existing reports and failed reserved attempts keep their IDs occupied, permitting
 gaps but no reuse. Comparisons and proposals have independent sequences. Concurrent
-allocation protection applies to the same Governance checkout. Detailed storage,
-retry, and recovery mechanisms below remain implementation proposals.
+allocation protection applies to the same Governance checkout. The allocation,
+occupancy and recovery contract below was approved on 2026-09-15. Concrete
+encoding and retry tuning remain implementation work; R4 is resolved.
 
 After approved inputs validate, allocate one greater than the maximum occupied
 numeric suffix, padded to at least four digits. Occupancy includes committed,
 indexed and working-tree reports plus reservations in the registered Governance
 checkout. A missing reservation does not make an existing report ID available.
 Treat alternate spellings of the same numeric ID as a collision; malformed
-reservation contents never free its filename. Preserve consumed failed IDs.
+reservation contents never free its filename. Report malformed reservations and
+preserve them without overwrite. Preserve consumed failed IDs.
+
+Resume verifies and continues the same creation attempt using its reserved ID;
+it does not allocate another ID merely because creation was interrupted. Roll back
+removes only eligible operation-owned partial artifacts under the approved recovery
+contract and retains the consumed reservation. A new independent attempt allocates
+a new ID. Detect reservation ownership conflicts without overwriting another attempt.
 
 Use atomic exclusive reservations with bounded collision retries (initially 20,
 then safe failure). Recheck destination and report occupancy before finalization.
@@ -977,27 +1319,115 @@ installation or verification has occurred during this review.
 
 ### Later-chunk prerequisites
 
-Before Chunk 5, specify repeated-review report revisions, human-edit preservation,
-cancellation, interrupted durable writes, and local Archive mechanics, including
-continued access to the pinned Governance commit. Recommend
-one durable Discovery Report per Discovery ID with append-only review sections;
-detect concurrent edits rather than overwriting them. Generate and surface the
-report before recording Discovery Disposition choices, then preserve those choices
-in the report and applicable manifest status. Recover a report/manifest mismatch
-through an operation journal.
-Keep Active remains active. Record promotion intentions as selected, declined,
-or deferred; Chunk 5 must not claim Chunks 6–8 handlers have executed.
+**R6 repeated-review contract approved on 2026-09-15:** keep one durable Discovery
+Report per Discovery ID, with a new dated section for each Discovery Review under
+that Repo's fixed Governance context. Preserve earlier review sections and human
+edits. Record changed conclusions explicitly, with their supporting Conformance
+Proofs; do not silently rewrite earlier findings to match the latest result.
 
-Before Chunk 6, specify revised-proposal review before accepted/rejected
-resolution, retaining rationale. Before Chunk 7, define a Product-context
-code-promotion handoff
-that preserves source provenance and access history; promotion does not authorize
-Product inspection from an ongoing isolated Discovery Repo context. Avoid feeding
-Product-derived findings back into that investigation. The handoff mechanism
-requires an explicit contract before Chunk 7;
-pending-adoption recovery requires its own reviewed contract before Chunk 8.
+Generate and surface each review before asking for independent Discovery
+Disposition choices, then record those choices in the report and applicable
+manifest status. Before writing, check for changes since the report was read and
+reconcile rather than overwrite. This is a task-bound write check, not monitoring.
+Use the operation journal to reconcile interrupted report/manifest transitions;
+retain completed writes, avoid duplicate review sections, and never falsely close
+the Discovery Repo. Cancelling a review does not itself change disposition or
+delete existing report content. Keep Active remains active. Record promotion
+intentions as selected, declined or deferred without claiming unavailable later
+handlers have executed. Accepted tradeoff: the report grows while retaining the
+history of findings, corrections and decisions.
 
-The exact Shimmy Product bootstrap contract remains a prerequisite for approving Chunk 9, not a blocker for the first increment.
+**R6 Archive contract approved on 2026-09-15:** Archive closes the investigation
+and retains the Discovery Repo at its existing location. Record the Archive
+choice in the Discovery Report and mark the Discovery Manifest closed. Retain
+code, uncommitted work, Git history and access to the pinned Governance commit.
+Do not move or compress the repository, change permissions, or create a commit.
+Use the approved report/manifest recovery handling; report incomplete closure
+when the paired updates cannot finish consistently. Archive means retained but
+no longer active, not creation of an archive file.
+
+**R6 Report + Delete contract approved on 2026-09-15:** preserve the Discovery
+Report, important historical Governance context and supporting Conformance Proofs
+needed to understand its findings. Show the developer what will be retained and
+what will be lost; confirm the retention selection. Retain selected supporting
+material in Governance and update the report's references. A typical arrangement
+is `discoveries/DISC-0042.md` with supporting files in `discoveries/DISC-0042/`.
+
+Record Report + Delete and close the Discovery Manifest only after required
+retention work succeeds. If copying or reference updates fail, preserve existing
+material and report incomplete retention; do not claim closure or readiness for
+removal. Record omitted or unavailable evidence as report limitations. Retention
+need not include the entire implementation, and no complete-conformance claim
+follows from selecting a subset of supporting material.
+
+After successful retention, provide instructions for the user to remove the
+Discovery Repo manually. The agent does not delete it or claim deletion occurred.
+The source repository may remain physically present with a closed status pending
+manual removal. Apply existing interrupted-write/recovery rules without duplicate
+report sections or loss of previously retained material. Keep Active retains
+active status. All retention choices remain independent of both promotions.
+R6 is resolved; these design approvals do not authorize executing implementation.
+
+**R7 Governance Proposal resolution approved on 2026-09-15:** Modify revises the
+proposal and surfaces the resulting wording; it remains pending until explicit
+acceptance or rejection of that version. Accept records acceptance of the reviewed
+wording, authorizes separate normative edits and requires a Product Impact
+Assessment. The proposal remains non-normative. Reject retains the proposal and
+supplied rejection reason in resolved records.
+
+Preserve material revisions and supplied rationale. Changed proposal wording
+cannot silently inherit acceptance of an earlier version. Explicit combined
+instructions such as "change five retries to three and accept it" may authorize
+both steps when the resulting change is unambiguous. This does not authorize
+unrelated changes or infer Product Governance Adoption. Reuse the existing
+conflict-aware writing and operation journal for interruption/retry handling;
+never mark an unresolved modification accepted merely to complete the operation.
+
+**R7 Product-scoped promotion handoff approved on 2026-09-15:** conduct Discovery
+Code Promotion in a separate Product-scoped work session. Handoff the Discovery
+Report, approved source code/design, relevant Conformance Proofs, source identity
+and revision, plus applicable scope and exposure history. Inspect Product and
+assess integration only in that Product session; recommend Transplant, Adapt or
+Reimplement and require developer selection before approved working-tree changes.
+Run relevant Product checks and report results/limitations in Product context.
+
+Keep integration findings in Product context. Do not rewrite the original
+Discovery Repo or feed Product internals back into its isolated investigation.
+Preserve source provenance; a Product adaptation does not retroactively change
+what the Discovery demonstrated. Commits, Governance Adoption and retention remain
+separate decisions. Preserve existing Product edits and use the owned-change
+journal for recovery without blanket resets. No new permission to stage/commit
+or change Governance pins follows from promotion approval.
+
+**R7 coordinated Governance Adoption and recovery approved on 2026-09-15:** after
+explicit approval of Product's target revision, update both its Governance submodule
+checkout and `.governed/governance.yaml` to that revision. Preserve Product HEAD,
+index and unrelated edits; neither change is automatically staged or committed.
+This replaces the older checkout-only adoption wording.
+
+Record previous affected state and approved target in the local operation journal
+before side effects. Resume inspects actual completed steps and finishes missing
+steps without repeating completed work. Roll back reverses only unchanged,
+operation-owned changes to their previous state. Preserve subsequent user edits,
+staging or commits; if they prevent safe recovery, explain and ask for direction
+rather than resetting them. Use the approved journal lifecycle and retain incomplete
+recovery information.
+
+Report successful local adoption, pending developer commit, only when the submodule
+and Governance manifest agree with the approved target. Otherwise report incomplete
+adoption. These checks run only while performing/recovering the requested workflow;
+no monitoring is introduced. Discovery Repos and their fixed contexts remain
+untouched. R7 is resolved; implementation and verification remain unexecuted.
+
+**Shimmy separation boundary clarified on 2026-09-15:** Shimmy repositories,
+bootstrap requirements and implementations remain owned by the separate Product.
+This repository owns only the independent onboarding plugin's delegation boundary
+and optional Project Activation handoff. Do not import, duplicate or investigate
+those external implementations to complete this plan. Selecting an external
+repository or documenting its installer internals is not an unresolved design
+issue here. At an authorized onboarding invocation, follow the supplied
+Product-owned instructions; missing instructions require a clear explanation,
+not an invented installer. Validate the delegation boundary with controlled fixtures.
 
 ## Implementation sequence and ownership
 
@@ -1011,22 +1441,22 @@ This changes delivery order and ownership, not approved behavior or authorizatio
 
 The first increment still comprises handoff Milestones 1 and 2. Chunk 1 delivers
 Milestone 1 and retains its human review gate. Chunks 2–4 divide Milestone 2 into
-validated source inputs, operational Project Setup, and operational Discovery
+validated source inputs, operational Project Setup and Activation, and operational Discovery
 creation. **The first increment is complete only after Chunk 4 is accepted.**
 Chunks 2 and 3 are intentionally partial relative to that increment; neither may
 advertise Discovery creation as available. Each chunk has its own acceptance gate.
 
 | Order | Chunk / reviewable result | Implementation prerequisites | Original scope |
 |---|---|---|---|
-| 1 | Packaging, shared metadata validation, and installed skeleton | Applicable R1 shared-schema decisions; R5 | Original Chunk 1 plus early installation proof from 2/6 |
-| 2 | Governance source, authority, and reading-boundary validation | Accepted Chunk 1; remaining R2 details | Read-only validation portion of original Chunk 2 |
-| 3 | Project Setup with local state, resumable interviews, and recovery | Accepted Chunk 2; setup-specific R3 details | Original Chunk 2, Phase 1 |
-| 4 | Independent Discovery creation, reservations, exports, and provenance | Accepted Chunk 3; creation-specific R1/R3/R4 details | Original Chunk 2, Phase 2; first-increment gate |
+| 1 | Packaging, shared metadata validation, and installed skeleton | Approved R1 shared-schema contract; R5 | Original Chunk 1 plus early installation proof from 2/6 |
+| 2 | Governance source, authority, and reading-boundary validation | Accepted Chunk 1; approved R2 contract | Read-only validation portion of original Chunk 2 |
+| 3 | Project Setup and Activation with local state, interviews, and recovery | Accepted Chunk 2; approved setup-specific R3 contract | Original Chunk 2, Phase 1 |
+| 4 | Independent Discovery creation, reservations, exports, and provenance | Accepted Chunk 3; approved creation-specific R1/R3/R4 contracts | Original Chunk 2, Phase 2; first-increment gate |
 | 5 | Successor, Discovery Review, and retention | Accepted Chunk 4; R6 | Original Chunk 3 except separate comparison generation |
 | 6 | Discovery Comparison and Governance Proposal lifecycle | Accepted Chunk 5; proposal-resolution part of R7 | Comparison from original Chunk 3; Governance-side part of 4 |
 | 7 | Product-context Discovery Code Promotion | Accepted Chunk 5; code-handoff part of R7 | Code-promotion part of original Chunk 4 |
 | 8 | Explicit Product Governance Adoption | Accepted Chunks 3 and 6; adoption-recovery part of R7 | Adoption part of original Chunk 4 |
-| 9 | Shimmy onboarding delegation | Accepted Chunks 1 and 3; verified Product bootstrap contract | Original Chunk 5 |
+| 9 | Shimmy onboarding delegation | Accepted Chunks 1 and 3; approved Product-owned delegation boundary | Original Chunk 5 |
 | 10 | Cross-platform and complete-lifecycle hardening | Accepted Chunks 1–9 | Remaining original Chunk 6 |
 
 The order is the default review sequence, not permission to execute any chunk.
@@ -1060,10 +1490,11 @@ permissions. Independent capabilities remain separately installable.
 ### Shared work and review prerequisites
 
 Chunk 1 owns the strict metadata pipeline, shared manifest/configuration/scope
-schemas and templates, test harness, and package/discovery checks. Review their
-shared field meanings and cross-document bindings before implementation. Chunk 2
+schemas and templates, test harness, and package/discovery checks. Implement the
+approved shared field meanings and cross-document bindings, then review their
+concrete encoding at the Chunk 1 gate. Chunk 2
 owns normative metadata/Constitution assets and semantic source validation.
-Chunk 3 adds local session/operation schemas with their runtime and Project Setup.
+Chunk 3 adds local session/operation schemas with their runtime and Project Setup/Activation.
 Chunk 4 adds reservation/export schemas with allocation/creation, and completes
 cross-document validation against actual generated repositories. Later schema
 extensions belong to the first workflow that needs them and must preserve earlier
@@ -1076,13 +1507,11 @@ updates its router availability, workflow references, help, and relevant docs in
 the same change. Future workflow references may be explicit placeholders until
 their owner chunk; they must not silently execute historical reference behavior.
 
-Resolve each open contract in this plan before authorizing its consuming chunk.
-R1's shared schema implications belong before Chunk 1; R2's detailed authority
-and supported-entry rules before Chunk 2; R3's setup/pending-registration and local
-state details before Chunk 3; and remaining R1/R3 creation records plus R4's
-allocation mechanism before Chunk 4. Shared fields needed earlier must be reviewed
-earlier. R6 blocks Chunk 5; R7 is reviewed separately for Chunks 6, 7, and 8. No
-reordering resolves those proposals or turns them into approved defaults.
+R1–R8 are approved. Implement their shared schema implications in Chunk 1,
+source validation in Chunk 2, setup/activation and local state in Chunk 3,
+creation/allocation in Chunk 4, and later workflow behavior in Chunks 5–8.
+Review concrete artifacts and verification at their owning chunk's gate without
+reopening settled design decisions.
 
 ### Acceptance coverage ownership
 
@@ -1102,7 +1531,7 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 | AT-012 | Chunk 6 | Chunk 5 recommends related comparisons; generation remains unavailable |
 | AT-013–015 | Chunk 6 | Chunk 2 authority checks; Chunk 5 report provenance |
 | AT-016 | Chunk 7 | Regress independence from Governance promotion |
-| AT-017–018 | Chunk 8 | Chunk 3 synthetic pending-adoption registration states |
+| AT-017–018 | Chunk 8 | Chunk 3 synthetic pending-adoption activation states |
 | AT-019 | Every mutating workflow: Chunks 3–9 | Shared command audit from Chunk 1; applicable R5 boundary in each |
 | AT-020–021 | Chunk 9 | Skeleton must not run bootstrap |
 | AT-022–024 | Chunk 2 for validation and authority scenarios | Regress with real records/proposals in Chunks 5–8 |
@@ -1131,16 +1560,40 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [x] Approve the Governance source-location policy with practical source/status guidance and guided repairs that do not require Git configuration knowledge.
 - [x] Record the user's rejection of premature starter constitutional rules and requirement for guidance from domain understanding through deliberate promotion.
 - [x] Require a Constitution while permitting an empty placeholder until matured Governance is deliberately promoted; initial Discovery can use that baseline under normal checks.
-- [x] Allow existing-project registration with ordinary unfinished edits outside the read-only Governance submodule when relevant checks pass; preserve/report them and diagnose conflicts or Governance discrepancies.
+- [x] Allow Project Activation with ordinary unfinished edits outside the read-only Governance submodule when relevant checks pass; preserve/report them and diagnose conflicts or Governance discrepancies.
 - [x] Correct the accidental Product-adoption prerequisite: Discovery creation uses independent Governance inputs and does not revalidate Product adoption or require its commit.
 - [x] Review and rebundle tasks against current dependencies, preserving milestone scope and mapping all acceptance cases to owners.
-- [ ] Finalize placeholder metadata/template representation, related validation/provenance checks, and minimal guidance in their assigned Chunks 1–3 review packets.
-- [ ] Finalize R1 shared creation-decision fields before Chunk 1 and R3 persisted interview/operation schemas before Chunk 3; complete creation integration details before Chunk 4.
-- [ ] Resolve remaining first-increment details in R1–R4; R5 and R8 design decisions are recorded.
+- [x] Approve R1 basic manifest validation: separate Charter objective, real calendar dates, and paired predecessor/reason values.
+- [x] Classify Governance authority by artifact content independently of folder location; withdraw mandatory directory/class matching.
+- [x] Prompt for absent/ambiguous artifact classification, or ignore it as a normative input with a user-visible warning and recorded limitation.
+- [x] Approve minimum Constitution representation: unique artifact ID, explicit constitution class, and title; substantive rules may be absent, and folder location is irrelevant.
+- [x] Approve explicit Supersession checks for duplicate IDs, missing targets, self-links, cycles, cross-level replacements and unresolved competing replacements.
+- [x] Approve initial non-normative Governance README guidance, separate minimal Constitution and role instructions, with other documents created when needed; R3 resolved.
+- [ ] Implement the approved Constitution and guidance templates and validation cases in their owning chunks.
+- [x] Approve individual creation-decision records with stable IDs, subjects, actual values, relevant inputs/revisions, approval dates, provided rationale, replacement references, and relevant prior exposure.
+- [x] Approve creation-decision reference/selection rules: explicit same-subject replacement, actual input bindings, one applicable approval per required subject, and blocking ambiguous or invalid references.
+- [x] Approve independent per-repository governance.yaml context, consumed by convention; Product and Discovery pins remain independent.
+- [x] Approve `.governed/` layout, plugin-owned schema definitions, and workstation-local configuration/journals; align planned generated paths.
+- [ ] Implement coordinated schema/template/instruction adaptation for the approved layout during the authorized owning chunks.
+- [x] Approve embedding important historical context in Discovery Reports so they remain understandable after the Discovery Repo is removed.
+- [ ] Implement and review R1 creation-decision field types in Chunk 1 and R3 persisted interview/operation schemas in Chunk 3; complete creation integration in Chunk 4.
+- [x] Freeze Discovery pin and reading scope at creation; require a Successor Discovery Repo when either changes, including same-pin scope changes. Withdraw in-place scope revision machinery.
+- [x] Resolve R2: approve source classification, fallback, Constitution representation, Supersession checks, and initial file/path support.
+- [x] Distinguish Project Setup (initial pair creation) from Project Activation (connecting an existing pair); align glossary and references. Pending-adoption Activation is separately approved below and does not apply to Discovery creation.
+- [x] Approve Project Activation during intentional uncommitted Governance Adoption, preserving files/index/history and distinguishing committed from pending revisions.
+- [x] Resolve R4: occupied IDs include reports/reservations across committed/index/working state; use exclusive reservation and bounded retries; Resume retains its ID and Roll back leaves it consumed.
+- [x] Resolve R1: verify the agent-created scaffold against approved ID, Charter, Governance source/pin, reading choices and decision references; failed checks use Resume/Roll back without invented approval. First-increment design decisions R1–R8 are resolved.
+- [x] Approve R6 repeated reviews: one report per Discovery ID with dated review sections, preserved human/history content, explicit corrections, conflict-aware writes, resumable completion and non-destructive cancellation.
+- [x] Approve Archive as in-place closure: record disposition and closed status, retain code/uncommitted work/history/pinned Governance, without relocation, compression, permission changes or commits.
+- [x] Resolve R6: repeated reviews, in-place Archive and Report + Delete with confirmed evidence selection, durable retention, closed status after successful retention and manual removal guidance.
+- [x] Approve R7 proposal resolution: modified text remains pending until accepted/rejected, reviewed wording binds acceptance, explicit unambiguous combined instructions may revise and accept, and rejected/material revision rationale is preserved.
+- [x] Approve separate Product-scoped work session for Discovery Code Promotion, with report/source/proof handoff, explicit approach selection, Product checks and no Product-internal feedback into the isolated Discovery.
+- [x] Approve workflow-owned local journal lifecycle: create before writes, update during work, retain unfinished recovery, compact terminal outcomes, and clean completed records only on explicit request.
+- [x] Resolve R7: proposal resolution, separate Product-scoped promotion handoff and coordinated Governance Adoption/recovery; preserve unrelated work and subsequent developer changes.
 - [ ] Obtain approval to start implementation.
 - [ ] Chunk 1 — Packaging and shared validation; Milestone 1 gate.
 - [ ] Chunk 2 — Governance source and reading-boundary validation.
-- [ ] Chunk 3 — Project Setup, interviews, and recovery.
+- [ ] Chunk 3 — Project Setup and Activation, interviews, and recovery.
 - [ ] Chunk 4 — Independent Discovery Repo creation; first-increment gate.
 - [ ] Chunk 5 — Successor, Discovery Review, and retention.
 - [ ] Chunk 6 — Discovery Comparison and Governance Proposals.
@@ -1158,7 +1611,7 @@ These relationships, choices, and scenarios belong to
 `governed-exploratory-development`; they are not shared marketplace policy or
 requirements for unrelated plugins. The glossary continues to define terms.
 Approved clarifications in this plan, including R5, govern the contracts below;
-remaining proposals retain their recorded review status.
+implementation authorization and chunk acceptance remain separate gates.
 
 During authorized implementation, carry the applicable invariants and choices
 into `S/SKILL.md`, `S/references/runtime-contract.md`, and the internal workflow
@@ -1186,11 +1639,11 @@ The records and proposals in the diagram live in Governance but remain non-norma
 1. **Authority is fixed:** Constitution > Policies > Specifications > Active ADRs. Same-level supersession must be explicit; unresolved conflicts are surfaced. Tests, Product code, proposals, records, and `AGENTS.md` add no authority levels.
 2. **Recommendations are not choices:** Governance Reading Scope, framing, Product access, and the charter require explicit developer decisions. Curated scope always permits the Constitution and records reading decisions. An earlier explicit choice need not be asked again for the same action.
 3. **Initial creation is minimal:** Decision 13 includes only the manifest, reading record, root instructions, Governance submodule and Git metadata, plus approved Contract Exports when selected. Full-reference permits inspection; it does not select an inherited implementation scaffold.
-4. **Provenance is stable:** the Discovery Repo's Pinned Governance Revision stays fixed. Charter and provenance fields should be treated as immutable after coding starts; later Findings belong in durable records. Work requiring a different Governance revision uses a Successor Discovery Repo; advancement elsewhere alone does not force continuation or alter the predecessor.
+4. **Provenance is stable:** the Discovery Repo's Pinned Governance Revision and Governance Reading Scope stay fixed from creation. Charter and provenance fields should be treated as immutable after coding starts; later Findings belong in durable records. Work requiring a different Governance revision or reading scope uses a Successor Discovery Repo; advancement elsewhere alone does not force continuation or alter the predecessor.
 5. **Conformance Proofs survive retention choices:** every Discovery Review generates and surfaces its Discovery Report before Discovery Disposition choices. `active`/`closed` manifest status and the promotion and retention choices within Discovery Disposition are distinct concepts; a surfaced record does not by itself mean the Discovery Repo is finished.
 6. **Promotion decisions remain independent:** approving Discovery Governance Promotion can accompany rejecting Discovery Code Promotion, and accepting code can accompany no Governance change. Accepted proposals require a Product Impact Assessment and separate normative edits; they do not automatically change Product or its pin. Neither promotion determines retention or closed status. Governance Adoption remains a separate Product decision.
 7. **Access and scope must agree:** a comparison target or Full reading scope cannot waive the Product-access boundary. Version 1 provides policy and workflow guardrails, not a hard technical sandbox.
-8. **Repository actions preserve developer control:** governed-development workflows follow the [approved R5 Git contract](#r5--approved-git-contracts-and-verification-gate). Initial project creation may stage approved generated files, create the initial Governance and Product commits, and establish their local submodule connection. Discovery creation may stage only its `.gitmodules` and Governance Git link and configure that local submodule; it creates no commit. Existing-project registration and later workflows retain their index, commit, remote, and hosting restrictions. Marketplace Git permissions and disposable test setup are governed separately by root `AGENTS.md`. This supersedes the former glossary wording that recognized only the fixture exception.
+8. **Repository actions preserve developer control:** governed-development workflows follow the [approved R5 Git contract](#r5--approved-git-contracts-and-verification-gate). Initial project creation may stage approved generated files, create the initial Governance and Product commits, and establish their local submodule connection. Discovery creation may stage only its `.gitmodules` and Governance Git link and configure that local submodule; it creates no commit. Project Activation and later workflows retain their index, commit, remote, and hosting restrictions. Marketplace Git permissions and disposable test setup are governed separately by root `AGENTS.md`. This supersedes the former glossary wording that recognized only the fixture exception.
 
 Sources: [Settled decisions](../handoffs/decisions/DECISIONS.md), [Lifecycle](../handoffs/docs/03-discovery-lifecycle.md), [Persisted review decisions](#recorded-design-decisions).
 
@@ -1208,7 +1661,7 @@ Sources: [Settled decisions](../handoffs/decisions/DECISIONS.md), [Lifecycle](..
 | Discovery Code Promotion approach | Transplant: reuse code that fits Product with minimal change. Adapt: reuse selected code with production changes. Reimplement: retain the design or behavior but implement it fresh in Product. |
 | Proposal state | `proposals/pending/` → human resolution → `proposals/resolved/`. Resolved metadata records accepted/rejected and optionally a resolving commit. Acceptance leads to separate normative edits. |
 | Discovery Repo status | Manifest values are `active` and `closed`. Findings are recorded separately from the original charter. |
-| Repository retention within Discovery Disposition | Archive: retain implementation and history read-only. Report + Delete: preserve the Discovery Report, Findings, and supporting Conformance Proofs and allow manual repository removal. Keep Active: continue the Discovery Repo. Retention is independent of both promotions; concrete local archival mechanics remain an implementation detail. |
+| Repository retention within Discovery Disposition | Archive: close the Discovery Manifest and retain the repository in place, including code, uncommitted work, history and access to the pinned Governance commit, without moving or compressing it, changing permissions or creating a commit. Report + Delete: confirm retained/lost material, preserve the report/context and selected Conformance Proofs in Governance with updated references and disclosed omissions, then close only after retention succeeds and provide manual removal guidance. Keep Active: retain active status. Retention is independent of both promotions and follows the approved R6 contract. |
 
 Sources: [Lifecycle](../handoffs/docs/03-discovery-lifecycle.md), [Promotion and adoption](../handoffs/docs/04-promotion-and-adoption.md), [Governance model](../handoffs/docs/02-governance-model.md), [Open implementation details](../handoffs/codex/OPEN-IMPLEMENTATION-DETAILS.md).
 
@@ -1221,7 +1674,7 @@ These scenarios exercise the specified model; they are not executed acceptance t
 | A test passes while its asserted behavior contradicts a Specification. | Surface the Governance inconsistency. Passing Conformance Proofs do not override the requirement. |
 | A resolved proposal is accepted, but no normative artifact was edited. | The Governance Proposal remains a non-normative request, with its resolution recording the decision. Acceptance authorizes separate normative edits; moving or accepting the proposal alone did not change requirements. |
 | Governance advances from G1 to G2 while a Discovery Repo uses G1. | Preserve the G1 submodule pin and reading scope. Work requiring G2 uses a Successor Discovery Repo with a new ID and predecessor reference; otherwise the investigation may continue at G1. Product may still pin G1 independently. |
-| A registered project's Product has an unfinished adoption or is unavailable, while the selected Governance source is available. | Create an Isolated Discovery using its independently approved inputs without inspecting Product or requiring its adoption to be verified or committed. |
+| An activated project's Product has an unfinished adoption or is unavailable, while the selected Governance source is available. | Create an Isolated Discovery using its independently approved inputs without inspecting Product or requiring its adoption to be verified or committed. |
 | DISC-0043 compares with DISC-0042 but does not continue it. | Record a Comparison Target; do not infer `derived_from` or permission to inspect its implementation. Record charter-required comparison results in DISC-0043's Discovery Report; a separate Discovery Comparison remains optional. |
 | Isolated mode is selected with Full reading scope over Product-derived implementation Conformance Proofs. | Require a revised reading scope or compatible Product access before body reads. Curated excludes reading those bodies while the complete submodule remains present. |
 | A Discovery Repo fails its success criteria but reveals a missing invariant. | Preserve the negative result and supporting Conformance Proofs. Discovery Governance Promotion may be useful even if Discovery Code Promotion is rejected. |
@@ -1266,16 +1719,18 @@ Create:
 
 - `.agents/plugins/marketplace.json`, `README.md`, `.gitignore`
 - `P/plugin.json`, `S/SKILL.md`, `S/references/runtime-contract.md`
-- `S/references/workflows/` — `project-setup.md`, `discovery-repo-create.md`,
+- `S/references/workflows/` — `project-setup.md`, `project-activation.md`, `discovery-repo-create.md`,
   `discovery-repo-successor.md`, `discovery-review.md`, `discovery-compare.md`,
   `discovery-governance-promote.md`, `governance-resolve.md`,
   `discovery-code-promote.md`, and `governance-adopt.md`; explicitly unavailable
   until their owning chunks implement them
+- `S/assets/schemas/governance-context.schema.json`
 - `S/assets/schemas/discovery-manifest.schema.json`
 - `S/assets/schemas/governance-reading-scope.schema.json`
 - `S/assets/schemas/local-project-configuration.schema.json`
-- `S/assets/templates/DISCOVERY.yaml`
-- `S/assets/templates/GOVERNANCE-READING-SCOPE.yaml`
+- `S/assets/templates/governed/governance.yaml`
+- `S/assets/templates/governed/discovery.yaml`
+- `S/assets/templates/governed/reading-scope.yaml`
 - `S/assets/templates/LOCAL-PROJECT-CONFIGURATION.yaml`
 - `S/assets/templates/agents/{product,governance,discovery-repo}/AGENTS.md`
 - `S/scripts/governed.sh`, `S/scripts/lib/data.sh`
@@ -1295,8 +1750,9 @@ move to `wip` occurs. Braces above abbreviate three role directories.
 ### Implementation requirements and suggested reasoning level
 
 Suggested reasoning: high for data and packaging contracts; medium for assets.
-Resolve the shared R1 schema decisions and field bindings needed by these assets
-before starting. Schema work does not decide open R2/R3 behavior by implication.
+Implement the approved R1 shared-schema contract and field bindings, preserving
+the approved R2/R3 behavior. Review concrete encoding and verification at this
+chunk's gate; do not reopen settled design decisions.
 
 Run approved-tool canaries first, recording exact `yq`/`jv` identities and versions.
 Stop on a capability gap before building dependent helpers. Implement original-input
@@ -1327,11 +1783,28 @@ installation changes reviewable and reversible; no marketplace publication.
 - [ ] Reviewed R1 canaries pass: nested/escaped duplicates on original input,
       second YAML document, forbidden features, invalid leap dates, unavailable
       external references, safe string round-trips, and deterministic output.
+- [ ] Basic manifest cases require a separate Charter objective, reject impossible
+      calendar dates, accept valid leap dates, and reject either predecessor or
+      successor reason without the other; both-null and both-populated pairs pass.
+- [ ] Generated metadata uses the approved `.governed/` paths; local consumers
+      resolve this repository's Governance record without parent-directory search
+      or cross-repository fallback. Shared schemas stay in the plugin. Product
+      receives no Discovery-only records; Contract Exports use `.governed/contracts/`.
 - [ ] Templates satisfy reviewed shared schemas; missing/unknown fields, malformed
       dates, missing substitutions, and unsupported versions fail clearly.
 - [ ] Shared creation-decision fixtures preserve approved values, input bindings,
       rationale when provided, dates and history; workstation/recovery data and
       conflicting final choices fail the applicable shared validation checks.
+- [ ] Individual decision records retain stable IDs, subjects, actual approved
+      values, relevant inputs/revisions, approval dates, supplied rationale,
+      replacement references, and prior exposure. A Full-reference-to-Isolated
+      history preserves both decisions and exposure; per-file choices remain
+      in the referenced reading-scope record.
+- [ ] Decision selection requires one applicable approved decision per required
+      subject, with actual input/revision/decision bindings. Valid same-subject
+      replacement preserves history; missing references, replacement cycles,
+      cross-subject replacement, and competing approvals fail clearly. Reordering
+      records or changing dates cannot select a winner among ambiguous approvals.
 - [ ] Fixture containment and Git auditing cannot redirect setup writes to real
       repositories or global configuration.
 - [ ] Standalone skill parsing and actual installed-plugin discovery/namespacing
@@ -1363,7 +1836,7 @@ preserve existing guidance and documentation.
 
 Provide tested, read-only validation of a selected Governance commit and a
 consumer's pin/reading scope before creation workflows rely on those checks.
-Milestone 2 remains partial; no Project Setup or Discovery creation is available.
+Milestone 2 remains partial; no Project Setup, Project Activation or Discovery creation is available.
 
 ### Files
 
@@ -1389,8 +1862,10 @@ placeholder. No new authority level or lifecycle-status database.
 Validate the selected source identity and exact SHA-1 commit without replacement
 objects, dirty-source content, implicit fetches, or consuming unrelated Product
 state. Enumerate the committed tree and validate source-wide IDs/supersession
-using only allowed minimal metadata for excluded candidates. Reject ambiguous
-class/path metadata, duplicate IDs, broken targets, cycles, cross-level links,
+using only allowed minimal metadata for excluded candidates. Classify by artifact
+content independently of folders. Prompt for missing/ambiguous declarations or
+ignore the unclassified artifact with a visible warning and recorded limitation.
+Reject duplicate IDs, broken targets, cycles, cross-level links,
 and unresolved competing successors; exclusions cannot reactivate predecessors.
 
 Validate normalized exact paths, supported entries, source membership, complete
@@ -1410,8 +1885,26 @@ and provide useful diagnostics on discrepancies.
 ### Verification checklist
 
 - [ ] AT-022–024 validator/agent scenarios pass; excluded superseders remain effective.
-- [ ] Valid empty Constitution passes; absent/malformed metadata fails. The asset
+- [ ] Duplicate IDs, missing targets, self-links, cycles, cross-level replacements
+      and unresolved competing replacements surface without source mutation. An
+      explicit same-level relationship or common replacement resolves competing
+      replacements; ignoring unclassified material cannot hide a known broken link.
+- [ ] Identical authority declarations classify identically in different folders.
+      A valid Constitution outside constitution/ satisfies required existence;
+      supporting material inside policies/ gains no normative authority from its
+      path. Reading-scope coverage still uses actual paths at the selected commit.
+- [ ] Missing/ambiguous authority prompts for classification; unresolved or declined
+      classification omits the artifact from applied normative requirements with a
+      visible warning and recorded limitation. No excluded body read or pinned-source
+      edit occurs. Ignoring the only Constitution candidate cannot satisfy existence.
+- [ ] A Constitution with a unique ID, explicit constitution class and title passes
+      without substantive rules, regardless of folder. Missing/invalid required
+      metadata fails; ID/title examples are not imposed as literal values. The asset
       contains no starter rules, sample requirements, or promotion advice as clauses.
+- [ ] Ordinary tracked files with spaces or Unicode names pass. Symlinks and
+      nested submodules inside Governance fail even when excluded from reading;
+      source entries remain unchanged. The consuming `.governance/` submodule
+      is permitted. Target-filesystem name collisions fail with specific diagnostics.
 - [ ] Dirty source-checkout files never enter the committed input. Unsupported
       formats, symlinks/Git links, path traversal, unsafe Git source/configuration
       and administrative-path indirection, and name collisions fail under the
@@ -1420,7 +1913,7 @@ and provide useful diagnostics on discrepancies.
       including supporting/reservation files and the empty Constitution.
 - [ ] AT-030–033 validators/scenarios reject invalid scope/pin state before body
       access, including indirect reads, ignored files, and edited instructions.
-      Actual creation/amendment integration remains for Chunk 4.
+      Actual creation/fixed-scope integration remains for Chunk 4.
 - [ ] Minimal metadata checks do not expose excluded bodies, including through
       errors; command audits show no writes, fetches or unrelated Product inspection.
 
@@ -1438,11 +1931,11 @@ Constitution assets, and failure diagnostics. Record scenario evidence separatel
 from scripted tests and the intentionally partial Milestone 2 state. No operation
 may rely on silently repaired Git state or claim physical isolation.
 
-## Chunk 3 — Project Setup, interviews, and recovery
+## Chunk 3 — Project Setup and Activation, interviews, and recovery
 
 ### Goal
 
-Deliver operational new-project creation and existing-project registration through
+Deliver operational new-project creation and Project Activation through
 the router, with Local Project Configuration, resumable interviews, and recovery.
 This completes the setup part of Milestone 2; Discovery creation remains unavailable.
 
@@ -1452,15 +1945,15 @@ Create:
 
 - `S/scripts/lib/files.sh` — containment, exclusive writes, owned recovery
 - `S/scripts/lib/interview.sh` — approved answer bindings and resumption
-- `S/scripts/lib/project_setup.sh` — new pair creation and existing registration
+- `S/scripts/lib/project_setup.sh` — new pair creation and existing activation
 - `S/assets/schemas/interview-session.schema.json`
 - `S/assets/schemas/operation.schema.json`
-- Minimal non-normative Governance guide asset in the reviewed R3 location
+- `S/assets/templates/governance-README.md` — approved non-normative guide for the new Governance repository root
 - `tests/test_local_project_configuration.sh`, `tests/test_interview.sh`,
-  `tests/test_project_setup.sh`, `tests/test_recovery.sh`, `tests/test_git_boundary.sh`
-- `docs/project-setup.md`, `docs/recovery.md`
+  `tests/test_project_setup.sh`, `tests/test_project_activation.sh`, `tests/test_recovery.sh`, `tests/test_git_boundary.sh`
+- `docs/project-setup.md`, `docs/project-activation.md`, `docs/recovery.md`
 
-Extend `git.sh` with narrow initialization, the router, `project-setup.md`, runtime
+Extend `git.sh` with narrow initialization, the router, `project-setup.md`, `project-activation.md`, runtime
 contract, CLI, configuration schema/template, role assets, and acceptance docs.
 Runtime outputs are local `projects.yaml`, `sessions/<uuid>.json`,
 `operations/<uuid>.json`, new Governance/Product repositories, and safe missing
@@ -1469,8 +1962,8 @@ role instructions. Their schema/writer/reader changes ship together here.
 ### Implementation requirements and suggested reasoning level
 
 Suggested reasoning: high. Requires accepted Chunk 2 and reviewed setup-specific
-R3 details: guide placement, session/journal fields, approval bindings, existing
-relationship diagnostics, and pending-adoption registration interpretation. R5 is
+R3 contract; session/journal encoding implements approved bindings, existing
+relationship diagnostics, and pending-adoption interpretation during Project Activation. R5 is
 already approved; implement its boundary without reopening permissions.
 
 Resolve local data storage using the approved precedence; reject repository/plugin
@@ -1478,7 +1971,10 @@ storage and preserve unrelated configuration entries. Bind interview answers to
 project identity and relevant inputs. Ask one decision at a time, honor rejected
 recommendations, retain applicable approvals, and explain uncertain applicability.
 Keep intended/completed side effects in an ownership-aware journal distinct from
-the answer record. Recheck actual state before retrying an interrupted step.
+the answer record. Apply the approved local journal lifecycle, keeping unfinished
+recovery information and compacting completed/rolled-back operations. Completed
+outcomes remain until explicit cleanup. Recheck actual state before retrying an
+interrupted step.
 
 For a new project, confirm destinations, identity and portable Governance source
 locator; present all generated content before initialization. Create the required
@@ -1489,10 +1985,10 @@ connection; Product starts at that Governance commit. Preserve normal identity,
 signing and hooks. Save configuration after validating the pair. No Discovery
 Repo, invented requirements, top-level remote, push or hosted repository results.
 
-For existing registration, preserve history/index/pins and existing instructions;
+For Project Activation, preserve history/index/pins and existing instructions;
 seed missing instructions only when safe. Permit ordinary unrelated edits;
 diagnose conflicts, dirty Governance contents and unexplained pin relationships.
-Registration cannot repair by entering the new-project initialization exception.
+Activation cannot repair by entering the new-project initialization exception.
 Implement the reviewed pending-adoption interpretation with synthetic fixture
 states; generating adoption updates remains Chunk 8. Keep this Product-scoped
 check out of the future Discovery creation preflight.
@@ -1507,18 +2003,35 @@ Guide later lifecycle steps as manual/unavailable until their handlers exist.
 
 ### Verification checklist
 
+- [ ] Router distinguishes initial Project Setup from existing-pair Project
+      Activation. Missing configuration routes an existing pair to Activation;
+      repeated Activation reuses valid configuration without recreation or adoption.
 - [ ] AT-001–003 and setup-specific AT-006/019 pass, including reviewed natural-
       language routing and the absence of a workflow-name menu.
 - [ ] Storage precedence/containment, idempotence and independent workstation
       configuration pass; no portable metadata contains local paths or credentials.
+- [ ] Initial Governance README explains requirements, Discovery Charter/Repo,
+      Discovery Report with Findings/Conformance Proofs, Governance Proposals and
+      separate Governance Adoption. It links available artifacts/public routing,
+      labels manual/unavailable handlers honestly, and adds no normative clauses.
 - [ ] New pair creation yields one initial commit per repository, Product's exact
       submodule link, reviewed empty/populated Constitution content and no Discovery.
-- [ ] Existing registration preserves ordinary staged/unstaged edits and role
+- [ ] Activation with intentional pending adoption succeeds when source identity
+      and the existing relationship validate and Governance contents are clean.
+      Existing approval or user confirmation establishes intent. Both unstaged and
+      developer-staged pending states preserve files/index/history; the summary
+      distinguishes committed and pending revisions without claiming conformance.
+- [ ] Existing activation preserves ordinary staged/unstaged edits and role
       instructions; conflicts or unexplained Governance state produce diagnosis,
       never repair. Reviewed pending states preserve HEAD, index and checkout.
 - [ ] Changed inputs revisit only affected answers; unchanged answers resume at the
       first unanswered decision; superseded decisions retain history. Saved approval
       cannot repeat completed side effects or approve a changed destination.
+- [ ] Journals are created before side effects, updated by workflow helpers and
+      stored only in the configured local data root. Failed/interrupted operations
+      retain recovery data; terminal operations remove temporary recovery payloads
+      and keep compact outcomes. Requested cleanup preserves unfinished operations
+      absent explicit abandonment and never removes durable repository records.
 - [ ] Missing/moved source, unavailable commit, destination/permission failure,
       signing/hook failure and malformed metadata produce evidence-based guidance;
       repairs do not bypass protections or silently change source identity/pin.
@@ -1533,7 +2046,7 @@ Guide later lifecycle steps as manual/unavailable until their handlers exist.
 Commands:
 
 ```text
-bash tests/run.sh local_project_configuration interview project_setup recovery git_boundary path_safety
+bash tests/run.sh local_project_configuration interview project_setup project_activation recovery git_boundary path_safety
 bash scripts/check_packaging.sh
 git diff --check
 ```
@@ -1581,7 +2094,7 @@ explicit scope, type, framing, access mode, Charter, optional comparison target
 and dimensions. Curated makes every path decision explicit; recommendations never
 supply missing approvals. Revalidate affected bindings before reservation/writes.
 
-Use registered Governance inputs directly. Do not rerun Project Setup, inspect
+Use confirmed Governance inputs directly. Do not rerun Project Setup or Project Activation, inspect
 Product adoption/status/index or require Product availability. Product access
 occurs only for an explicitly selected permitted input, whose own provenance is
 validated. Permission for Full-reference is not a request to scan Product.
@@ -1593,15 +2106,15 @@ initialize the complete Governance submodule at the approved commit. Stage only
 `.gitmodules` and its Governance Git link; create no Discovery commit. Disable
 replacement-object interpretation and implicit fetches. Generate other files
 unstaged outside `.governance/`; copy only explicitly approved Contract Exports to
-`.contracts/` with source identity, optional commit, and exact-byte hashes.
+`.governed/contracts/` with source identity, optional commit, and exact-byte hashes.
 
 Generate portable creation decisions from the approved interview; validate their
 agreement with manifest, reading record, reservation and instruction provenance.
 Keep local paths/recovery logs local. Preserve original creation scope, superseded
 choices and exposure history. Enforce the recorded scope on resume despite edited
-instructions; approved amendments preserve original context and affect only
-explicitly renewed choices. A revision change requires a successor, unavailable
-until Chunk 5. No migration silently rewrites pins, owned instructions or provenance.
+instructions. A Governance revision or reading-scope change requires a successor,
+unavailable until Chunk 5; explain that boundary without changing the predecessor.
+Pre-creation interview resumption still revisits only affected choices. No migration silently rewrites pins, owned instructions or provenance.
 
 Extend exactly Resume/Roll back and diagnostics to Discovery initialization,
 reservation and export failures. Detect actual completed steps before retry;
@@ -1634,11 +2147,22 @@ requested Discovery through the installed single router.
       there is no Product remote or inherited scaffold, including Full-reference.
 - [ ] Export allowlists, byte hashes and source provenance validate; changed bytes
       invalidate approval. No arbitrary Product scan or inferred export occurs.
+- [ ] Completion validates reserved ID, Charter, Governance declaration/actual
+      submodule pin, reading choices and approval references against approved inputs.
+      Injected mismatches report incomplete creation and enter the approved recovery
+      process; no silent approval rewrite or periodic drift monitor is introduced.
 - [ ] Portable choices, bindings, rationale, dates, superseded decisions and prior
       exposure survive without workstation session files and agree with final inputs.
-- [ ] Resume and scope amendments preserve original creation context; edited
-      instructions grant no additional access; changed inputs renew only affected
-      approvals. Prior-review preservation receives integration coverage in Chunk 5.
+- [ ] Resume preserves the fixed creation pin and scope; edited instructions or
+      scope files grant no additional access. Before creation, changed interview
+      inputs renew only affected approvals. After creation, changed pin or scope
+      requests require a successor; the unavailable handler cannot execute before
+      Chunk 5. Prior-review preservation receives integration coverage in Chunk 5.
+- [ ] Allocation counts committed, staged and working reports/reservations; failures
+      leave IDs consumed. Same-checkout competing attempts cannot claim the same ID.
+      Collision retries stop at their bound with an explanation. Resume keeps its
+      owned reservation; Roll back retains it. Malformed reservation contents warn
+      without freeing or overwriting the ID. Independent clones are not coordinated.
 - [ ] Fault injection covers reservations, partial submodule setup, metadata/export
       writes and cleanup; repeated Resume/Roll back preserves user edits, retains
       consumed IDs, avoids duplicated effects and reports remaining resources honestly.
@@ -1680,25 +2204,41 @@ router, CLI, validation, operation records and recovery tests/docs.
 
 ### Implementation requirements and suggested reasoning level
 
-Suggested reasoning: high. Requires accepted Chunk 4 and the reviewed R6 report
-revision, human-edit, cancellation, durable-write and local Archive contract.
+Suggested reasoning: high. Requires accepted Chunk 4 and the approved R6 repeated-
+review, human-edit, cancellation, durable-write and in-place Archive contracts.
+The Report + Delete retention contract is also approved; R6 behavior is settled.
 
-Reuse creation for successors with explicit predecessor and reason; preserve the
-predecessor's charter, pin, scope, contents and history. A Governance advance alone
+Reuse creation for successors when either the Governance pin or reading scope
+changes, with explicit predecessor and reason. A scope-only successor may retain
+the same Governance commit. Preserve the predecessor's Charter, pin, scope,
+contents and history; retain relevant prior exposure. A Governance advance alone
 does not require a successor when current work can continue at the old revision.
 
 Generate and surface the durable report before any Discovery Disposition choices;
 no extra report-approval gate is implied. Include charter-required comparison
 results, Findings, Conformance Proofs, failed outcomes and uncertainty. Preserve
-human edits and append/revise under the reviewed repeat-review contract. Journal
+human edits and append a new dated review section under the approved repeat-review
+contract. Explain corrections with their supporting Conformance Proofs rather than
+overwriting earlier conclusions. Journal
 report/manifest transitions so an interrupted write cannot lose decisions or
 falsely close a repo. Bind reviews to the scope/exposure context used then;
-later amendments cannot rewrite those records or creation provenance.
+successor creation cannot rewrite those records or creation provenance.
+
+Embed important historical context under the approved Discovery Report contract:
+source identity and exact Governance pin, Charter, Product access, scope and prior
+exposure. Retain detailed supporting scope material in Governance when it is not
+embedded. The report cannot depend solely on the disposable repository's current
+metadata or local workstation state for its historical meaning.
 
 Record Governance promotion, code promotion and retention independently. Keep
-Active stays active. Archive follows the reviewed local mechanics and retains
-access to the pinned commit. Report + Delete preserves required records/supporting
-material and offers manual removal guidance; it does not delete repositories.
+Active stays active. Archive closes in place under the approved contract, keeping
+code, uncommitted work, history and access to the pinned commit. Record its report
+disposition and closed manifest status consistently without relocation, compression,
+permission changes or commits. Report + Delete presents retained/lost material for selection confirmation,
+preserves the report/context and selected Conformance Proofs in Governance, and
+updates references. Record disposition and close the manifest only after required
+retention succeeds, disclosing omitted/unavailable evidence. Offer manual removal
+guidance; do not delete the repository or claim deletion occurred.
 Recommend a related comparison when useful, clearly stating that separate CMPR
 creation arrives in Chunk 6. Likewise record promotion intentions without claiming
 Chunks 6–8 executed. Ordinary report comparison analysis remains available here.
@@ -1706,14 +2246,35 @@ Chunks 6–8 executed. Ordinary report comparison analysis remains available her
 ### Verification checklist
 
 - [ ] AT-009–011, AT-019 and AT-026–029 pass; predecessor remains unchanged.
+- [ ] Successor cases cover a changed pin, same-pin expanded scope, same-pin
+      narrowed scope, and Full/Curated changes. Each receives a new Discovery ID
+      and approved context; predecessor scope/pin remain fixed and prior exposure
+      is retained. No in-place scope revision or current-scope pointer is generated.
 - [ ] Every review surfaces its report before disposition, preserves subsequent
       independent choices and charter-required comparison results, and keeps
       selected active work active. Negative/unrelated results remain Conformance Proofs.
+- [ ] Repeated reviews append dated sections in the same DISC report; changed
+      conclusions name the earlier finding and supporting Conformance Proofs.
+      Cancelling preserves existing report content and disposition.
 - [ ] Repeated review preserves human edits, prior review scope and exposure;
       concurrent edits/cancellation and interrupted report/manifest writes reconcile
       without overwrite, duplicate review sections or premature retention/status changes.
+- [ ] A retained Discovery Report identifies its Governance source/pin, Charter,
+      Product access, reading scope and relevant prior exposure after the test-owned
+      Discovery Repo and local configuration become unavailable. Any supporting
+      scope references still resolve in Governance. Later Product adoption or
+      subsequent reviews cannot alter the earlier report context.
+- [ ] Archive records the choice and closed status while retaining original location,
+      code, uncommitted work, history and pinned-commit access. No move, compression,
+      permission change or commit occurs. Interrupted report/manifest updates are
+      reported as incomplete closure and reconcile without false success.
 - [ ] Local Archive retains implementation/history and pinned-commit access;
       Report + Delete retains durable knowledge and performs no automatic deletion.
+- [ ] Report + Delete shows retained/lost material and obtains selection confirmation;
+      selected Conformance Proofs and report references remain available in Governance.
+      Failed retention leaves closure incomplete and preserves existing material.
+      Successful retention records closed status and manual removal guidance without
+      deleting the repo or claiming deletion; omitted evidence is disclosed.
 - [ ] Promotion intentions and comparison recommendations cannot invoke unavailable
       handlers or imply Governance Adoption. Later plugin versions preserve ownership.
 
@@ -1728,8 +2289,8 @@ git diff --check
 ### Human review gate
 
 Review successor causality, repeat-review recovery, generated report, disposition
-ordering and retention evidence. Approve the concrete R6 behavior before execution;
-record its verified outcome here before moving to Governance document workflows.
+ordering and retention evidence against the approved R6 contract. Record verified
+outcomes and obtain chunk acceptance before moving to Governance document workflows.
 
 ## Chunk 6 — Discovery Comparison and Governance Proposals
 
@@ -1750,9 +2311,9 @@ CLI and acceptance/recovery docs.
 
 ### Implementation requirements and suggested reasoning level
 
-Suggested reasoning: high. Requires accepted Chunk 5 and reviewed proposal-resolution
-R7 details, including revised-content acceptance, human edits and interrupted
-multi-file writes. Reuse the report/journal behavior; do not add a lifecycle database.
+Suggested reasoning: high. Requires accepted Chunk 5 and the approved R7 proposal-
+resolution contract, including revised-content acceptance, preserved human edits
+and conflict-aware interrupted multi-file writes. Reuse the report/journal behavior; do not add a lifecycle database.
 
 First add optional CMPR generation from explicitly selected reports/dimensions,
 retaining provenance, uncertainty and each Discovery's disposition. Then add
@@ -1763,8 +2324,10 @@ proposal directories. Include collision/recovery tests with each new namespace.
 
 Proposals request concrete Governance changes; recommendations for no change or
 further investigation remain in reports/comparisons. Require human accept/modify/
-reject decisions under reviewed R7 rules; modified text cannot inherit approval
-of a different revision. Preserve rejection rationale and non-normative status.
+reject decisions under the approved R7 rules. Modify keeps the revised proposal
+pending until its resulting wording is accepted/rejected; explicit unambiguous
+combined revision-and-acceptance instructions may authorize both steps. Modified
+text cannot inherit approval of a different revision. Preserve rejection rationale and non-normative status.
 Accepted proposals require separate normative edits and a Product Impact Assessment
 using the glossary categories, including unknown requiring investigation. Preserve
 source links and surface authority conflicts; neither resolution nor moving a file
@@ -1779,8 +2342,10 @@ authorized investigation. Preserve creation pins and records on later promotion.
       boundaries and independent dispositions; no comparison or proposal is forced.
 - [ ] CMPR/GOVP occupancy, failed reservations, concurrent allocation and namespace
       independence pass; existing reports/proposals cannot be overwritten.
-- [ ] Rejected reasoning survives resolution; modified content stays subject to
-      the reviewed acceptance rule. Report/creation provenance remains unchanged.
+- [ ] Rejected reasoning and material revision history survive resolution. Modify
+      alone stays pending; explicit acceptance/rejection binds the resulting wording.
+      Unambiguous combined revision-and-acceptance works; later unrelated edits do
+      not inherit acceptance. Report/creation provenance remains unchanged.
 - [ ] Accepted proposals remain non-normative, produce separate reviewed normative
       edits and impact assessment, and never silently modify Product or its pin.
 - [ ] Interrupted/concurrent edits to proposal, resolution and normative files
@@ -1817,16 +2382,18 @@ Create `S/scripts/lib/promotion.sh` and `tests/test_promotion.sh`. Update
 ### Implementation requirements and suggested reasoning level
 
 Suggested reasoning: high at the context and mutation boundaries. Requires accepted
-Chunk 5 and the reviewed R7 Product-context handoff. It does not depend on selecting
+Chunk 5 and the approved R7 separate Product-scoped session handoff. It does not depend on selecting
 or accepting Governance promotion in Chunk 6.
 
 Confirm the promotion choice independently of Governance and retention. Handoff
 approved source identities, scope/exposure history and supporting records into an
-explicit Product context. Do not inspect Product from an ongoing isolated Discovery
+explicit separate Product-scoped work session. Do not inspect Product from an ongoing isolated Discovery
 context or feed Product-derived findings back into it. Review Transplant, Adapt or
 Reimplement against quality, dependencies, tests, conventions, security, portability,
 integration and migration; require developer selection. Apply only approved
-working-tree changes. Preserve existing edits, stage/commit nothing, and keep
+working-tree changes and run relevant Product checks. Keep integration findings
+and results in Product context without rewriting the original Discovery Repo.
+Preserve existing edits, stage/commit nothing, and keep
 source/pin history intact. Journal/recover owned changes without blanket resets.
 
 ### Verification checklist
@@ -1834,8 +2401,10 @@ source/pin history intact. Journal/recover owned changes without blanket resets.
 - [ ] AT-016 and AT-019 pass for each approach and declined/deferred promotion.
 - [ ] Code promotion works without a Governance Proposal or adoption; approving
       either promotion never implies the other or a retention choice.
-- [ ] Reviewed context scenarios and command audits show Product inspection occurs
-      only in the permitted Product context, with no feedback into isolated Discovery.
+- [ ] Reviewed context scenarios and command audits show a separate Product-scoped
+      session receives the report, approved code/design, relevant proofs and source
+      identity/revision. Product inspection/results stay there, with no internal
+      feedback into or rewriting of the isolated Discovery Repo.
 - [ ] Provenance/exposure history survives handoff; only approved working-tree
       changes occur, with source repositories, Product index and pins preserved.
 - [ ] Failure/resume/rollback preserves existing edits and reports exact remaining
@@ -1865,26 +2434,30 @@ representing committed, staged and pending adoption and preserving Discovery ind
 ### Files
 
 Create `S/scripts/lib/adoption.sh` and `tests/test_adoption.sh`. Update
-`governance-adopt.md`, router, CLI, Git/project-registration helpers, operation
-records, registration/recovery/Git-boundary tests, and promotion/adoption docs.
+`governance-adopt.md`, router, CLI, Git/project-activation helpers, operation
+records, activation/recovery/Git-boundary tests, and promotion/adoption docs.
 
 ### Implementation requirements and suggested reasoning level
 
-Suggested reasoning: high. Requires accepted Chunks 3 and 6, the reviewed
-Product-scoped R3 interpretation and R7 pending-adoption/recovery contract.
+Suggested reasoning: high. Requires accepted Chunks 3 and 6 and the approved
+R3 Activation interpretation and R7 coordinated adoption/recovery contract.
 Code promotion is not an adoption prerequisite.
 
 Review target identity/commit, intervening Governance changes, impact assessments,
 implementation, conformance, tests and incompatibilities. Recommend readiness or
 deferral, preserving the developer's final choice without certifying conformance.
 Unsafe/invalid source state still requires diagnosis; a recommendation does not
-waive Git/source validity. After explicit direction, update only Product's
-submodule checkout; preserve HEAD/index and do not stage/commit or edit Governance
-through the submodule. Journal the intended revision, reconcile interrupted
-checkout updates, and distinguish pending adoption from the committed baseline.
+waive Git/source validity. After explicit direction, update Product's submodule
+checkout and `.governed/governance.yaml` together; preserve HEAD/index and do not
+stage/commit or edit Governance through the submodule. Journal previous affected
+state and the approved target before writes. Resume finishes missing steps; Roll
+back restores only unchanged operation-owned effects. Preserve subsequent edits,
+staging or commits and ask for direction if they prevent safe recovery. Claim
+successful local adoption only when both agree with the target; otherwise report
+incomplete adoption. Distinguish local pending adoption from committed history.
 
-Reuse Chunk 3's registration interpretation and test the actual adoption-to-
-registration path, including later developer staging/commit in fixture setup.
+Reuse Chunk 3's activation interpretation and test the actual adoption-to-
+activation path, including later developer staging/commit in fixture setup.
 Discovery creation must remain independent: no Product adoption preflight,
 readiness check or wait for a Product commit. Existing Discovery pins stay fixed.
 
@@ -1892,19 +2465,22 @@ readiness check or wait for a Product commit. Existing Discovery pins stay fixed
 
 - [ ] AT-017–019 pass; failing conformance checks yield a recommendation and preserve
       developer choice, while successful checks do not claim proof of conformance.
-- [ ] Approved adoption changes only the intended checkout; HEAD/index and unrelated
+- [ ] Approved adoption changes only the intended checkout and Governance context manifest; HEAD/index and unrelated
       edits remain unchanged. Declined adoption makes no change.
-- [ ] Actual adoption followed by registration recognizes reviewed unstaged/staged/
+- [ ] Actual adoption followed by activation recognizes reviewed unstaged/staged/
       committed states; intent is never inferred from differing commits alone.
-- [ ] Interruption/resume/rollback preserves developer changes and distinguishes
-      uncertain, pending and completed effects without forced resets or commits.
+- [ ] Interrupted updates to either checkout or manifest report incomplete adoption.
+      Resume finishes missing effects; Roll back restores unchanged owned effects.
+      Subsequent developer edits/staging/commits prevent blind rollback and are
+      preserved for direction. Unrelated work is untouched; no stage/commit/reset
+      occurs. Success requires both target revisions to agree.
 - [ ] Independent Discovery creation still succeeds with inaccessible/conflicted/
       pending-adoption Product and performs no Product status/adoption inspection.
 
 Commands:
 
 ```text
-bash tests/run.sh adoption project_setup discovery_repo recovery git_boundary
+bash tests/run.sh adoption project_activation discovery_repo recovery git_boundary
 bash tests/run.sh
 git diff --check
 ```
@@ -1920,7 +2496,7 @@ acceptance does not authorize a Product release workflow, which remains outside 
 ### Goal
 
 Implement the independent sibling plugin's delegation to verified Product-owned
-bootstrap logic and its optional contributor handoff to Project Setup.
+bootstrap logic and its optional contributor handoff to Project Activation.
 
 ### Files
 
@@ -1931,16 +2507,16 @@ Shimmy skill, onboarding contract, manifest descriptions and installation tests.
 ### Implementation requirements and suggested reasoning level
 
 Suggested reasoning: high at the execution boundary. Depends on accepted packaging
-in Chunk 1 and Project Setup in Chunk 3 for the optional contributor handoff;
+in Chunk 1 and Project Activation in Chunk 3 for the optional contributor handoff;
 Discovery lifecycle handlers are not dependencies.
 
-Establish the authoritative Product source/release, exact entrypoint, prerequisites,
-effects and post-install checks before this chunk is approved. The source/bootstrap
-contract remains open; a sibling checkout name is only a discovery lead. Invoke
-only the verified contract with applicable authorization. No copied installer,
-inferred historical command or automatic Product change. Keep governed-development's
-`yq`/`jv` requirements out of independent Shimmy onboarding unless Product's own
-verified contract independently requires them. Offer contributor setup separately.
+Keep external Shimmy repositories, bootstrap requirements and implementations
+outside this repository. Delegate to supplied Product-owned instructions during
+an authorized onboarding invocation; explain missing or contradictory instructions
+without guessing a command. Do not explore sibling implementations as a planning
+prerequisite, copy an installer, or implement Product lifecycle logic here.
+Keep governed-development's `yq`/`jv` requirements out of independent Shimmy
+onboarding. Offer contributor Project Activation separately.
 
 ### Verification checklist
 
@@ -1949,7 +2525,7 @@ verified contract independently requires them. Offer contributor setup separatel
 - [ ] Argument handling preserves boundaries without shell interpolation;
       post-install checks and recovery guidance come from Product's contract.
 - [ ] Standalone installation has no accidental governed-development dependency;
-      optional contributor handoff reaches Project Setup without creating Discovery.
+      optional contributor handoff reaches Project Activation without creating Discovery.
 - [ ] Applicable Git restrictions are audited; controlled delegation tests make
       no real installation, push or hosted repository.
 
@@ -1964,7 +2540,7 @@ git diff --check
 
 ### Human review gate
 
-Review the verified Product contract, delegation tests and optional contributor
+Review the separation boundary, controlled delegation tests and optional contributor
 handoff. A real Shimmy installation is not required for controlled wrapper tests;
 installation rollback belongs to Product documentation, not plugin-owned logic.
 
@@ -2051,7 +2627,9 @@ or marketplace commit is part of this gate.
 
 Historical entries below retain the chunk numbers used when written. Use the
 [implementation sequence and ownership](#implementation-sequence-and-ownership)
-for current numbering, dependencies, and review gates.
+for current numbering, dependencies, and review gates. Current contracts and
+approval status live in [Design contracts and review status](#design-contracts-and-review-status);
+only remaining decisions belong in [Unresolved](#unresolved).
 
 ### Initial
 
@@ -2390,11 +2968,314 @@ for current numbering, dependencies, and review gates.
   a temporary documentation audit, not a production dependency or runtime test.
   `git diff --stat` confirmed only this plan changed.
 
+### Open-decision register cleanup — 2026-09-14
+
+- Separated remaining decisions from the detailed R1–R8 contracts and approval
+  records. R5 and R8 remain resolved; R1–R4 retain only their open details in the
+  Unresolved register, alongside R6–R7 and the Shimmy bootstrap prerequisite.
+- Kept current contracts and rationale in Design contracts and review status,
+  with review history here. Unexecuted checks remain verification work in their
+  owning chunks; no proposal was approved and no implementation was authorized.
+- Validation: `git diff --check` passed. A local Markdown link/anchor audit and
+  a focused preservation check passed: all detailed contracts, chunk requirements,
+  and prior review history remain unchanged. Only this plan changed; no runtime
+  tests were needed for this documentation reorganization.
+
+### Basic manifest validation approval — 2026-09-14
+
+- The user approved the separate Charter objective, real-calendar-date validation,
+  and paired predecessor/reason rules. Marked them settled in R1 and added explicit
+  Chunk 1 verification cases; the remaining R1 schema decisions stay open.
+- This is plan maintenance only. Reference schemas/templates remain unchanged;
+  no implementation or dependency installation is authorized.
+- Validation: `git diff --check` and a focused plan consistency audit passed.
+  Protected references remain unchanged. Runtime/schema checks remain unexecuted.
+
+### Individual creation-decision structure approval — 2026-09-14
+
+- The user approved a list of individual decision records in the Discovery
+  Manifest, retaining approved values, input context, approval dates, supplied
+  rationale, replacement links, and prior exposure. Detailed reading choices
+  remain in the referenced reading-scope record.
+- Narrowed remaining R1 work to exact field types, reference/selection rules,
+  remaining schema details, and cross-document checks. Updated R3, progress,
+  and planned Chunk 1 verification without changing earlier approvals.
+- Validation: `git diff --check` and a focused plan consistency audit passed;
+  protected reference files remain unchanged. Only the plan was edited, and
+  runtime/schema tests remain unexecuted.
+
+### Creation-decision reference and selection approval — 2026-09-14
+
+- The user approved explicit same-subject replacement links, actual input bindings,
+  one applicable approval per required subject, and blocking missing references,
+  replacement cycles, and competing approvals. Dates/list order cannot settle
+  ambiguity. Recorded the contract and planned Chunk 1 verification cases.
+- Narrowed R1's remaining work without approving exact field types or broader
+  cross-document validation. Earlier plan edits and decisions are preserved.
+- Validation: `git diff --check` and a focused planning consistency audit passed;
+  protected sources remain unchanged. No runtime/schema tests were executed.
+
+### Dedicated metadata layout approval — 2026-09-14
+
+- The user approved `.governed/` with independent Governance context, Discovery
+  Manifest, Governance Reading Scope, and optional Contract Exports. Root
+  instructions direct agents to the local context; schemas remain plugin-owned.
+- Aligned planned paths, template/schema targets, R8 ownership, glossary wording,
+  and Chunk 1 checks. Historical context representation and remaining validation
+  rules stay open. Protected references and production files are unchanged.
+- Validation: `git diff --check` and focused layout consistency checks passed.
+  Runtime/schema checks remain unexecuted.
+
+### Discovery Report context approval — 2026-09-14
+
+- The user approved embedding important context in Discovery Reports. Scoped the
+  approval to reports, preserving the separate current Governance manifest and
+  leaving other historical-record representations open.
+- Updated the report contract, glossary, progress and planned Chunk 5 retention
+  checks. A report must remain understandable after its Discovery Repo is removed;
+  historical context does not imply continued availability of referenced evidence.
+- Validation: `git diff --check` and focused documentation consistency checks
+  passed. Protected source templates remain unchanged; runtime tests did not run.
+
+### Readiness and unresolved-register audit — 2026-09-14
+
+- The user asked whether approvals had resolved all open work. They have not:
+  R1–R4 retain narrower contract questions, and later lifecycle/Bootstrap contracts
+  remain open. Routine schema encoding and unexecuted checks were misleadingly
+  mixed into the decision list; separated them into implementation preparation.
+- Corrected the stale R1 proposal to repeat current Governance fields and clarified
+  the reference schema's pre-layout status. Recorded readiness by consuming chunk
+  without granting implementation authorization or weakening existing gates.
+- Validation: `git diff --check` and a focused readiness consistency audit passed.
+  Protected references remain unchanged. No implementation or runtime tests ran.
+
+### Fixed Governance context correction — 2026-09-14
+
+- The user clarified that a different reading scope is a different Governance
+  context and approved a Successor Discovery Repo for either pin or scope changes.
+  This replaces the earlier amendment allowance and withdraws the proposed scope
+  revision list/current pointer. Prior R1 proposals were not approved wholesale.
+- Updated glossary relationships, R1/R8, creation/successor requirements, planned
+  tests and resume guidance. Preserve the predecessor and relevant prior exposure;
+  changing permitted reading does not create or remove normative obligations.
+- Validation: `git diff --check` and focused fixed-context consistency checks
+  passed. Protected handoff references remain unchanged; no runtime tests ran.
+
+### Task-bound validation clarification — 2026-09-14
+
+- The user challenged drift policing as outside the agent's responsibility.
+  Clarified that validation serves scaffolding and requested investigation/reporting;
+  it is not continuous monitoring or a guarantee against end-user changes.
+- Existing context and output checks remain scoped to the invoked workflow.
+  Unexpected relevant discrepancies may limit conclusions but do not prevent an
+  honest Discovery Report. No new watcher, scan schedule or repair authority is added.
+- Validation: `git diff --check` passed. This clarification edits only the plan;
+  no implementation or runtime check was performed.
+
+### Location-independent authority classification — 2026-09-14
+
+- The user directed content-based authority classification; folder structure is
+  a human convenience. Withdrew mandatory directory/class matching and exclusion
+  from normative status merely for residing outside designated folders.
+- Updated R2, glossary, progress and Chunk 2 checks. Explicit identifying content
+  remains usable without reading excluded bodies. Handling missing/ambiguous
+  declarations and exact metadata conventions still needs review.
+- Validation: `git diff --check` and focused content-classification checks passed.
+  Protected references remain unchanged. No production or runtime test ran.
+
+### Prompt-or-ignore classification approval — 2026-09-14
+
+- The user approved prompting for authority classification or ignoring the
+  unclassified artifact with a warning. Recorded the omission as an investigation
+  limitation, without treating it as proof the artifact has no requirements.
+- Updated R2, glossary, progress and planned checks. This fallback preserves the
+  required Constitution, known conflict handling, and excluded-body boundary.
+- Validation: `git diff --check` and focused classification consistency checks
+  passed. Protected reference files remain unchanged; runtime checks did not run.
+
+### Minimum Constitution representation approval — 2026-09-14
+
+- The user approved a unique artifact ID, explicit constitution class and title
+  as minimum identifying content, with no substantive rules required. Example
+  ID/title values remain illustrative; location does not establish authority.
+- Updated R2, the glossary, progress and planned validation checks. Removed the
+  identifying-content decision from Unresolved; production encoding remains work.
+- Validation: `git diff --check` and focused representation consistency checks
+  passed. Protected reference templates remain unchanged; no runtime tests ran.
+
+### Detailed Supersession approval — 2026-09-14
+
+- The user approved checks for duplicate IDs, missing targets, self-links, cycles,
+  cross-level replacement and competing replacements. Explicit relationships
+  resolve competing replacements; the unclassified-artifact fallback does not
+  silently resolve a known broken normative relationship.
+- Removed detailed supersession from Unresolved and updated R2, glossary, progress
+  and planned source-preparation checks. Supported Git entries/paths remain open.
+- Validation: `git diff --check` and focused supersession consistency checks passed.
+  Protected source references remain unchanged; no runtime tests ran.
+
+### Initial source file-support approval — 2026-09-14
+
+- The user approved ordinary tracked files, including spaces/Unicode names, and
+  rejection of source symlinks, nested submodules, escaping paths and target-host
+  name collisions. The consuming Governance submodule remains permitted.
+- Marked R2 resolved and removed it from Unresolved. Implementation and source
+  validation checks remain pending; this does not authorize chunk execution.
+- Validation: `git diff --check` and focused R2 closure checks passed. Protected
+  references remain unchanged; no runtime or source-fixture test ran.
+
+### Project Setup / Activation distinction — 2026-09-15
+
+- The user approved and authorized reference alignment: Project Setup creates
+  the initial Governance/Product pair; Project Activation connects an existing
+  pair and establishes or reuses Local Project Configuration on a workstation.
+- Updated glossary, current plan, reference workflows/router, Decision 28,
+  acceptance/phase documents and contributor handoffs. Historical lessons retain
+  their original names. Pending adoption remains an Activation-only proposal;
+  this terminology decision does not approve that behavior or implementation.
+- Validation: `git diff --check`, JSON parsing, local Markdown link/anchor checks
+  and focused Setup/Activation consistency checks passed. These are documentation
+  checks; no workflow execution, dependency installation or Git mutation ran.
+
+### Pending-adoption Activation approval — 2026-09-15
+
+- The user approved Project Activation while an intentional Governance Adoption
+  is locally applied but uncommitted. Preserve files, index and history; report
+  the committed and pending revisions separately. Establish intent from an
+  existing approval or confirmation, with valid source/relationship and clean
+  Governance contents. Activation does not perform adoption or certify conformance.
+- Updated R3, progress, planned checks, terminology notes and Activation reference.
+  R3 now retains the initial-guidance arrangement; R7 adoption recovery stays open.
+- Validation: `git diff --check` and focused Activation consistency checks passed.
+  No implementation, runtime tests or Git mutations were performed.
+
+### Initial guidance arrangement approval — 2026-09-15
+
+- The user approved a short non-normative Governance README explaining where
+  requirements belong and the Charter → Discovery → Report → Proposal/adoption
+  progression. Keep it separate from the minimal Constitution and role instructions;
+  create other documents only when needed and identify unavailable handlers.
+- Marked R3 resolved and removed it from Unresolved. Updated the planned template
+  target, source reference, progress and guidance checks. Concrete wording and
+  schema encoding remain implementation work under the approved contracts.
+- Validation: `git diff --check` and focused R3 closure checks passed. No production
+  implementation or runtime tests ran.
+
+### Allocation and recovery contract approval — 2026-09-15
+
+- The user approved occupancy across committed/index/working reports and
+  reservations, exclusive reservation with bounded collision retries, reuse of
+  the owned reservation on Resume, and retention of consumed IDs on Roll back.
+  Malformed reservations remain occupied and are reported without overwrite.
+- Marked R4 resolved and removed it from Unresolved. Added explicit planned
+  checks; same-checkout coordination does not claim coordination across clones.
+- Validation: `git diff --check` and focused R4 closure checks passed. This update
+  changes only the plan; no runtime or allocation tests ran.
+
+### Creation-completion approval and R1 closure — 2026-09-15
+
+- The user approved checking the agent-created scaffold against approved identity,
+  Charter, Governance pin, reading choices and decision references before reporting
+  success. Failed checks use existing Resume/Roll back; no approval is invented.
+- Marked R1 resolved and removed it from Unresolved. First-increment design
+  decisions are now settled; later R6/R7/Bootstrap contracts remain open. Updated
+  current readiness without authorizing implementation or reopening settled rules.
+- Validation: `git diff --check` and focused R1/readiness checks passed. No runtime
+  or scaffold-creation test ran; this turn changes only the plan.
+
+### Repeated Discovery Review approval — 2026-09-15
+
+- The user approved one durable report per Discovery ID with dated review sections,
+  preserved human edits/history, explicit corrections and supporting material.
+  Surface each review before disposition; reconcile concurrent/interrupted writes
+  without duplicates or false closure. Cancellation changes no disposition itself.
+- Narrowed R6 to local Archive/retention mechanics and updated glossary, progress,
+  Chunk 5 requirements and planned checks. Earlier approvals remain intact.
+- Validation: `git diff --check` and focused repeated-review checks passed.
+  Runtime/lifecycle tests remain unexecuted; reference sources are unchanged.
+
+### In-place Archive approval — 2026-09-15
+
+- The user approved Archive as retained but inactive: record the disposition and
+  close the manifest while retaining the original location, code, uncommitted work,
+  history and pinned Governance. No move, compression, permission change or commit.
+- Updated R6, glossary, progress and planned checks; interrupted paired updates
+  use existing recovery and cannot claim complete closure. Report + Delete remains
+  the final R6 retention decision; Keep Active already preserves active status.
+- Validation: `git diff --check` and focused Archive checks passed. No runtime or
+  retention operation was executed; reference sources remain unchanged.
+
+### Report + Delete approval and R6 closure — 2026-09-15
+
+- The user approved preserving the report/context and selected supporting proofs
+  in Governance after confirming retained/lost material. Update references, record
+  omissions, and close only after retention succeeds. Provide manual removal
+  guidance; the agent does not delete the Discovery Repo or claim deletion.
+- Marked R6 resolved and removed it from Unresolved. Updated glossary, progress
+  and planned retention success/failure checks. R7 and Shimmy remain open.
+- Validation: `git diff --check` and focused R6 closure checks passed. No runtime
+  or retention operations were executed; reference sources remain unchanged.
+
+### Governance Proposal resolution approval — 2026-09-15
+
+- The user approved pending status after modification until the resulting wording
+  is accepted/rejected, with explicit unambiguous combined instructions supported.
+  Preserve revisions and supplied rationale. Accepted proposals remain non-normative
+  and require separate normative edits/impact assessment, not Product adoption.
+- Narrowed R7 to the Product code-promotion handoff and adoption recovery. Updated
+  glossary, resolution reference, progress and planned acceptance cases.
+- Validation: `git diff --check` and focused proposal-resolution checks passed.
+  No proposal workflow or runtime tests were executed.
+
+### Product-scoped promotion handoff approval — 2026-09-15
+
+- The user approved a separate Product work session receiving the report, selected
+  source/design, proofs and provenance. It recommends an approach, applies approved
+  Product changes and tests them without rewriting or feeding internals back into
+  the isolated Discovery. Adoption, retention and commits remain independent.
+- Updated R7, glossary, the reference workflow and planned context checks. Adoption
+  recovery and coordination with Product's Governance manifest remain open.
+- Validation: `git diff --check` and focused Product-handoff checks passed. No
+  session was launched and no promotion or runtime tests were executed.
+
+### Local journal lifecycle approval — 2026-09-15
+
+- The user approved workflow-helper ownership of local operation journals, written
+  before side effects and updated during execution. Retain unfinished recovery;
+  compact successful/completely rolled-back outcomes and keep them until explicit
+  cleanup. Unfinished operations require explicit abandonment before removal.
+- Recorded data-root precedence, separation from durable repository records, and
+  planned lifecycle tests. This settles journal lifecycle, not the still-pending
+  coordinated adoption/recovery proposal. No additional runtime or service is added.
+- Validation: `git diff --check` and focused journal-lifecycle checks passed.
+  No journal cleanup, recovery operation or runtime test ran.
+
+### Coordinated adoption/recovery approval and R7 closure — 2026-09-15
+
+- The user approved coordinated Product submodule/Governance-manifest updates,
+  journaling previous state and target before writes, Resume of missing effects
+  and Roll back of unchanged owned changes only. Preserve subsequent user changes;
+  agreement with the target is required to report successful local adoption.
+- Marked R7 resolved and removed it from Unresolved. Updated adoption reference,
+  glossary, progress and planned interrupted-update/recovery checks. R1–R8 are
+  settled; the authoritative Shimmy source/bootstrap contract remains open.
+- Validation: `git diff --check` and focused R7 closure checks passed. No adoption,
+  recovery, installation or runtime test was executed.
+
+### 2026-09-15 — Keep external bootstrap implementation outside this plan
+
+The user clarified that the bootstrap requirement is separation of repositories
+and implementations. The external source-selection investigation was unnecessary
+and has been removed. This plan owns delegation and the optional Project Activation
+handoff; external Product bootstrap internals belong to their own repositories.
+Closed the final Unresolved entry and aligned readiness and resume guidance.
+Implementation remains subject to explicit authorization and chunk review gates.
+
 ## Session bootstrap
 
 This plan is the single resume source for the ongoing review. The separate
 session handoff was consolidated and removed at the user's request; this does
-not complete the review or change the source package in `planning/handoffs/`.
+not authorize implementation or change the source package in `planning/handoffs/`.
 
 ### Current review state
 
@@ -2405,26 +3286,58 @@ not complete the review or change the source package in `planning/handoffs/`.
 - Continue one plain-text decision question at a time. Explain the problem,
   concrete example, recommendation, and tradeoff first. Structured prompts were
   not visible to the user. Prefer practical effects over Git/configuration jargon.
+- Use glossary-defined terms and explain each artifact's role before discussing
+  its fields or validation. Include hypothetical records when proposing rules
+  about record contents or relationships. The user requested this context after
+  the cross-document consistency question; its resulting contract is now approved.
 - Do not reopen accepted identity/retrieval rules, recovery, interview resumption,
-  portable creation decisions, ordinary unfinished-edit handling, R5, or R8.
+  portable creation decisions, ordinary unfinished-edit handling, R1's basic
+  manifest validation rules, individual creation-decision structure and
+  reference/selection rules, R5, or R8.
   Constitution must exist but may contain no rules until deliberate promotion.
   Setup guidance must not turn tentative goals into constitutional requirements.
 - Latest task review rebundled six chunks into ten. Chunk 1 retains the skeleton
-  milestone gate; Chunks 2–4 divide source validation, Project Setup, and Discovery
+  milestone gate; Chunks 2–4 divide source validation, Project Setup/Activation, and Discovery
   creation. The first increment ends at Chunk 4. Basic installed discovery moves
   to Chunk 1 and repeats at Chunk 4; hardening is Chunk 10. No chunk is active.
 - Discovery creation validates its own Governance source and
   submodule without verifying Product adoption, inspecting Product status, or
   waiting for a Product commit. Product-derived inputs matter only when explicitly
-  selected and permitted. The remaining pending-adoption proposal applies only
-  to explicit Product/project registration and adoption; it is still unapproved.
-- Remaining review: R1 schema/metadata representation, cross-document checks,
-  and selected-tool validation requirements; R2 detailed classification and
-  supported Git entries/paths; R3 exact guidance/placeholder/interview structures
-  and Product-scoped pending adoption; R4 reservation storage/retries/recovery;
-  R6–R7 repeated reviews, archival, proposal resolution and Product-context
-  promotion; Chunk 9's authoritative Shimmy Product source/bootstrap contract.
-  Sibling checkout names are discovery leads, not accepted bootstrap contracts.
+  selected and permitted. Activation during intentional pending Governance Adoption
+  and R7 adoption execution/recovery are approved.
+- Latest approval centralizes each consuming repository's Governance context in
+  `.governed/governance.yaml`. The `.governed/` layout and plugin-owned schema
+  definitions are approved. Planned generated paths are aligned; production
+  assets still require adaptation. Discovery Report context embedding is approved;
+  creation-completion consistency behavior is approved; R1 is resolved.
+- All recorded design decisions are resolved, including R1–R8 and the Shimmy
+  separation boundary. Concrete schema encoding remains implementation work.
+  Await implementation authorization; no execution is authorized.
+- Latest approval freezes both Discovery pin and reading scope at creation.
+  A change to either requires a Successor Discovery Repo, including scope-only
+  changes at the same pin. The in-place scope-revision proposal is withdrawn.
+  Apply the approved R1 consistency/failure behavior to the single fixed scope.
+- Validation is task-bound: scaffold, investigate and report. Do not add continuous
+  monitoring or police end-user changes. Report relevant encountered discrepancies
+  and limitations without claiming complete detection or blocking honest reports.
+- R2 classification is content-based and independent of folder location. Missing
+  or ambiguous declarations prompt for classification or are ignored as normative
+  inputs with a warning. Minimum Constitution ID/class/title content is approved.
+  R2 is resolved, including the file/path support boundary. Excluded bodies remain unread.
+- Project Setup means initial Governance/Product creation at Governance's first
+  commit. Project Activation connects an existing pair on a workstation. The
+  pending-adoption Activation allowance is approved on 2026-09-15.
+  Contributor onboarding routes to Activation. These names are now aligned in
+  the glossary and authorized reference maintenance.
+- R3 is resolved, including Project Activation during intentional pending adoption
+  and initial non-normative README guidance. R4 allocation/reservation recovery
+  is also resolved. R1 creation-completion checks are approved. R1–R8 are resolved; no ongoing monitoring is in scope.
+- Journal lifecycle is approved: workflow-owned local operations records, retained
+  unfinished recovery, compact outcomes and explicit cleanup. Coordinated adoption/recovery is approved. Shimmy Product bootstrap details
+  stay in their separate repositories; do not investigate them for this plan.
+- [Unresolved](#unresolved) now records no pending design issues. Detailed R1–R8
+  contracts and their approval status live in
+  [Design contracts and review status](#design-contracts-and-review-status).
 - Documentation/link checks have passed as recorded above. Runtime tests, full
   schema validation, tool canaries, and the required installed-plugin check remain
   unexecuted. Reference schemas/templates still need the recorded production
@@ -2454,6 +3367,6 @@ Preserve the read-only handoff, separate repository roles, single public router,
 
 **Documentation maintenance includes the user-authorized glossary, common Governance submodules, and reading-scope alignment. Wait for the user to explicitly authorize production implementation.** Preserve the recorded `yq` and `jv` choices. Root guidance now permits disposable fixture setup; R5 defines this capability's separate runtime Git permissions. Do not reopen those settled approvals or infer chunk execution authorization from them. Do not reinstate a Python dependency. Treat simplicity as a goal and report its metrics at every review.
 
-After explicit implementation approval, recheck instructions and repository state, then move this authoritative plan from `planning/notional/` to `planning/wip/` before changing implementation files. Start only the approved chunk after its open contract prerequisites are resolved. Update the root plan link for its lifecycle move, progress, acceptance coverage, tests, partial verification, and lessons before stopping at its review gate. Move to `planning/complete/` only after final human acceptance, adding `Completed: YYYY-MM-DD` immediately after the title. Never overwrite a colliding plan destination.
+After explicit implementation approval, recheck instructions and repository state, then move this authoritative plan from `planning/notional/` to `planning/wip/` before changing implementation files. Start only the authorized chunk after its prerequisite chunks are accepted, using the approved contracts. Update the root plan link for its lifecycle move, progress, acceptance coverage, tests, partial verification, and lessons before stopping at its review gate. Move to `planning/complete/` only after final human acceptance, adding `Completed: YYYY-MM-DD` immediately after the title. Never overwrite a colliding plan destination.
 
 At every executed chunk’s review, include a distinct partial-verification section. For each `[~]` item, state what passed, what remains, why, its impact, the next action, and whether it blocks acceptance or is proposed for explicit deferral. If none exists, state `None`.

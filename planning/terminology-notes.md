@@ -60,7 +60,7 @@ exclusions, and their representation; it does not silently settle R1–R4's othe
 details or R6–R7 lifecycle mechanics. R5's Chunk 2 installation gate is approved.
 
 Remaining details include the data tools' demonstrated input validation, general
-schema adaptations, exact authority classification, pending Product adoption,
+schema adaptations, exact authority classification, pending-adoption recovery,
 persisted interview binding schemas and allocation storage,
 repeated reviews, and Product-context promotion. The Shimmy bootstrap contract
 must come from the selected Product source before Chunk 5.
@@ -103,18 +103,20 @@ placeholder until matured Governance is deliberately promoted into it. The
 glossary and R2/R3 record that resolved distinction. Missing/malformed artifacts
 remain invalid; a valid placeholder adds no constitutional requirements and still
 belongs in the approved reading scope. Existing obligations and pinning rules
-remain intact. Exact placeholder metadata/template form and non-normative guide
-layout remain open; later automated handlers stay in their existing chunks.
+remain intact. Minimum Constitution ID/class/title content is approved, and the
+non-normative Governance README arrangement was approved on 2026-09-15. Concrete
+template wording remains implementation work; later automated handlers stay in
+their existing chunks.
 Reference schemas/templates remain unchanged and their future adaptation must
 avoid descriptions that assume every Constitution already contains rules.
 
-Existing-project setup may proceed with ordinary unfinished edits outside the
+Project Activation may proceed with ordinary unfinished edits outside the
 read-only Governance submodule when identity/path/Git checks pass. The user
 approved reporting and preserving that work, with conflicts and unexplained
 Governance discrepancies diagnosed before completion. Recognizing and permitting
-pending Product adoption remains a separate R3 proposal for explicit Product
-registration/adoption; its committed revision must not be conflated with a locally
-applied change. The user corrected the proposed coupling to Discovery creation:
+intentional pending Product adoption during Project Activation was approved on
+2026-09-15; its committed revision must not be conflated with a locally applied
+change. R7's adoption execution/recovery contract remains separate. The user corrected the proposed coupling to Discovery creation:
 Discovery validates its own Governance source and submodule, without verifying
 Product adoption or waiting for a Product commit. Product-derived inputs are
 checked only when explicitly selected and permitted. This preserves the existing
@@ -152,3 +154,7 @@ The acceptance matrix contains AT-001–033, including four new reading-scope an
 submodule boundary cases. Runtime tests, selected-tool canaries, and the required
 Chunk 2 installation test have not run. No production code was added, dependencies
 installed, commits created, or real project repositories modified.
+
+## Project Setup and Project Activation — 2026-09-15
+
+The user approved distinct names: Project Setup creates the initial Governance/Product pair and initial pin; Project Activation connects an existing pair on a workstation and establishes or reuses Local Project Configuration. Pending Product Governance Adoption is an Activation question, not an initial Setup state. The terminology approval did not resolve that behavior; the subsequent 2026-09-15 approval permits Activation during intentional pending adoption while preserving Git state and reporting committed/pending revisions separately. The glossary, authoritative plan, routing/workflow references, contributor handoffs, acceptance wording and Decision 28 are aligned. This is authorized reference maintenance, not implementation.

@@ -10,7 +10,7 @@
 ## Milestone 2 — Set up and create
 
 - Implement Local Project Configuration.
-- Implement Product/Governance Project Setup interview.
+- Implement Project Setup for initial pair creation and Project Activation for connecting existing pairs.
 - Implement sequential ID allocator.
 - Implement Governance submodule initialization and Full/Curated reading-scope rules.
 - Implement minimal Discovery Repo creation and validation.
@@ -32,7 +32,7 @@
 
 - Inspect Shimmy Product sources.
 - Implement delegation contract and validation.
-- Add contributor handoff to governed-development Project Setup.
+- Add contributor handoff to governed-development Project Activation.
 
 ## Milestone 6 — Hardening and release
 

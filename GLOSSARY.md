@@ -50,7 +50,7 @@ Shared project language used across all categories. These terms retain the same 
 
 #### Workflow delivery
 
-The language for distributing reusable workflow capabilities and connecting them to project repositories, including routing, Project Setup, Local Project Configuration, and ownership of generated instructions.
+The language for distributing reusable workflow capabilities and connecting them to project repositories, including routing, Project Setup, Project Activation, Local Project Configuration, and ownership of generated instructions.
 
 [back to category index](#category-index)
 
@@ -64,7 +64,7 @@ The language for distributing reusable workflow capabilities and connecting them
 - [G](#g): [Governance](#governance), [Governance Adoption](#governance-adoption), [Governance Artifacts](#governance-artifacts), [Governance Proposal](#governance-proposal), [Governance Reading Scope](#governance-reading-scope), [Governed Development skill](#governed-development-skill)
 - [L](#l): [Local Project Configuration](#local-project-configuration)
 - [M](#m): [Materialized Governance](#materialized-governance)
-- [P](#p): [Pinned Governance Revision](#pinned-governance-revision), [Policy](#policy), [Product](#product), [Product Access Mode](#product-access-mode), [Product Impact Assessment](#product-impact-assessment), [Project Setup](#project-setup)
+- [P](#p): [Pinned Governance Revision](#pinned-governance-revision), [Policy](#policy), [Product](#product), [Product Access Mode](#product-access-mode), [Product Impact Assessment](#product-impact-assessment), [Project Activation](#project-activation), [Project Setup](#project-setup)
 - [S](#s): [Shimmy Onboarding](#shimmy-onboarding), [Specification](#specification), [Successor Discovery Repo](#successor-discovery-repo), [Supersession](#supersession)
 
 ## A
@@ -136,7 +136,9 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 The narrow, highest-authority part of the ***Governance Artifacts*** containing foundational principles, non-negotiable invariants, project philosophy, and governance rules.
 
 The Constitution must exist, but may initially be an empty placeholder with no
-constitutional rules. Matured Governance is added through deliberate promotion;
+constitutional rules. Its minimum identifying content is a unique artifact ID,
+an explicit constitution class, and a title. Folder location does not establish
+its authority; a heading may accompany the metadata without adding rules. Matured Governance is added through deliberate promotion;
 the placeholder's existence does not itself establish requirements.
 
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Discovery Report template](planning/handoffs/templates/DISCOVERY-REPORT.md), [Discovery Comparison template](planning/handoffs/templates/DISCOVERY-COMPARISON.md), decisions 5–8, 12, 23, 31–35.
@@ -167,7 +169,7 @@ Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycl
 
 **Category:** [Product integration and adoption](#product-integration-and-adoption)
 
-A form of ***Discovery Disposition*** that transfers a Discovery Repo’s code or design into ***Product*** through developer-reviewed Transplant, Adapt, or Reimplement. It does not imply acceptance of a ***Governance Proposal***.
+A form of ***Discovery Disposition*** that transfers a Discovery Repo’s code or design into ***Product*** through developer-reviewed Transplant, Adapt, or Reimplement. It does not imply acceptance of a ***Governance Proposal***. Promotion uses a separate Product-scoped work session receiving the Discovery Report, approved source code/design, relevant Conformance Proofs and source provenance. Integration findings stay in Product context; they do not rewrite or feed Product internals back into the isolated Discovery investigation.
 
 Sources: [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Product layout](planning/handoffs/reference-layouts/product-repo.md), [Isolation modes](planning/handoffs/docs/08-security-and-isolation.md), decisions 5, 16, 24, 32–33.
 
@@ -188,6 +190,8 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
 The developer’s decisions about what happens to a Discovery Repo and its results. These include two independent forms of promotion—***Discovery Code Promotion*** and ***Discovery Governance Promotion***—plus an independent repository retention choice: Archive, Report + Delete, or Keep Active. Both promotions may be selected, either may be declined or deferred, and neither implies a retention choice or closed status.
+
+**Archive** records the disposition and closes the Discovery Manifest while retaining the Discovery Repo in place, including code, uncommitted work, Git history and access to its Pinned Governance Revision. It does not move or compress the repository, change permissions, or create a commit. **Report + Delete** preserves the Discovery Report and important context, confirms which supporting Conformance Proofs to retain, and stores selected material durably in Governance with updated references and disclosed omissions. It records closed status only after required retention succeeds, then provides manual removal guidance; the agent does not delete the Discovery Repo or claim deletion occurred. **Keep Active** retains active status.
 
 Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
@@ -221,7 +225,9 @@ Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycl
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-The `DISCOVERY.yaml` record of a ***Discovery Repo***'s identity, Governance identity, Pinned Governance Revision and Governance Reading Scope, framing, Product access, charter, comparison, predecessor, workflow version, and status. It describes the Discovery Repo rather than replacing its later ***Discovery Report***.
+The `.governed/discovery.yaml` record of a ***Discovery Repo***'s identity, framing, Product access, ***Discovery Charter***, comparison, predecessor, workflow version, and status. It obtains Governance identity, ***Pinned Governance Revision***, and the location of its ***Governance Reading Scope*** record from that repository's independent `.governed/governance.yaml` by convention. Product and each Discovery Repo retain their own Governance context and independently selected pins. It describes the Discovery Repo rather than replacing its later ***Discovery Report***.
+
+The approved per-repository context split replaces the reference `DISCOVERY.yaml`'s embedded Governance fields. The approved `.governed/` layout places the Governance Reading Scope in `.governed/reading-scope.yaml`; shared schema definitions remain packaged with the plugin. Reference schemas/templates await coordinated adaptation.
 
 Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
@@ -240,6 +246,16 @@ Sources: [Architecture](planning/handoffs/docs/01-architecture.md), [Governance 
 **Category:** [Governance authority and findings](#governance-authority-and-findings)
 
 A written output recording what one ***Discovery Repo*** investigated, what happened, what was learned, and the developer's subsequent decisions about it. It uses the implementation's `DISC-*` ID and lives in `discoveries/` relative to the ***Governance*** repository root. It preserves the charter, results, ***Conformance Proofs***, limitations, rejected approaches, and independent promotion and retention choices even if the implementation repository is removed. The report remains non-normative.
+
+The report embeds important historical context, including Governance identity,
+***Pinned Governance Revision***, ***Discovery Charter***, ***Product Access Mode***,
+and the ***Governance Reading Scope*** and relevant prior exposure used for the
+review. Detailed supporting scope material must be embedded or durably retained
+in Governance. Understanding that context cannot depend on the Discovery Repo's
+continued existence or its current manifest contents. Earlier review context
+remains preserved when subsequent reviews are recorded. One durable report per Discovery ID receives a new
+dated section for each review. Preserve earlier sections and human edits; record
+changed conclusions explicitly with their supporting Conformance Proofs.
 
 For example, `DISC-0042` investigates database deduplication for payment retries. Its Discovery Report records whether the tested retries caused duplicate charges, measured latency, links to the tests and logs, untested failure scenarios, and the developer's decisions about promotion and retention. It answers “What did we learn from DISC-0042, and what happens to it next?”
 
@@ -303,7 +319,7 @@ Sources: [Architecture](planning/handoffs/docs/01-architecture.md), [Governance 
 
 **Category:** [Product integration and adoption](#product-integration-and-adoption)
 
-An explicit ***Product*** decision to advance its pinned ***Governance*** revision after reviewing impact, implementation, conformance, tests, and incompatibilities. The workflow recommends readiness or deferral while leaving the final choice to the developer.
+An explicit ***Product*** decision to advance its pinned ***Governance*** revision after reviewing impact, implementation, conformance, tests, and incompatibilities. The workflow recommends readiness or deferral while leaving the final choice to the developer. After approval it updates Product's Governance submodule checkout and `.governed/governance.yaml` consistently, without staging or committing. Local application remains pending the developer's commit. Recovery uses the local operation journal, preserves unrelated work and subsequent developer changes, and does not change Discovery Repo contexts.
 
 _Avoid_: Proposal acceptance, automatic synchronization, automatic conformance certification.
 
@@ -313,7 +329,7 @@ Sources: [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adopti
 
 **Category:** [Shared](#shared)
 
-The documents and other material stored in the Governance repository: requirements, Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals. Each artifact retains its authority classification; storage in Governance does not make every artifact binding.
+The documents and other material stored in the Governance repository: requirements, Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals. Each artifact retains its authority classification; storage in Governance does not make every artifact binding. An artifact's normative class is determined from its content, independently of its folder or filename; directory structure does not establish authority. Identifying an artifact's class must still respect the permitted reading boundary. If authority is missing or ambiguous, the agent prompts for classification. If unresolved, it ignores the artifact as a normative input with a warning and records the limitation; this does not establish that the artifact has no requirements or waive known obligations.
 
 A ***Governance Reading Scope*** determines which artifacts an agent may read in a ***Discovery Repo*** at its ***Pinned Governance Revision***. The complete Governance checkout remains present; the scope does not alter authority.
 
@@ -325,7 +341,7 @@ Sources: [Architecture](planning/handoffs/docs/01-architecture.md), [Governance 
 
 **Category:** [Governance authority and findings](#governance-authority-and-findings)
 
-A structured, non-normative request to change ***Governance***, connecting findings and Conformance Proofs to a target artifact and suggested change. Acceptance authorizes separate normative edits; the proposal itself remains non-normative.
+A structured, non-normative request to change ***Governance***, connecting findings and Conformance Proofs to a target artifact and suggested change. Acceptance authorizes separate normative edits; the proposal itself remains non-normative. Modification alone leaves the proposal pending until its revised wording is explicitly accepted or rejected. An unambiguous instruction may explicitly combine revision and acceptance. Preserve material revisions and supplied rationale; acceptance does not transfer silently to subsequently changed wording or imply Governance Adoption.
 
 _Avoid_: Policy, Specification, or accepted Governance when referring only to a proposal.
 
@@ -335,7 +351,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-The developer-approved boundary on which ***Governance Artifacts*** an agent may read for a ***Discovery Repo*** at its ***Pinned Governance Revision***.
+The developer-approved boundary on which ***Governance Artifacts*** an agent may read for a ***Discovery Repo*** at its ***Pinned Governance Revision***. Together, the pin and reading scope define that investigation's Governance context. Both are fixed when the Discovery Repo is created; changing either requires a ***Successor Discovery Repo***. A different reading scope constitutes a different Governance context even at the same commit. This does not change artifact authority or remove obligations through exclusion.
 
 - **Full:** permits reading all artifacts in the pinned commit's tree, subject to ***Product Access Mode***.
 - **Curated:** always permits the Constitution, then records explicit per-path allow/exclude decisions and reasons. Excluded and unlisted artifact bodies must not be read, searched, summarized, or obtained indirectly through other tools or agents.
@@ -362,7 +378,7 @@ Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md)
 
 **Category:** [Workflow delivery](#workflow-delivery)
 
-User-local plugin data associating a project with its Product path, Governance path, Governance submodule path, and Discovery Repo parent directory. It is workstation configuration rather than repository-intrinsic provenance; another workstation repeats Project Setup.
+User-local plugin data associating a project with its Product path, Governance path, Governance submodule path, and Discovery Repo parent directory. It is workstation configuration rather than repository-intrinsic provenance; another workstation uses Project Activation. Project Setup saves this configuration when creating a new pair; Project Activation establishes or reuses it for an existing pair.
 
 Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md), [Onboarding contract](planning/handoffs/plugin-reference/plugins/shimmy-onboarding/skills/shimmy-onboarding/references/onboarding-contract.md), decisions 17–18, 28–30, 36–37.
 
@@ -395,7 +411,7 @@ Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md)
 
 The exact ***Governance*** commit referenced by a repository's read-only Governance submodule. ***Product*** and each ***Discovery Repo*** choose their pins independently. The committed Git link records the durable pin; a newly initialized, staged link is pending the developer's commit.
 
-For Product, deliberate adoption gives the revision the additional meaning of ***Adopted Governance Revision***. For Discovery Repo, the pin fixes the investigation's Governance baseline and makes no conformance claim. Its pin stays fixed; work requiring a different Governance revision uses a ***Successor Discovery Repo***.
+For Product, deliberate adoption gives the revision the additional meaning of ***Adopted Governance Revision***. For Discovery Repo, the pin fixes the investigation's Governance baseline and makes no conformance claim. Its pin and ***Governance Reading Scope*** stay fixed from creation; work requiring a different revision or scope uses a ***Successor Discovery Repo***.
 
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), decision 16.
 
@@ -431,13 +447,21 @@ The required assessment accompanying an accepted ***Governance Proposal*** that 
 
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Discovery Report template](planning/handoffs/templates/DISCOVERY-REPORT.md), [Discovery Comparison template](planning/handoffs/templates/DISCOVERY-COMPARISON.md), decisions 5–8, 12, 23, 31–35.
 
+### Project Activation
+
+**Category:** [Workflow delivery](#workflow-delivery)
+
+The activity connecting an existing ***Product***/***Governance*** repository pair for use on a workstation. It confirms repository identity, local paths and the existing submodule relationship, and establishes or reuses ***Local Project Configuration***. It creates no replacement repositories and performs no ***Governance Adoption***. Activating an existing pair on another workstation does not repeat its initial creation. Relevant existing-file and Git permissions remain governed by the workflow contract.
+
+Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md), [Activation workflow](planning/handoffs/plugin-reference/plugins/governed-exploratory-development/skills/governed-development/references/workflows/project-activation.md), decision 28.
+
 ### Project Setup
 
 **Category:** [Workflow delivery](#workflow-delivery)
 
-The setup interview establishing a confirmed ***Product***/***Governance*** repository pair and its local paths and submodule relationship. Its workstation-specific result is ***Local Project Configuration***.
+The initial creation of a ***Governance*** repository and a ***Product*** repository, including their submodule relationship and ***Local Project Configuration***. Product initially pins Governance's first commit. Setup creates no Discovery Repo automatically. Connecting an already-existing pair is ***Project Activation***; later changes to Product's Governance pin belong to ***Governance Adoption***.
 
-Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md), [Onboarding contract](planning/handoffs/plugin-reference/plugins/shimmy-onboarding/skills/shimmy-onboarding/references/onboarding-contract.md), decisions 17–18, 28–30, 36–37.
+Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md), [Setup workflow](planning/handoffs/plugin-reference/plugins/governed-exploratory-development/skills/governed-development/references/workflows/project-setup.md), decisions 17–18, 28–30, 36–37.
 
 [back to index](#terminology-index)
 
@@ -463,7 +487,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-A new ***Discovery Repo*** repository continuing a predecessor when material ***Governance*** changes require a different ***Pinned Governance Revision***. Its manifest records the predecessor's ID in `derived_from` and a reason; the predecessor's pin and reading scope remain unchanged.
+A new ***Discovery Repo*** continuing a predecessor under a different ***Pinned Governance Revision*** or ***Governance Reading Scope***. A scope-only successor can use the same Governance commit. Its manifest records the predecessor's ID in `derived_from` and a reason; it has its own approved Charter and Governance context. The predecessor's pin and reading scope remain unchanged. Relevant prior exposure is preserved; a new repository does not erase information already acquired.
 
 _Avoid_: Advancing the predecessor’s pin, new branch of the predecessor, Comparison Target as a synonym for predecessor.
 
@@ -473,7 +497,7 @@ Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycl
 
 **Category:** [Governance authority and findings](#governance-authority-and-findings)
 
-An explicit relationship in which a normative artifact replaces a predecessor at the same authority level. It cannot make a lower-level artifact override a higher-level one.
+An explicit relationship in which a normative artifact replaces a predecessor at the same authority level. It cannot make a lower-level artifact override a higher-level one. Duplicate IDs, missing targets, self-links, cycles, and cross-level replacements require resolution rather than an inferred winner. Competing replacements require an explicit relationship establishing which applies or a later same-level artifact superseding both. These checks occur during source preparation and do not authorize rewriting the source.
 
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Discovery Report template](planning/handoffs/templates/DISCOVERY-REPORT.md), [Discovery Comparison template](planning/handoffs/templates/DISCOVERY-COMPARISON.md), decisions 5–8, 12, 23, 31–35.
 

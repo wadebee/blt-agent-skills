@@ -15,7 +15,7 @@
 | 18 | Materialized Governance: generated instructions and derived artifacts; AT-029 |
 | 19 | Security/isolation validation |
 | 24 | Discovery Code Promotion workflow |
-| 28, 29 | Project Setup and Local Project Configuration |
+| 28, 29 | Project Setup, Project Activation and Local Project Configuration |
 | 30 | Global Git behavior and tests |
 
 The glossary-authorized terminology revision is also covered by AT-026–029: independent Discovery Disposition choices, Keep Active status, broad Conformance Proofs, and Materialized Governance update rules.

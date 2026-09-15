@@ -15,7 +15,11 @@
 - Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals cannot be mistaken for normative authority.
 - Proposal presence in the Governance repo never makes it authoritative.
 
-## Project Setup
+## Project Setup and Project Activation
+
+- Project Setup creates a new Governance/Product pair with Product pinned to Governance's first commit.
+- Project Activation connects an existing pair and establishes or reuses local configuration without recreating repositories or performing Governance Adoption.
+- Missing local configuration does not itself authorize new repository creation.
 
 - Product and Governance paths are confirmed explicitly.
 - Product’s Governance submodule is validated and treated as read-only.
