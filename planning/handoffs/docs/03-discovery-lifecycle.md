@@ -12,7 +12,9 @@ Creation interview
 Minimal local Git repo
 ├── AGENTS.md
 ├── DISCOVERY.yaml
-└── .governance/
+├── GOVERNANCE-READING-SCOPE.yaml
+├── .gitmodules
+└── .governance/  # pinned submodule
    │
    ▼
 Discovery Repo
@@ -31,14 +33,14 @@ Discovery Report is generated and surfaced
 
 The public router should infer that the user intends to create a Discovery Repo and then conduct one concise decision at a time.
 
-### 1. Governance Artifacts selection
+### 1. Governance Reading Scope
 
 Required choice:
 
-- **Full Governance Artifacts**
-- **Curated Governance Artifacts**
+- **Full Governance Reading Scope**
+- **Curated Governance Reading Scope**
 
-The router provides a context-sensitive recommendation but does not select automatically.
+The router provides a context-sensitive recommendation but does not select automatically. Full permits the pinned tree; Curated records agent allow/exclude rules while the complete submodule remains present. Both remain subject to Product Access Mode. Read the scope record before any Governance bodies.
 
 ### 2. Discovery Type
 
@@ -118,14 +120,20 @@ No language, build, dependency, directory, CI, or test scaffold is supplied.
 <project>-disc-<id>-<slug>/
 ├── AGENTS.md
 ├── DISCOVERY.yaml
-└── .governance/
-    ├── SNAPSHOT.yaml
-    └── <copied selected artifacts>
+├── GOVERNANCE-READING-SCOPE.yaml
+├── .gitmodules
+└── .governance/  # pinned submodule
+    └── <complete Governance tree at the selected commit>
 ```
 
-## Immutability
+Contract-aware mode additionally places approved exports under `.contracts/`, outside the submodule. Creation stages only `.gitmodules` and the Governance Git link; the developer commits the Discovery Repo. No Product remote or automatic Discovery commit is created.
 
-- `.governance/` is immutable.
+## Fixed baseline and reading boundaries
+
+- `.governance/` is read-only, and its selected commit stays fixed.
+- Validate its Git state before relying on it; surface changes without resetting them.
+- `GOVERNANCE-READING-SCOPE.yaml` binds reading decisions to that commit. Curated exclusions govern all agent transports even though excluded files remain present.
+- Reading-scope changes require explicit amended choices, preserve prior review provenance, and cannot erase prior exposure.
 - The charter and provenance fields in `DISCOVERY.yaml` should be treated as immutable after coding begins.
 - A status field may transition from `active` to `closed`; Discovery Review findings belong in the durable Discovery Report, not in the original charter.
 - A material Governance update creates a successor repository with `derived_from: DISC-xxxx` and a reason.
@@ -139,7 +147,7 @@ Discovery Review is two-stage.
 Create and surface `governance/discoveries/DISC-xxxx.md` containing:
 
 - identity and repository name;
-- Governance source and artifacts selection;
+- Governance source, pinned revision, and reading scope;
 - framing and Product-access mode;
 - charter;
 - result against success criteria;

@@ -1,18 +1,18 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://beeline-technologies.example/schemas/governance-snapshot.schema.json",
-  "title": "Governance Snapshot Provenance",
+  "$id": "https://beeline-technologies.example/schemas/governance-reading-scope.schema.json",
+  "title": "Governance Reading Scope",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema_version",
     "discovery_id",
-    "created_at",
     "source",
-    "artifacts_selection",
+    "submodule_path",
+    "mode",
     "authority_model",
-    "selection_decisions",
-    "integrity"
+    "decisions",
+    "workflow"
   ],
   "properties": {
     "schema_version": {
@@ -21,10 +21,6 @@
     "discovery_id": {
       "type": "string",
       "pattern": "^DISC-[0-9]{4,}$"
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
     },
     "source": {
       "type": "object",
@@ -40,11 +36,14 @@
         },
         "commit": {
           "type": "string",
-          "pattern": "^[0-9a-fA-F]{40}$"
+          "pattern": "^[0-9a-f]{40}$"
         }
       }
     },
-    "artifacts_selection": {
+    "submodule_path": {
+      "const": ".governance"
+    },
+    "mode": {
       "enum": [
         "full",
         "curated"
@@ -59,28 +58,29 @@
         "active-adrs"
       ]
     },
-    "selection_decisions": {
+    "decisions": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "artifact",
+          "path",
           "decision",
           "relevance",
           "benefit",
-          "risk_if_included",
+          "risk_if_read",
           "risk_if_excluded",
           "developer_note"
         ],
         "properties": {
-          "artifact": {
+          "path": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "description": "Exact normalized file path relative to the Governance root; no globs or directory expansion. Source membership, duplicate paths and containment are semantic checks."
           },
           "decision": {
             "enum": [
-              "include",
+              "allow",
               "exclude"
             ]
           },
@@ -90,37 +90,70 @@
           "benefit": {
             "type": "string"
           },
-          "risk_if_included": {
+          "risk_if_read": {
             "type": "string"
           },
           "risk_if_excluded": {
             "type": "string"
           },
           "developer_note": {
-            "oneOf": [
-              {
-                "type": "null"
-              },
-              {
-                "type": "string"
-              }
+            "type": [
+              "string",
+              "null"
             ]
           }
         }
-      }
+      },
+      "uniqueItems": true
     },
-    "integrity": {
+    "workflow": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "content_manifest_sha256"
+        "marketplace",
+        "plugin",
+        "version"
       ],
       "properties": {
-        "content_manifest_sha256": {
+        "marketplace": {
+          "const": "Beeline-Technologies"
+        },
+        "plugin": {
+          "const": "governed-exploratory-development"
+        },
+        "version": {
           "type": "string",
-          "pattern": "^[0-9a-fA-F]{64}$"
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$"
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "full"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "decisions": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "decisions": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
 }

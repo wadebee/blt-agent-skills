@@ -24,17 +24,17 @@
 
 ## Discovery Repo creation
 
-- A new repo contains only `AGENTS.md`, `DISCOVERY.yaml`, `.governance/`, and Git administrative data.
+- A new repo contains `AGENTS.md`, `DISCOVERY.yaml`, `GOVERNANCE-READING-SCOPE.yaml`, `.gitmodules`, the `.governance/` submodule, and Git administrative data; Contract-aware mode alone adds `.contracts/`.
 - The Governance source commit is exact and recorded.
-- Full vs Curated is an explicit developer choice.
-- Curated selection records inclusion and materially relevant exclusion decisions.
+- Full vs Curated Governance Reading Scope is an explicit developer choice over the complete pinned submodule.
+- Curated records exact path allow/exclude decisions, defaults unlisted bodies to excluded, and constrains reads/searches/summaries across transports. Constitution is always allowed; minimal metadata is available for source-wide authority validation.
 - Type, framing, Product access, charter, and optional comparison are captured.
 - Isolated and Contract-aware guardrails apply regardless of information transport.
 - No remote repository is created or modified.
 
 ## Discovery Repo continuation and Discovery Review
 
-- Governance snapshot content cannot be silently refreshed.
+- The Discovery Governance pin cannot be silently advanced; dirty or unexpected submodule contents are surfaced and preserved.
 - A changed Governance baseline creates a successor with `derived_from` and reason.
 - Discovery Review always generates and surfaces a durable record before Discovery Disposition.
 - Repository retention (Archive, Report + Delete, or Keep Active) is independent of Discovery Code Promotion and Discovery Governance Promotion. Both promotions may be selected.
@@ -51,7 +51,8 @@
 
 ## Git behavior
 
-- Skills never create commits.
+- Only initial Governance/Product creation may create its approved initial commits.
+- Discovery creation stages only `.gitmodules` and the Governance Git link, configures only the required submodule connection, and creates no commit.
 - Skills may show suggested commit messages.
 - Dirty working trees are detected and handled without destructive overwrite.
 - Generated changes are reviewable before any developer Git action.
@@ -64,6 +65,6 @@
 
 ## Materialized Governance and Conformance Proofs
 
-- Materialized Governance includes snapshots, generated instructions, and other Governance-derived artifacts without adding authority.
-- Snapshot immutability and repository ownership of generated instructions remain distinct update rules.
+- Materialized Governance includes generated instructions and other Governance-derived artifacts without adding authority.
+- The fixed Discovery Governance pin, approved reading scope, and repository ownership of generated instructions have distinct rules; instruction edits cannot silently broaden reading permission.
 - Conformance Proofs preserve negative results, uncertainty, and material unrelated to requirements; their name does not imply certainty or successful conformance.

@@ -61,10 +61,10 @@ The language for distributing reusable workflow capabilities and connecting them
 - [C](#c): [Comparison Target](#comparison-target), [Conformance Proofs](#conformance-proofs), [Constitution](#constitution), [Contract Export](#contract-export)
 - [D](#d): [Discovery Charter](#discovery-charter), [Discovery Code Promotion](#discovery-code-promotion), [Discovery Comparison](#discovery-comparison), [Discovery Disposition](#discovery-disposition), [Discovery Framing](#discovery-framing), [Discovery Governance Promotion](#discovery-governance-promotion), [Discovery ID](#discovery-id), [Discovery Manifest](#discovery-manifest), [Discovery Repo](#discovery-repo), [Discovery Report](#discovery-report), [Discovery Review](#discovery-review), [Discovery Type](#discovery-type)
 - [F](#f): [Finding](#finding)
-- [G](#g): [Governance](#governance), [Governance Adoption](#governance-adoption), [Governance Artifacts](#governance-artifacts), [Governance Proposal](#governance-proposal), [Governance Snapshot](#governance-snapshot), [Governed Development skill](#governed-development-skill)
+- [G](#g): [Governance](#governance), [Governance Adoption](#governance-adoption), [Governance Artifacts](#governance-artifacts), [Governance Proposal](#governance-proposal), [Governance Reading Scope](#governance-reading-scope), [Governed Development skill](#governed-development-skill)
 - [L](#l): [Local Project Configuration](#local-project-configuration)
 - [M](#m): [Materialized Governance](#materialized-governance)
-- [P](#p): [Policy](#policy), [Product](#product), [Product Access Mode](#product-access-mode), [Product Impact Assessment](#product-impact-assessment), [Project Setup](#project-setup)
+- [P](#p): [Pinned Governance Revision](#pinned-governance-revision), [Policy](#policy), [Product](#product), [Product Access Mode](#product-access-mode), [Product Impact Assessment](#product-impact-assessment), [Project Setup](#project-setup)
 - [S](#s): [Shimmy Onboarding](#shimmy-onboarding), [Specification](#specification), [Successor Discovery Repo](#successor-discovery-repo), [Supersession](#supersession)
 
 ## A
@@ -81,7 +81,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 **Category:** [Product integration and adoption](#product-integration-and-adoption)
 
-The exact ***Governance*** commit pinned by ***Product***'s read-only submodule. The pin expresses deliberate adoption and a belief in conformance; it is neither automatic proof of conformance nor necessarily the revision selected for a new ***Discovery Repo***.
+The ***Pinned Governance Revision*** deliberately adopted by ***Product*** through its read-only Governance submodule. The pin expresses deliberate adoption and a belief in conformance; it is neither automatic proof of conformance nor necessarily the revision selected for a new ***Discovery Repo***.
 
 Sources: [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Product layout](planning/handoffs/reference-layouts/product-repo.md), [Isolation modes](planning/handoffs/docs/08-security-and-isolation.md), decisions 5, 16, 24, 32–33.
 
@@ -115,7 +115,7 @@ Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md)
 
 An optional reference against which a ***Discovery Repo*** is evaluated using approved comparison dimensions. It may be ***Product***, another Discovery Repo, a ***Discovery Report***, a quantitative baseline, or none; comparison does not establish ancestry or grant access permission.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Conformance Proofs
 
@@ -157,7 +157,7 @@ The developer-approved definition of a ***Discovery Repo***'s objective, researc
 
 _Avoid_: Framing objective as a substitute for the complete charter; charter as a fifth authority level.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Code Promotion
 
@@ -185,7 +185,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 The developer’s decisions about what happens to a Discovery Repo and its results. These include two independent forms of promotion—***Discovery Code Promotion*** and ***Discovery Governance Promotion***—plus an independent repository retention choice: Archive, Report + Delete, or Keep Active. Both promotions may be selected, either may be declined or deferred, and neither implies a retention choice or closed status.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Framing
 
@@ -193,7 +193,7 @@ Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycl
 
 The deliberately selected lens for a ***Discovery Repo***: Neutral, Optimize a quality, Challenge assumptions, or Custom. Framing describes the optimization or challenge perspective, not the Discovery Repo's type or access permissions.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Governance Promotion
 
@@ -211,21 +211,21 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 An immutable sequential `DISC-*` identifier allocated from ***Governance*** and shared by the Discovery Repo manifest, repository naming, durable record, and related references. The descriptive slug aids recognition but does not replace the ID.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Manifest
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-The `DISCOVERY.yaml` record of a ***Discovery Repo***'s identity, Governance provenance and artifact selection, framing, Product access, charter, comparison, predecessor, workflow version, and status. It describes the Discovery Repo rather than replacing its later ***Discovery Report***.
+The `DISCOVERY.yaml` record of a ***Discovery Repo***'s identity, Governance identity, Pinned Governance Revision and Governance Reading Scope, framing, Product access, charter, comparison, predecessor, workflow version, and status. It describes the Discovery Repo rather than replacing its later ***Discovery Report***.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Repo
 
 **Category:** [Shared](#shared)
 
-A separate Git repository for a bounded exploratory development effort under an approved ***Discovery Charter*** and an immutable ***Governance Snapshot***. It contains the exploratory code, manifest, and snapshot. Its code and repository may be disposable even when its findings remain useful.
+A separate Git repository for a bounded exploratory development effort under an approved ***Discovery Charter*** and a fixed ***Pinned Governance Revision***. It contains the exploratory code, manifest, read-only Governance submodule, and ***Governance Reading Scope*** record. Its code and repository may be disposable even when its findings remain useful.
 
 _Avoid_: Product branch, worktree, Discovery Report when referring to the Discovery Repo.
 
@@ -251,7 +251,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 The process that first generates and surfaces a durable ***Discovery Report***, then records the developer’s ***Discovery Disposition*** choices. It may also include an optional ***Discovery Comparison***. Choosing Keep Active continues the work; a review does not imply that the Discovery Repo is closed.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Discovery Type
 
@@ -259,7 +259,7 @@ Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycl
 
 Descriptive classification of a ***Discovery Repo*** as Architecture Candidate, Spike, Prototype/PoC, Benchmark, Compatibility Check, Adversarial Investigation, or Other. Type describes the work being performed; ***Discovery Framing*** describes the perspective applied. An Adversarial Investigation is a kind of work, while Challenge assumptions is a lens that can also be applied to other types. The classification does not override the ***Discovery Charter***.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 [back to index](#terminology-index)
 
@@ -311,12 +311,7 @@ Sources: [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adopti
 
 The documents and other material stored in the Governance repository: requirements, Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals. Each artifact retains its authority classification; storage in Governance does not make every artifact binding.
 
-A Discovery Repo selects Governance Artifacts in one of two ways:
-
-- **Full:** include all material at the selected commit, preserving authority classifications.
-- **Curated:** always include the Constitution, then make explicit, item-by-item inclusion choices. Record reasons for materially relevant exclusions; include reports, comparisons, and proposals only by explicit choice.
-
-The selection determines what enters the ***Governance Snapshot***. It is independent of ***Product Access Mode***.
+A ***Governance Reading Scope*** determines which artifacts an agent may read in a ***Discovery Repo*** at its ***Pinned Governance Revision***. The complete Governance checkout remains present; the scope does not alter authority.
 
 _Avoid_: Constitution as a name for the complete set of Governance Artifacts.
 
@@ -332,15 +327,20 @@ _Avoid_: Policy, Specification, or accepted Governance when referring only to a 
 
 Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Promotion and adoption](planning/handoffs/docs/04-promotion-and-adoption.md), [Discovery Report template](planning/handoffs/templates/DISCOVERY-REPORT.md), [Discovery Comparison template](planning/handoffs/templates/DISCOVERY-COMPARISON.md), decisions 5–8, 12, 23, 31–35.
 
-### Governance Snapshot
+### Governance Reading Scope
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-A form of ***Materialized Governance***: the generated, immutable copy of selected ***Governance Artifacts*** inside a ***Discovery Repo***'s `.governance/`, accompanied by `SNAPSHOT.yaml` provenance. It identifies the exact source repository and commit, artifacts selection, selection decisions, authority model, and integrity information.
+The developer-approved boundary on which ***Governance Artifacts*** an agent may read for a ***Discovery Repo*** at its ***Pinned Governance Revision***.
 
-_Avoid_: Submodule, live Governance checkout, refreshable context.
+- **Full:** permits reading all artifacts in the pinned commit's tree, subject to ***Product Access Mode***.
+- **Curated:** always permits the Constitution, then records explicit per-path allow/exclude decisions and reasons. Excluded and unlisted artifact bodies must not be read, searched, summarized, or obtained indirectly through other tools or agents.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Both modes use the complete Governance submodule. Curated limits agent access, not file presence. Path names and the minimal authority metadata needed to conduct the interview and resolve supersession may be inspected without reading excluded bodies. The scope does not authorize other commits or history, change normative authority, or reactivate a superseded artifact. Product access and this scope must both permit a read.
+
+For example, a Curated scope can permit the Constitution and retry specification while excluding a report about Product's retry implementation. That report remains in the checkout, but the agent must not inspect its contents or obtain a summary elsewhere. These are agent and workflow rules, not a filesystem security boundary.
+
+Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 16, 19–20.
 
 ### Governed Development skill
 
@@ -370,11 +370,10 @@ Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md)
 
 **Category:** [Shared](#shared), [Workflow delivery](#workflow-delivery)
 
-Concrete artifacts generated or derived from Governance for use in a repository or workflow. Examples include Governance Snapshots, generated role-specific `AGENTS.md` instructions, and derived checks or other artifacts that express Governance requirements.
+Concrete artifacts generated or derived from Governance for use in a repository or workflow. Examples include generated role-specific `AGENTS.md` instructions and derived checks or other artifacts that express Governance requirements. A Governance submodule supplies versioned source material; it needs no separate generated copy.
 
 Materialization describes how an artifact is produced, not a new authority level or a single ownership policy:
 
-- A ***Governance Snapshot*** is immutable for its Discovery Repo. Copied artifacts retain their original authority classification and source provenance.
 - Generated `AGENTS.md` instructions are created when missing, then owned and maintained by the receiving repository. They remain operational instructions subordinate to Governance and are not silently regenerated by plugin upgrades.
 - Other derived artifacts retain traceability to their source requirements. They cannot create or override requirements merely by being generated; checks and their results are ***Conformance Proofs***.
 
@@ -385,6 +384,16 @@ Sources: [Plugin architecture](planning/handoffs/docs/05-plugin-architecture.md)
 [back to index](#terminology-index)
 
 ## P
+
+### Pinned Governance Revision
+
+**Category:** [Shared](#shared)
+
+The exact ***Governance*** commit referenced by a repository's read-only Governance submodule. ***Product*** and each ***Discovery Repo*** choose their pins independently. The committed Git link records the durable pin; a newly initialized, staged link is pending the developer's commit.
+
+For Product, deliberate adoption gives the revision the additional meaning of ***Adopted Governance Revision***. For Discovery Repo, the pin fixes the investigation's Governance baseline and makes no conformance claim. Its pin stays fixed; work requiring a different Governance revision uses a ***Successor Discovery Repo***.
+
+Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), decision 16.
 
 ### Policy
 
@@ -408,7 +417,7 @@ Sources: [Architecture](planning/handoffs/docs/01-architecture.md), [Governance 
 
 The developer-selected boundary on ***Product*** implementation exposure: Isolated, Contract-aware, or Full-reference. It applies across local files, Git, web access, connected tools, previous Discovery Repos, and other agents.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Product Impact Assessment
 
@@ -450,11 +459,11 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 
 **Category:** [Discovery lifecycle](#discovery-lifecycle)
 
-A new ***Discovery Repo*** repository continuing a predecessor when material ***Governance*** changes require a new snapshot. Its manifest records the predecessor's ID in `derived_from` and a reason; the predecessor's snapshot remains unchanged.
+A new ***Discovery Repo*** repository continuing a predecessor when material ***Governance*** changes require a different ***Pinned Governance Revision***. Its manifest records the predecessor's ID in `derived_from` and a reason; the predecessor's pin and reading scope remain unchanged.
 
-_Avoid_: Snapshot refresh, new branch of the predecessor, Comparison Target as a synonym for predecessor.
+_Avoid_: Advancing the predecessor’s pin, new branch of the predecessor, Comparison Target as a synonym for predecessor.
 
-Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Snapshot template](planning/handoffs/templates/GOVERNANCE-SNAPSHOT.yaml), decisions 2–4, 9–14, 19–22, 25–26.
+Sources: [Discovery Repo lifecycle](planning/handoffs/docs/03-discovery-lifecycle.md), [Security and isolation](planning/handoffs/docs/08-security-and-isolation.md), [Discovery Manifest schema](planning/handoffs/schemas/discovery-manifest.schema.json), [Reading scope template](planning/handoffs/templates/GOVERNANCE-READING-SCOPE.yaml), decisions 2, 4, 9–14, 16, 19–22, 25–26.
 
 ### Supersession
 
@@ -472,7 +481,7 @@ Sources: [Governance model](planning/handoffs/docs/02-governance-model.md), [Pro
 |---|---|---|
 | Governance repository | Normative artifacts, Conformance Proofs, durable Discovery Reports and Discovery Comparisons, proposals | Governs Product and Discovery Repo; classifies Conformance Proofs separately from authority |
 | Product repository | Releasable code, production history, compatibility, tests, delivery, Product-specific bootstrap logic | Consumes Governance through a pinned, read-only submodule; reviews Discovery Repo code for promotion |
-| Discovery Repo | One Discovery Repo, its charter, Discovery Repo code, and immutable Governance snapshot | Produces Conformance Proofs under explicit Governance Artifacts selection and Product-access choices |
+| Discovery Repo | One Discovery Repo, its charter, Discovery Repo code, and fixed Governance submodule pin | Produces Conformance Proofs under explicit Governance Reading Scope and Product-access choices |
 | This marketplace repository | Reusable plugins, skills, workflow references, templates, schemas, and helpers | Operates workflows across project repositories; supplies neither project authority nor Product implementation |
 
 Governance, Product, and each Discovery Repo are separate Git repositories. A Discovery Repo is not a Product branch or worktree. These are target roles in projects using the workflows, not directories to create inside this repository.

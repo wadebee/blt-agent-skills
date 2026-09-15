@@ -12,12 +12,19 @@ type: discovery-report
 - Repository:
 - Governance repository:
 - Governance commit:
-- Governance Artifacts selection: Full / Curated
+- Governance Reading Scope: Full / Curated
 - Workflow plugin/version:
 - Discovery Type:
 - Framing:
 - Product access:
 - Derived from:
+
+## Governance reading boundary
+
+Preserve the effective reading scope for this review, including exact Curated
+allow/exclude decisions, approved amendments, and any accidental exposure. Retain
+the record contents with this report; a link into a disposable Discovery Repo is
+not sufficient. Later reviews must preserve earlier scope and exposure records.
 
 ## Charter
 

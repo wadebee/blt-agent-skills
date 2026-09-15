@@ -15,7 +15,7 @@ Exit criteria:
 
 - manifests parse;
 - skills are discoverable by current OpenAI tooling;
-- no workflow performs Git commits or network publication.
+- only approved initial Governance/Product creation may commit; no network publication occurs.
 
 ## Phase 1 — Project Setup and Local Project Configuration
 
@@ -39,18 +39,21 @@ Exit criteria:
 Implement:
 
 - sequential ID allocation with collision detection;
-- creation interview for artifacts selection, type, framing, Product access, charter, and optional comparison;
-- full and curated Governance selection;
-- decision-by-decision curated selection record;
+- creation interview for Governance revision and reading scope, type, framing, Product access, charter, and optional comparison;
+- Full and Curated Governance Reading Scope;
+- decision-by-decision Curated reading record with agent exclusions;
 - local Git repo initialization;
-- generated `AGENTS.md`, `DISCOVERY.yaml`, and immutable `.governance/` snapshot;
-- validation that no Product implementation files leaked into Isolated or Contract-aware repos.
+- generated `AGENTS.md`, `DISCOVERY.yaml`, and `GOVERNANCE-READING-SCOPE.yaml`;
+- pinned `.governance/` submodule and `.gitmodules`, with only the submodule relationship staged;
+- validation that no prohibited Product content enters agent context, including through Governance artifacts and history.
 
 Exit criteria:
 
 - the created repo matches the minimal scaffold;
 - all templates validate against schemas;
-- the snapshot records exact Governance commit and workflow version.
+- Git, the manifest, and the reading record agree on source/commit; the generated records agree on workflow version;
+- excluded Governance bodies remain unread despite local availability;
+- Discovery initialization leaves no commit and stages only its submodule relationship.
 
 ## Phase 3 — Successor, Discovery Review, and Discovery Comparison
 

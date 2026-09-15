@@ -33,24 +33,24 @@ Codex should read these files in order:
 - Governance Artifacts include a narrow Constitution plus policies, specifications, ADRs, Conformance Proofs, Discovery Reports, Discovery Comparisons, and proposals; only explicitly normative artifact classes have authority.
 - Normative precedence is: **Constitution > Policies > Specifications > Active ADRs**.
 - Conformance Proofs are derived evidence, not independent authority.
-- Product pins Governance as a read-only Git submodule.
-- Discovery Repos receive an immutable generated Governance snapshot.
-- A Governance revision change creates a successor Discovery Repo rather than mutating the original snapshot.
+- Product and Discovery Repos independently pin Governance through read-only Git submodules.
+- Full and Curated Governance Reading Scope control permitted agent reads over the complete pinned tree.
+- A Governance revision change creates a successor Discovery Repo while preserving the predecessor’s pin and reading scope.
 - Discovery Governance Promotion and Discovery Code Promotion are independent decisions.
 - Humans approve all promotions into normative Governance.
 - The plugin must make context-sensitive recommendations, but required choices remain explicit developer decisions.
-- New Discovery Repos begin with only `AGENTS.md`, `DISCOVERY.yaml`, and `.governance/`.
+- New Discovery Repos begin with `AGENTS.md`, `DISCOVERY.yaml`, `GOVERNANCE-READING-SCOPE.yaml`, `.gitmodules`, and the `.governance/` submodule; Contract-aware mode alone adds `.contracts/`.
 - The public governed-development experience is one context-aware router skill; lifecycle modules are hidden implementation details.
-- Agent Skills may create, modify, and validate files but never create Git commits automatically.
+- Initial Governance/Product creation may make its approved initial commits. Discovery initialization stages only its submodule relationship and leaves the repository uncommitted.
 - Remote Git hosting is outside the first implementation; repository creation is local only.
 - Generated role-specific `AGENTS.md` files are seeded once, then owned and evolved independently by their repositories.
 
 ## Deliverables in this package
 
 - Full architecture and governance model
-- All 37 settled design decisions with rationale
+- 36 active design decisions and one retired decision number with rationale
 - Governance, Product, and Discovery Repo `AGENTS.md` templates
-- `DISCOVERY.yaml` and snapshot templates with JSON Schemas
+- `DISCOVERY.yaml` and reading-scope templates with JSON Schemas
 - Discovery Repo, Discovery Comparison, and Governance-proposal record templates
 - Reference layouts for all repository types
 - Portable OpenAI Agent Plugin reference skeletons

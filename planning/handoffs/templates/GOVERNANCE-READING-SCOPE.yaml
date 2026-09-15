@@ -1,0 +1,27 @@
+schema_version: "1.0"
+discovery_id: "DISC-0000"
+source:
+  repository: "urn:example:governance:replace-with-confirmed-identity"
+  commit: "0000000000000000000000000000000000000000" # replace during generation
+submodule_path: ".governance"
+mode: "curated" # full | curated; explicit developer choice
+authority_model:
+  - "constitution"
+  - "policies"
+  - "specifications"
+  - "active-adrs"
+# Curated: one decision per tracked path; unlisted paths are excluded.
+# Full: decisions is empty; permit the pinned tree after exposure review.
+# Paths are relative to the Governance root. No glob or directory expansion.
+decisions:
+  - path: "constitution/constitution.md"
+    decision: "allow"
+    relevance: "Foundational authority is always read."
+    benefit: "Preserves project invariants."
+    risk_if_read: "Foundational principles may narrow exploration by design."
+    risk_if_excluded: "Discovery Repo would omit its foundational obligations."
+    developer_note: null
+workflow:
+  marketplace: "Beeline-Technologies"
+  plugin: "governed-exploratory-development"
+  version: "0.1.0"

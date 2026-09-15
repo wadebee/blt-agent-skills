@@ -7,11 +7,11 @@ created_at: "1970-01-01" # replace during generation
 status: "active"
 
 governance:
-  repository: "path-or-canonical-repository-identity"
+  repository: "urn:example:governance:replace-with-confirmed-identity"
   commit: "0000000000000000000000000000000000000000" # replace during generation
-  artifacts_selection: "curated" # full | curated
-  snapshot_path: ".governance"
-  selection_record: ".governance/SNAPSHOT.yaml"
+  reading_scope: "curated" # full | curated
+  submodule_path: ".governance"
+  reading_scope_record: "GOVERNANCE-READING-SCOPE.yaml"
 
 workflow:
   marketplace: "Beeline-Technologies"

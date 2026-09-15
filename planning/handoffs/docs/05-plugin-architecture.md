@@ -81,7 +81,7 @@ If the bootstrap entrypoint cannot be established from Product sources, stop and
 
 ## Materialized Governance
 
-Materialized Governance includes snapshots, generated instructions, and other artifacts derived from Governance. Materialization does not add authority or impose one update policy. Discovery Repo snapshots remain immutable and preserve source authority classifications. Derived checks remain Conformance Proofs.
+Materialized Governance includes generated instructions and other artifacts derived from Governance. Materialization does not add authority. Product and Discovery consume versioned source through read-only Governance submodules; Discovery reading scope is an independent agent boundary. Derived checks remain Conformance Proofs.
 
 The governed-development plugin generates the initial role-specific `AGENTS.md` during Project Setup or Discovery Repo creation. It then transfers ownership to the repository.
 
@@ -103,17 +103,8 @@ The concrete local path is an implementation detail; code must use the plugin ru
 
 ## Git boundary
 
-Skills may:
+The capability follows Decision 30 and the authoritative plan. Initial project creation may stage approved generated files, create one initial commit in each newly created Governance/Product repository, and establish their local submodule connection. Existing-project registration preserves history, index, and pins.
 
-- initialize local Git repositories;
-- create and modify files;
-- stage nothing by default;
-- validate working-tree state;
-- show diffs and suggested commit messages.
+Discovery creation may configure its local Governance submodule and stage only `.gitmodules` and its Governance Git link. It creates no commit and adds no Product remote. Other generated Discovery files remain unstaged. Later workflows do not stage, commit, or advance Discovery pins.
 
-Skills must not:
-
-- create commits automatically;
-- push or publish repositories;
-- archive or delete remote repositories;
-- assume GitHub-specific workflows in version 1.
+Show staged and unstaged changes separately for review. Never push, publish, archive, or delete remote repositories. Marketplace Git permissions and disposable fixture setup are defined independently by root guidance.

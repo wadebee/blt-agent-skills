@@ -31,8 +31,9 @@ If multiple routes are plausible, explain the inferred outcome in plain language
 - Conduct interviews one decision at a time.
 - Discovery Disposition records independent Discovery Code Promotion, Discovery Governance Promotion, and repository retention choices; Keep Active preserves active status.
 - Never treat Discovery Reports, Discovery Comparisons, or proposals as normative.
-- Never modify an immutable Governance Snapshot.
-- Never create Git commits.
+- Product and Discovery use read-only Governance submodules; never advance a Discovery pin in place.
+- Read the Discovery manifest and Governance Reading Scope record before Governance bodies. Enforce Curated exclusions across tools, searches, summaries, nested instructions, and delegated work; a complete checkout grants no extra reading permission.
+- Apply Decision 30’s capability Git contract: approved initial Governance/Product creation may commit; Discovery creation stages only its submodule relationship and never commits; later workflows do neither.
 - Never publish, archive, or delete remote repositories.
 - Never overwrite an existing `AGENTS.md` without explicit instruction and review.
 - Show file changes and validation results before completion.

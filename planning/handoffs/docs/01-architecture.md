@@ -6,9 +6,9 @@
 flowchart TD
     G[Governance repository: requirements and Conformance Proofs]
     P[Product repository: releasable code and history]
-    D[Discovery Repo: exploratory code and immutable snapshot]
+    D[Discovery Repo: exploratory code and pinned Governance]
     G -->|adopted revision| P
-    G -->|selected Governance Artifacts| D
+    G -->|independent pin and reading scope| D
     D -->|Discovery Reports and Discovery Comparisons| G
     D -->|Discovery Code Promotion| P
 ```
@@ -17,7 +17,7 @@ The key relationship is:
 
 > **Discovery Repo inherits obligations, not solutions.**
 
-A Discovery Repo is governed by an immutable snapshot of project intent but is not implicitly shaped by Product source code, history, scaffolding, dependencies, or prior Discovery Repos unless the developer explicitly selects a Product-access mode that allows them.
+A Discovery Repo is governed by a fixed Governance revision through a read-only submodule but is not implicitly shaped by Product source code, history, scaffolding, dependencies, or prior Discovery Repos unless the developer explicitly selects a Product-access mode that allows them.
 
 ## Independent workflow mechanism
 
@@ -68,7 +68,7 @@ Existing code contains both intentional current architecture and architectural s
 
 - Hard security isolation from a malicious agent in version 1.
 - Automatic remote repository hosting, archival, or deletion.
-- Automatic Git commits.
+- Automatic Git commits outside the approved initial Governance/Product creation contract.
 - Automatic promotion of Discovery Repo findings into Governance.
 - Automatic Product conformance claims.
 - A general-purpose governance database or issue tracker.
@@ -81,7 +81,7 @@ Governance Artifacts @ exact commit
              │
              ├── Product consumes through pinned submodule
              │
-             └── Discovery Repo receives generated immutable snapshot
+             └── Discovery Repo consumes through its own pinned submodule
                               │
                               ▼
                        Conformance Proofs from Discovery Repos

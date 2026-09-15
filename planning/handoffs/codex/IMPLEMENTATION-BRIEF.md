@@ -7,8 +7,8 @@ Implement the `Beeline-Technologies` Agent Plugin marketplace described by this 
 1. set up a Product/Governance repo pair;
 2. invoke the single `governed-development` public skill;
 3. create a valid local Discovery Repo through the full interview;
-4. generate immutable Governance provenance; and
-5. validate the result without committing or publishing anything.
+4. establish a fixed Governance submodule pin and approved reading scope; and
+5. validate the result, leaving Discovery uncommitted and unpublished.
 
 ## Source-of-truth order
 
@@ -30,7 +30,7 @@ If two package files appear inconsistent, preserve the settled decisions and rep
 - Interview engine that presents one decision at a time.
 - Context-sensitive recommendations with explicit developer choice.
 - Filesystem operations that are idempotent, reviewable, and safe around existing data.
-- No automatic commits or remote-hosting operations.
+- Only approved initial Governance/Product creation may commit; Discovery stages its submodule relationship only and never commits or publishes.
 - Schema validation and deterministic templates.
 - Unit tests for pure decision/validation logic and integration tests in temporary Git repos.
 
@@ -52,6 +52,6 @@ The recommended first PR contains:
 - public router `SKILL.md`;
 - Local Project Configuration model and schema;
 - role `AGENTS.md` assets;
-- Discovery Repo and snapshot schemas/templates;
+- Discovery Manifest and Governance Reading Scope schemas/templates;
 - temporary-repo test harness;
 - no Git-hosting adapter.

@@ -12,7 +12,7 @@
 - Implement Local Project Configuration.
 - Implement Product/Governance Project Setup interview.
 - Implement sequential ID allocator.
-- Implement full/curated snapshot builder.
+- Implement Governance submodule initialization and Full/Curated reading-scope rules.
 - Implement minimal Discovery Repo creation and validation.
 
 ## Milestone 3 — Continue and close

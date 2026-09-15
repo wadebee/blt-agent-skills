@@ -93,47 +93,40 @@ resolution: rejected
 
 Accepted proposals cause separate edits to authoritative artifacts. Moving a proposal does not itself change Governance.
 
-## Product consumption of Governance
+## Governance consumption through submodules
 
-Product contains the Governance repository as a pinned, read-only Git submodule, conventionally `.governance/`.
+Product and each Discovery Repo contain Governance as a read-only Git submodule, conventionally `.governance/`. Each parent records its own exact Pinned Governance Revision. Governance may advance independently without changing either pin.
 
-```text
-Product commit P
-    └── .governance → Governance commit G
-```
+For Product, the Adopted Governance Revision expresses deliberate adoption and a belief in conformance; advancement requires adoption review. For Discovery Repo, the pin fixes the investigation baseline and makes no conformance claim. A new revision requires a successor Discovery Repo. Neither automatically follows Governance HEAD.
 
-The pointer means:
+Git records the source commit and working-tree differences. A fresh clone initializes the submodule and retrieves the retained Governance commit. Read-only means workflows do not edit its files or change its pin; it is not a built-in Git filesystem restriction.
 
-> Product has deliberately adopted Governance revision G and believes it satisfies that revision.
+## Governance Reading Scope
 
-The submodule must never automatically follow Governance HEAD. Advancement requires a conformance-ready adoption review.
+Every Discovery Repo creation requires an explicit Full or Curated choice after a recommendation. Both modes retain the complete Governance submodule. Record the choice in `DISCOVERY.yaml` and `GOVERNANCE-READING-SCOPE.yaml`, outside the submodule.
 
-## Governance Artifacts selection
+### Full
 
-Every Discovery Repo creation requires an explicit choice after the router provides a recommendation.
+Permit reading the complete tree at the Pinned Governance Revision. Preserve artifact classes and authority markings. Full does not authorize reading other commits or override Product Access Mode. If the tree contains incompatible Product-derived implementation material, require a revised reading scope or access choice before reading it.
 
-### Full Governance Artifacts
+### Curated
 
-Copy a complete version-pinned Governance projection into the Discovery Repo. Preserve artifact classes and authority markings. This mode is best when historical decisions and broad alignment are more important than reducing implementation anchoring.
+Always allow the Constitution. Interview for each other tracked path, recording relevance, benefit, risk of reading, risk of exclusion, and the developer's allow/exclude decision. Reports, comparisons, proposals, operational instructions, and supporting files receive explicit decisions too. Use exact Governance-relative file paths; a path grants no access to linked documents or other revisions. Unlisted paths are excluded.
 
-### Curated Governance Artifacts
+The complete tree stays on disk. Root agent instructions prohibit reading, searching, summarizing, or retrieving excluded bodies through files, Git, connectors, links, other agents, or generated summaries. The same rules apply to a resumed session. Ordinary ignore files and sparse checkout are not substitutes for this reading boundary.
 
-Always include the Constitution, then select applicable policies, specifications, ADR constraints, and Conformance Proofs through a decision-by-decision interview. Materially relevant exclusions must be recorded with rationale. Non-normative Discovery Repo/proposal Conformance Proofs are included only by explicit choice.
+During the interview and source-wide authority checks, permit only path enumeration and minimal authority frontmatter (ID, title, class, supersession links) for excluded candidates. Do not inspect their bodies to classify exposure. Ask the developer to classify unknown exposure before allowing body access.
 
-The selection interview must explain for each candidate:
+Resolve authority against the complete pinned commit before applying the reading scope. Exclusion cannot reactivate a superseded artifact, remove an obligation, or imply complete conformance. Duplicate IDs and broken or ambiguous same-level supersession block creation.
 
-- why it appears relevant;
-- the benefit of carrying it forward;
-- the risk of carrying it forward, especially anchoring;
-- the risk of excluding it; and
-- the recommended include/exclude choice.
+Product Access Mode and Governance Reading Scope must both permit a read. An approved change in reading scope requires fresh affected choices and a recorded rationale; prior exposure cannot be undone. Preserve the scope used for earlier reviews in their durable reports. Never silently broaden scope through a plugin update or an edited generated instruction file.
 
-The developer accepts, rejects, or modifies each choice.
+## Governance validation
 
-## Generated Governance Snapshot
+Validate the logical source identity, exact commit in the manifest and scope record, submodule checkout, and parent Git link. Before the developer's first Discovery commit, the staged Git link is a pending pin; after commit, distinguish HEAD, index, and checkout observations. Stop on unexplained disagreement, modified tracked files, or unexpected untracked/ignored content. Preserve changes for review instead of resetting them.
 
-The selected material is copied into `.governance/` with a `SNAPSHOT.yaml` provenance record. The snapshot is immutable for the Discovery Repo. A material Governance change creates a successor Discovery Repo with a new Governance commit and `derived_from` reference.
+Read-only submodule contents retain their authority at the pinned revision. Reading-scope records and Contract Exports belong outside `.governance/`; never add generated files to the Governance checkout. Contract-aware exports use `.contracts/` with explicit source provenance and an approved file allowlist.
 
 ## Materialized Governance
 
-Governance Snapshots, generated operational instructions, and other artifacts derived from Governance are Materialized Governance. Copied requirements retain their source authority; derived checks and reports do not gain normative authority. Discovery Repo snapshots are immutable, while generated `AGENTS.md` instructions become repository-owned and may evolve without automatic plugin regeneration. Conformance Proofs unrelated to Governance requirements need not be Materialized Governance.
+Generated operational instructions and other artifacts derived from Governance are Materialized Governance. Derived checks and reports gain no normative authority. Generated `AGENTS.md` instructions become repository-owned and may evolve without automatic plugin regeneration, while remaining subject to Governance, reading scope, and access rules. Conformance Proofs unrelated to Governance requirements need not be Materialized Governance.
