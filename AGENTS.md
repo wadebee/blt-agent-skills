@@ -18,24 +18,23 @@ workflow contracts define its behavior in the projects it operates on.
 
 ## CLI tools and installation
 
-- Use CLI tools only through activated Shimmy shims. This applies to
+- Existing native tools and activated Shimmy shims are both eligible for use.
+  Verify needed tools resolve with `command -v` before using them. This applies to
   implementation, investigation, validation, tests, and troubleshooting.
-  Verify the command resolves to its Shimmy shim before using it; an existing
-  host binary is not an allowed fallback.
-- Agents must not download, install, build, or bootstrap CLI tools. This includes
+- Agents must not download, install, build, or bootstrap tools. This includes
   standalone binaries, archives, package-manager installs, and temporary copies
   under `/tmp`, the workspace, or user-local directories. Temporary acquisition
   counts as installation for this rule even without a PATH change.
 - Approval to implement a plan, selection of a dependency, or a tool execution
   permission does not authorize tool acquisition or installation.
-- If a required shim is absent or unusable, report the exact tool and blocker
-  and let the user provision or repair it through Shimmy. Continue only work
-  that does not depend on that tool. Do not bypass a shim with direct host
-  executables, downloaded binaries, or ad hoc container commands.
+- If a required tool is absent or unusable, report the exact tool and blocker
+  and let the user provision or repair it. Continue work supported by available
+  native tools or activated shims. Do not acquire temporary tools or use ad hoc
+  container commands to work around a missing tool.
 - Carry these requirements into implemented skills and their helper/test
   instructions. Existing plan acquisition guidance is superseded by this rule;
-  dependency documentation must describe required Shimmy tools, not agent-run
-  installers.
+  dependency documentation must describe required tool capabilities and available
+  native/Shimmy implementations, not agent-run installers.
 
 ## Git permissions
 
