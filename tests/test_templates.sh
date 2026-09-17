@@ -12,6 +12,9 @@ common=(GOVERNANCE_REPOSITORY=urn:example:governance PROJECT_NAME=example GOVERN
 expect_success "$tool" render "$base/assets/templates/governed/governance.yaml" "$base/assets/schemas/governance-context.schema.json" "$TEST_TMP/governance.yaml" "${common[@]}"
 expect_success "$tool" render "$base/assets/templates/governed/reading-scope.yaml" "$base/assets/schemas/governance-reading-scope.schema.json" "$TEST_TMP/reading-scope.yaml" "${common[@]}"
 expect_success "$tool" render "$base/assets/templates/governed/discovery.yaml" "$base/assets/schemas/discovery-manifest.schema.json" "$TEST_TMP/discovery.yaml" "${common[@]}" DISCOVERY_TITLE=Example DISCOVERY_REPOSITORY_NAME=example-disc-0001 FRAMING_OBJECTIVE=quality CHARTER_OBJECTIVE=objective RESEARCH_QUESTION=question SUCCESS_CRITERION=works NON_GOAL=production
+expect_success "$tool" validate-context "$TEST_TMP/discovery.yaml" "$TEST_TMP/governance.yaml" "$TEST_TMP/reading-scope.yaml"
+sed 's/0123456789abcdef0123456789abcdef01234567/ffffffffffffffffffffffffffffffffffffffff/' "$TEST_TMP/governance.yaml" > "$TEST_TMP/wrong-governance.yaml"
+expect_failure "$tool" validate-context "$TEST_TMP/discovery.yaml" "$TEST_TMP/wrong-governance.yaml" "$TEST_TMP/reading-scope.yaml"
 expect_success "$tool" render "$base/assets/templates/LOCAL-PROJECT-CONFIGURATION.yaml" "$base/assets/schemas/local-project-configuration.schema.json" "$TEST_TMP/local.yaml" GOVERNANCE_REPOSITORY=urn:example:governance PRODUCT_PATH=/tmp/product GOVERNANCE_PATH=/tmp/governance DISCOVERY_REPO_PARENT_PATH=/tmp/discovery
 
 expect_success "$tool" render-text "$base/assets/templates/agents/product/AGENTS.md" "$TEST_TMP/product.AGENTS.md" PLUGIN_VERSION=0.1.0 GENERATED_AT=2024-02-29 GOVERNANCE_SUBMODULE_PATH=.governance
@@ -23,6 +26,14 @@ second="$TEST_TMP/discovery.yaml.second"
 cp "$TEST_TMP/discovery.yaml" "$first"
 expect_success "$tool" render "$base/assets/templates/governed/discovery.yaml" "$base/assets/schemas/discovery-manifest.schema.json" "$second" "${common[@]}" DISCOVERY_TITLE=Example DISCOVERY_REPOSITORY_NAME=example-disc-0001 FRAMING_OBJECTIVE=quality CHARTER_OBJECTIVE=objective RESEARCH_QUESTION=question SUCCESS_CRITERION=works NON_GOAL=production
 cmp "$first" "$second" >/dev/null || fail "template rendering was not deterministic"
+
+# The installed asset path and the caller's relative output are independent.
+mkdir -p "$TEST_TMP/unrelated-caller" || fail "cannot create unrelated caller"
+(
+  cd "$TEST_TMP/unrelated-caller" || exit 1
+  "$tool" render-text "$base/assets/templates/agents/governance/AGENTS.md" ./relative.AGENTS.md PLUGIN_VERSION=0.1.0 GENERATED_AT=2024-02-29
+) || fail "render from an unrelated cwd failed"
+[[ -s "$TEST_TMP/unrelated-caller/relative.AGENTS.md" ]] || fail "relative output did not resolve against caller cwd"
 
 # The actual shim must receive values without host environment forwarding.
 # Include capture-like dollar text, quotes, backslashes, Unicode, and trailing
@@ -36,9 +47,8 @@ write_file "$literal_schema" '{"type":"object","required":["value","repeated","e
 literal=$'quote: " \' dollar: $1 ${NAME} backslash: \\ tab:\t café\nsecond line\n\n'
 printf '%s' "$literal" > "$literal_value" || fail "cannot write literal value"
 expect_success "$tool" render "$literal_template" "$literal_schema" "$literal_output" "VALUE=$literal" EMPTY=
-cd "$TEST_ROOT" || fail "cannot enter the test workspace"
-expected_file=${literal_value#"$TEST_ROOT"/}
-expect_success yq eval -e "(.value == load_str(\"$expected_file\")) and (.repeated == (load_str(\"$expected_file\") + \"|\" + load_str(\"$expected_file\"))) and (.empty == \"\")" "${literal_output#"$TEST_ROOT"/}"
+cd "$TEST_TMP" || fail "cannot enter the test workspace"
+expect_success yq eval -e '(.value == load_str("literal-value.txt")) and (.repeated == (load_str("literal-value.txt") + "|" + load_str("literal-value.txt"))) and (.empty == "")' literal.yaml
 expect_failure "$tool" render "$literal_template" "$literal_schema" "$TEST_TMP/missing.yaml" "VALUE=$literal"
 expect_failure "$tool" render "$literal_template" "$literal_schema" "$TEST_TMP/invalid-name.yaml" 'BAD-NAME=value'
 pass "shared templates, substitutions, and deterministic output"

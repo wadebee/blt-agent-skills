@@ -4,20 +4,9 @@
   "title": "Governance Reading Scope",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "discovery_id", "source", "submodule_path", "mode", "authority_model", "decisions", "workflow"],
+  "required": ["schema_version", "mode", "authority_model", "decisions", "workflow"],
   "properties": {
     "schema_version": { "const": "1.0" },
-    "discovery_id": { "type": "string", "pattern": "^DISC-[0-9]{4,}$" },
-    "source": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["repository", "commit"],
-      "properties": {
-        "repository": { "type": "string", "minLength": 1 },
-        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
-      }
-    },
-    "submodule_path": { "const": ".governance" },
     "mode": { "enum": ["full", "curated"] },
     "authority_model": {
       "type": "array",

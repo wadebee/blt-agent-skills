@@ -90,8 +90,8 @@
         "required": ["decision_id", "subject", "approved_value", "inputs", "approval_date", "rationale", "replaces", "prior_exposure", "status"],
         "properties": {
           "decision_id": { "type": "string", "pattern": "^DEC-[0-9]{4,}$" },
-          "subject": { "type": "string", "minLength": 1 },
-          "approved_value": {},
+          "subject": { "enum": ["governance-revision", "reading-scope", "discovery-type", "discovery-framing", "product-access", "discovery-charter", "comparison"] },
+          "approved_value": { "oneOf": [{ "type": "string" }, { "type": "object" }] },
           "inputs": {
             "type": "object",
             "additionalProperties": false,
@@ -107,7 +107,16 @@
           "replaces": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^DEC-[0-9]{4,}$" }] },
           "prior_exposure": { "type": "array", "items": { "type": "string" } },
           "status": { "enum": ["approved", "superseded"] }
-        }
+        },
+        "allOf": [
+          { "if": { "properties": { "subject": { "const": "governance-revision" } } }, "then": { "properties": { "approved_value": { "type": "string", "pattern": "^[0-9a-f]{40}$" } } } },
+          { "if": { "properties": { "subject": { "const": "reading-scope" } } }, "then": { "properties": { "approved_value": { "enum": ["full", "curated"] } } } },
+          { "if": { "properties": { "subject": { "const": "discovery-type" } } }, "then": { "properties": { "approved_value": { "enum": ["architecture-candidate", "spike", "prototype-poc", "benchmark", "compatibility-check", "adversarial-investigation", "other"] } } } },
+          { "if": { "properties": { "subject": { "const": "discovery-framing" } } }, "then": { "properties": { "approved_value": { "type": "object", "additionalProperties": false, "required": ["mode", "objective"], "properties": { "mode": { "enum": ["neutral", "optimize-quality", "challenge-assumptions", "custom"] }, "objective": { "type": "string" } } } } } },
+          { "if": { "properties": { "subject": { "const": "product-access" } } }, "then": { "properties": { "approved_value": { "enum": ["isolated", "contract-aware", "full-reference"] } } } },
+          { "if": { "properties": { "subject": { "const": "discovery-charter" } } }, "then": { "properties": { "approved_value": { "type": "object", "additionalProperties": false, "required": ["objective", "question", "success_criteria", "non_goals"], "properties": { "objective": { "type": "string", "minLength": 1 }, "question": { "type": "string", "minLength": 1 }, "success_criteria": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }, "non_goals": { "type": "array", "items": { "type": "string", "minLength": 1 } } } } } } },
+          { "if": { "properties": { "subject": { "const": "comparison" } } }, "then": { "properties": { "approved_value": { "oneOf": [{ "const": "none" }, { "type": "object", "additionalProperties": false, "required": ["type", "target", "dimensions"], "properties": { "type": { "enum": ["product", "discovery-repo", "discovery-report", "metric-baseline"] }, "target": { "type": "string", "minLength": 1 }, "dimensions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } } } }] } } } }
+        ]
       }
     }
   }

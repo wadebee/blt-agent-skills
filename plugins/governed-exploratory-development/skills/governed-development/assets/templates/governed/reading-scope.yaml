@@ -1,9 +1,4 @@
 schema_version: "1.0"
-discovery_id: "{{DISCOVERY_ID}}"
-source:
-  repository: "{{GOVERNANCE_REPOSITORY}}"
-  commit: "{{GOVERNANCE_COMMIT}}"
-submodule_path: ".governance"
 mode: "{{READING_SCOPE}}"
 authority_model:
   - "constitution"

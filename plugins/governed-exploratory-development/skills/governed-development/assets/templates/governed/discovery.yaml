@@ -52,6 +52,7 @@ creation_decisions:
     inputs:
       values:
         governance_repository: "{{GOVERNANCE_REPOSITORY}}"
+        reading_scope_record: ".governed/reading-scope.yaml"
       revisions:
         - "{{GOVERNANCE_COMMIT}}"
       decision_ids:
@@ -75,7 +76,9 @@ creation_decisions:
     status: "approved"
   - decision_id: "DEC-0004"
     subject: "discovery-framing"
-    approved_value: "optimize-quality"
+    approved_value:
+      mode: "optimize-quality"
+      objective: "{{FRAMING_OBJECTIVE}}"
     inputs:
       values: {}
       revisions: []
@@ -99,10 +102,15 @@ creation_decisions:
     status: "approved"
   - decision_id: "DEC-0006"
     subject: "discovery-charter"
-    approved_value: "{{CHARTER_OBJECTIVE}}"
+    approved_value:
+      objective: "{{CHARTER_OBJECTIVE}}"
+      question: "{{RESEARCH_QUESTION}}"
+      success_criteria:
+        - "{{SUCCESS_CRITERION}}"
+      non_goals:
+        - "{{NON_GOAL}}"
     inputs:
-      values:
-        question: "{{RESEARCH_QUESTION}}"
+      values: {}
       revisions: []
       decision_ids: []
     approval_date: "{{CREATED_AT}}"
