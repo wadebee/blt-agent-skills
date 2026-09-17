@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/governance-reading-scope.schema.json",
+  "title": "Governance Reading Scope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "discovery_id", "source", "submodule_path", "mode", "authority_model", "decisions", "workflow"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "discovery_id": { "type": "string", "pattern": "^DISC-[0-9]{4,}$" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "commit"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+      }
+    },
+    "submodule_path": { "const": ".governance" },
+    "mode": { "enum": ["full", "curated"] },
+    "authority_model": {
+      "type": "array",
+      "const": ["constitution", "policies", "specifications", "active-adrs"]
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "decision", "relevance", "benefit", "risk_if_read", "risk_if_excluded", "developer_note"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "not": {
+              "anyOf": [
+                { "pattern": "^/" },
+                { "pattern": "(^|/)\\.\\.?($|/)" },
+                { "pattern": "[*?\\[\\]{}\\x00]" }
+              ]
+            }
+          },
+          "decision": { "enum": ["allow", "exclude"] },
+          "relevance": { "type": "string" },
+          "benefit": { "type": "string" },
+          "risk_if_read": { "type": "string" },
+          "risk_if_excluded": { "type": "string" },
+          "developer_note": { "type": ["string", "null"] }
+        }
+      },
+      "uniqueItems": true
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["marketplace", "plugin", "version"],
+      "properties": {
+        "marketplace": { "const": "Beeline-Technologies" },
+        "plugin": { "const": "governed-exploratory-development" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "full" } }, "required": ["mode"] },
+      "then": { "properties": { "decisions": { "maxItems": 0 } } },
+      "else": { "properties": { "decisions": { "minItems": 1 } } }
+    }
+  ]
+}

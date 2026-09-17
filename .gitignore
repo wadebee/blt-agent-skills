@@ -1,0 +1,9 @@
+# Temporary files created by Chunk 1 validation and smoke checks.
+.canary.*
+.governed-tests.*
+.governed-data.*
+.governed-schema-*
+.governed-render.*
+.governed-unresolved.*
+.governed-decision-*
+.packaging-value.*

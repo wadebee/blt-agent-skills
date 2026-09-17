@@ -1,0 +1,124 @@
+schema_version: "1.0"
+id: "{{DISCOVERY_ID}}"
+title: "{{DISCOVERY_TITLE}}"
+project: "{{PROJECT_NAME}}"
+repository_name: "{{DISCOVERY_REPOSITORY_NAME}}"
+created_at: "{{CREATED_AT}}"
+status: "active"
+
+governance:
+  reading_scope: "{{READING_SCOPE}}"
+  reading_scope_record: ".governed/reading-scope.yaml"
+
+workflow:
+  marketplace: "Beeline-Technologies"
+  plugin: "governed-exploratory-development"
+  version: "0.1.0"
+
+discovery_repo:
+  type: "architecture-candidate"
+  framing:
+    mode: "optimize-quality"
+    objective: "{{FRAMING_OBJECTIVE}}"
+  product_access: "isolated"
+  objective: "{{CHARTER_OBJECTIVE}}"
+  question: "{{RESEARCH_QUESTION}}"
+  success_criteria:
+    - "{{SUCCESS_CRITERION}}"
+  non_goals:
+    - "{{NON_GOAL}}"
+  comparison: null
+  derived_from: null
+  successor_reason: null
+
+creation_decisions:
+  - decision_id: "DEC-0001"
+    subject: "governance-revision"
+    approved_value: "{{GOVERNANCE_COMMIT}}"
+    inputs:
+      values:
+        governance_repository: "{{GOVERNANCE_REPOSITORY}}"
+      revisions:
+        - "{{GOVERNANCE_COMMIT}}"
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0002"
+    subject: "reading-scope"
+    approved_value: "{{READING_SCOPE}}"
+    inputs:
+      values:
+        governance_repository: "{{GOVERNANCE_REPOSITORY}}"
+      revisions:
+        - "{{GOVERNANCE_COMMIT}}"
+      decision_ids:
+        - "DEC-0001"
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0003"
+    subject: "discovery-type"
+    approved_value: "architecture-candidate"
+    inputs:
+      values: {}
+      revisions: []
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0004"
+    subject: "discovery-framing"
+    approved_value: "optimize-quality"
+    inputs:
+      values: {}
+      revisions: []
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0005"
+    subject: "product-access"
+    approved_value: "isolated"
+    inputs:
+      values: {}
+      revisions: []
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0006"
+    subject: "discovery-charter"
+    approved_value: "{{CHARTER_OBJECTIVE}}"
+    inputs:
+      values:
+        question: "{{RESEARCH_QUESTION}}"
+      revisions: []
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"
+  - decision_id: "DEC-0007"
+    subject: "comparison"
+    approved_value: "none"
+    inputs:
+      values: {}
+      revisions: []
+      decision_ids: []
+    approval_date: "{{CREATED_AT}}"
+    rationale: null
+    replaces: null
+    prior_exposure: []
+    status: "approved"

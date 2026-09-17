@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/governance-context.schema.json",
+  "title": "Governance Context",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "repository", "commit", "submodule_path", "workflow"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "repository": { "type": "string", "minLength": 1 },
+    "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "submodule_path": { "const": ".governance" },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["marketplace", "plugin", "version"],
+      "properties": {
+        "marketplace": { "const": "Beeline-Technologies" },
+        "plugin": { "const": "governed-exploratory-development" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$" }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "governed-exploratory-development",
+  "version": "0.1.0",
+  "description": "Create and operate governed Product, Governance, and isolated Discovery Repo workflows through one context-aware skill.",
+  "author": {
+    "name": "Beeline Technologies"
+  },
+  "keywords": [
+    "agentic-development",
+    "governance",
+    "discovery-repo",
+    "architecture",
+    "exploratory-development"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Governed Exploratory Development",
+        "shortDescription": "Explore software designs through governed Discovery Repos.",
+        "longDescription": "Set up projects, create isolated Discovery Repos, review Discovery Repos, create Discovery Comparisons, propose Governance changes, review Discovery Code Promotion, and adopt Governance through one context-aware workflow.",
+        "developerName": "Beeline Technologies",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "Set up this project for governed exploratory development.",
+          "Create a clean Discovery Repo for this architectural question.",
+          "Close out this Discovery Repo and preserve what we learned."
+        ]
+      }
+    }
+  }
+}

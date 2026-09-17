@@ -1,0 +1,8 @@
+schema_version: "1.0"
+projects:
+  example:
+    product_path: "{{PRODUCT_PATH}}"
+    governance_path: "{{GOVERNANCE_PATH}}"
+    governance_repository: "{{GOVERNANCE_REPOSITORY}}"
+    governance_submodule_path: ".governance"
+    discovery_repo_parent_path: "{{DISCOVERY_REPO_PARENT_PATH}}"

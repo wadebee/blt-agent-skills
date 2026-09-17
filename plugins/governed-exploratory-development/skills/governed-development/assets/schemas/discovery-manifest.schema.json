@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/discovery-manifest.schema.json",
+  "title": "Governed Exploratory Development Discovery Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "project", "repository_name", "created_at", "status", "governance", "workflow", "discovery_repo", "creation_decisions"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "id": { "type": "string", "pattern": "^DISC-[0-9]{4,}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "project": { "type": "string", "minLength": 1 },
+    "repository_name": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "format": "date" },
+    "status": { "enum": ["active", "closed"] },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reading_scope", "reading_scope_record"],
+      "properties": {
+        "reading_scope": { "enum": ["full", "curated"] },
+        "reading_scope_record": { "const": ".governed/reading-scope.yaml" }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["marketplace", "plugin", "version"],
+      "properties": {
+        "marketplace": { "const": "Beeline-Technologies" },
+        "plugin": { "const": "governed-exploratory-development" },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$" }
+      }
+    },
+    "discovery_repo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "framing", "product_access", "objective", "question", "success_criteria", "non_goals", "comparison", "derived_from", "successor_reason"],
+      "properties": {
+        "type": { "enum": ["architecture-candidate", "spike", "prototype-poc", "benchmark", "compatibility-check", "adversarial-investigation", "other"] },
+        "framing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "objective"],
+          "properties": {
+            "mode": { "enum": ["neutral", "optimize-quality", "challenge-assumptions", "custom"] },
+            "objective": { "type": "string" }
+          }
+        },
+        "product_access": { "enum": ["isolated", "contract-aware", "full-reference"] },
+        "objective": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "success_criteria": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "non_goals": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "comparison": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type", "target", "dimensions"],
+              "properties": {
+                "type": { "enum": ["product", "discovery-repo", "discovery-report", "metric-baseline"] },
+                "target": { "type": "string", "minLength": 1 },
+                "dimensions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+              }
+            }
+          ]
+        },
+        "derived_from": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^DISC-[0-9]{4,}$" }] },
+        "successor_reason": { "oneOf": [{ "type": "null" }, { "type": "string", "minLength": 1 }] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "derived_from": { "type": "string" } }, "required": ["derived_from"] },
+          "then": { "properties": { "successor_reason": { "type": "string", "minLength": 1 } } }
+        },
+        {
+          "if": { "properties": { "successor_reason": { "type": "string" } }, "required": ["successor_reason"] },
+          "then": { "properties": { "derived_from": { "type": "string", "pattern": "^DISC-[0-9]{4,}$" } } }
+        }
+      ]
+    },
+    "creation_decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["decision_id", "subject", "approved_value", "inputs", "approval_date", "rationale", "replaces", "prior_exposure", "status"],
+        "properties": {
+          "decision_id": { "type": "string", "pattern": "^DEC-[0-9]{4,}$" },
+          "subject": { "type": "string", "minLength": 1 },
+          "approved_value": {},
+          "inputs": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["values", "revisions", "decision_ids"],
+            "properties": {
+              "values": { "type": "object", "additionalProperties": true },
+              "revisions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+              "decision_ids": { "type": "array", "items": { "type": "string", "pattern": "^DEC-[0-9]{4,}$" } }
+            }
+          },
+          "approval_date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$", "format": "date" },
+          "rationale": { "type": ["string", "null"] },
+          "replaces": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^DEC-[0-9]{4,}$" }] },
+          "prior_exposure": { "type": "array", "items": { "type": "string" } },
+          "status": { "enum": ["approved", "superseded"] }
+        }
+      }
+    }
+  }
+}

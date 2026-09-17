@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://beeline-technologies.example/schemas/local-project-configuration.schema.json",
+  "title": "Governed Development Local Project Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "projects"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "projects": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["product_path", "governance_path", "governance_repository", "governance_submodule_path", "discovery_repo_parent_path"],
+        "properties": {
+          "product_path": { "type": "string", "minLength": 1 },
+          "governance_path": { "type": "string", "minLength": 1 },
+          "governance_repository": { "type": "string", "minLength": 1 },
+          "governance_submodule_path": { "type": "string", "minLength": 1 },
+          "discovery_repo_parent_path": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}
