@@ -225,12 +225,14 @@ gain no Governance authority. No copied Governance content manifest is needed.
 ## Capabilities and dependency choices
 
 **Tool provisioning correction — 2026-09-15:** the user prohibits agent tool
-downloads and installation and requires CLI usage through activated Shimmy
-shims. This supersedes standalone-binary acquisition and installation guidance
+downloads and installation. The subsequent native-tool clarification permits
+all existing native tools resolved with `command -v`, including Bash, Git, and
+platform utilities; activated Shimmy shims remain eligible too. This supersedes
+Shimmy-only restrictions and standalone-binary acquisition and installation guidance
 elsewhere in this plan, including temporary validation copies. Selecting `yq`
-and `jv` approves their capabilities, not installation by an agent. If a shim
-is unavailable, report it for user provisioning; do not use host binaries or
-direct container execution as substitutes. Carry this rule into the production
+and `jv` approves their capabilities, not installation by an agent. If a required
+tool is unavailable, report it for user provisioning; do not acquire temporary
+copies or use ad hoc container execution. Carry this rule into the production
 skill, runtime contract, helpers, test instructions, and dependency documentation.
 Do not infer an exception from implementation authorization or execution approval.
 
@@ -1591,9 +1593,9 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [x] Approve creation-decision reference/selection rules: explicit same-subject replacement, actual input bindings, one applicable approval per required subject, and blocking ambiguous or invalid references.
 - [x] Approve independent per-repository governance.yaml context, consumed by convention; Product and Discovery pins remain independent.
 - [x] Approve `.governed/` layout, plugin-owned schema definitions, and workstation-local configuration/journals; align planned generated paths.
-- [ ] Implement coordinated schema/template/instruction adaptation for the approved layout during the authorized owning chunks.
+- [~] Implement coordinated schema/template/instruction adaptation for the approved layout during the authorized owning chunks. Chunk 1 adds the shared `.governed/` schemas, templates, and role seeds; source classification and workflow-specific producers remain in owning chunks.
 - [x] Approve embedding important historical context in Discovery Reports so they remain understandable after the Discovery Repo is removed.
-- [ ] Implement and review R1 creation-decision field types in Chunk 1 and R3 persisted interview/operation schemas in Chunk 3; complete creation integration in Chunk 4.
+- [~] Implement and review R1 creation-decision field types in Chunk 1 and R3 persisted interview/operation schemas in Chunk 3; complete creation integration in Chunk 4. Chunk 1 now has the portable decision-record schema and binding helper; runtime creation integration remains pending.
 - [x] Freeze Discovery pin and reading scope at creation; require a Successor Discovery Repo when either changes, including same-pin scope changes. Withdraw in-place scope revision machinery.
 - [x] Resolve R2: approve source classification, fallback, Constitution representation, Supersession checks, and initial file/path support.
 - [x] Distinguish Project Setup (initial pair creation) from Project Activation (connecting an existing pair); align glossary and references. Pending-adoption Activation is separately approved below and does not apply to Discovery creation.
@@ -1608,7 +1610,7 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [x] Approve workflow-owned local journal lifecycle: create before writes, update during work, retain unfinished recovery, compact terminal outcomes, and clean completed records only on explicit request.
 - [x] Resolve R7: proposal resolution, separate Product-scoped promotion handoff and coordinated Governance Adoption/recovery; preserve unrelated work and subsequent developer changes.
 - [x] Obtain approval to start implementation — Chunk 1 authorized on 2026-09-15.
-- [ ] Chunk 1 — Packaging and shared validation; Milestone 1 gate.
+- [~] Chunk 1 — Packaging and shared validation; Milestone 1 gate. Production skeleton, shared schemas/templates, explicit unavailable references, Bash pipeline, tests, and review docs are implemented; tool-backed test execution is partial because the Shimmy `yq` wrapper became unresponsive after successful canaries.
 - [ ] Chunk 2 — Governance source and reading-boundary validation.
 - [ ] Chunk 3 — Project Setup and Activation, interviews, and recovery.
 - [ ] Chunk 4 — Independent Discovery Repo creation; first-increment gate.
@@ -1828,6 +1830,40 @@ installation changes reviewable and reversible; no marketplace publication.
       each pass and are reported separately. A missing installed test blocks this gate.
 - [ ] No protected source/handoff changes, runtime project creation, or Shimmy
       bootstrap execution occurred.
+
+### Partial verification — Chunk 1 review state
+
+Remediation update, 2026-09-16: the reading-scope schema and template-value
+transport now have passing focused regressions. See the corresponding entry in
+[Lessons learned](#chunk-1-remediation-schema-patterns-and-template-values--2026-09-16)
+for exact results, the native-tool clarification, and remaining verification.
+The historical checkpoint below does not constitute current milestone acceptance.
+
+- `[x]` Bash syntax checks passed for all new helpers, scripts and tests.
+- `[x]` Standalone skill structure passed, and the reversible local package
+  namespace smoke passed. `git diff --check` passed after removing one trailing
+  space from the pre-existing README edit.
+- `[x]` Approved tool identities and focused canaries passed before implementation:
+  `yq v4.53.6`, `jv v0.0.0-20260628173800-b0fc661f4939`, duplicate-key rejection,
+  document counting, anchor/alias inspection and valid/invalid leap-date checks.
+- `[~]` The full packaging, validation and template groups remain unverified.
+  They require the selected Shimmy `yq`/`jv` wrappers; those wrappers later
+  stopped responding even though escalated read-only `podman info` succeeded.
+  This blocks Milestone 1 acceptance because the plan requires tool-backed
+  schema and template checks. Repair the selected Shimmy profile/wrapper and
+  rerun `bash scripts/check_packaging.sh` and
+  `bash tests/run.sh packaging validation templates installation`.
+- `[~]` Actual installed-plugin discovery and standalone app-server skill
+  discovery remain unrun. The structural check cannot prove host application
+  loading or namespacing. This remains a blocking verification item, not an
+  accepted deferral.
+
+Simplicity metrics for this partial review: two additional approved tools
+(`yq` and `jv`), zero agent-run installation steps, five production Bash
+scripts with 393 nonblank lines, one focused data helper rather than a parser
+framework, and no new runtime service or storage mechanism. The remaining
+developer action is to repair the selected Shimmy wrapper/profile and rerun the
+documented checks.
 
 Commands:
 
@@ -2642,6 +2678,140 @@ or marketplace commit is part of this gate.
 
 ## Lessons learned
 
+### Chunk 1 recovery assessment and measured tool overhead — 2026-09-16
+
+The user requested an assessment of whether the native-tool misunderstanding
+requires restarting, plus a handoff and a call-duration sample. Preserve the
+working tree and selectively repair the helper/harness; Chunk 1 is not accepted.
+The [recovery handoff](../../docs/chunk-1-recovery-handoff.md) records the original
+eight findings, scoped verification, recommended remaining work, and corrected
+tool authority. It supplements this authoritative plan for the next agent.
+
+- **Measure tool execution separately from tool-call waiting.** A directly timed
+  `yq eval -n true` completed in 32.727 seconds. Process sampling saw the final
+  Podman command by 1.013 seconds; most delay was in the container execution
+  path, not wrapper preflight. The underlying startup/mount/execution/cleanup
+  breakdown remains unresolved. Do not infer a stdin deadlock or a universal
+  shell-output limitation from a slow wrapper call.
+- **Count launches before broad test runs.** The current validation helper uses
+  13 yq calls plus jv; the CLI adds a decision-presence query. YAML rendering uses
+  15 yq calls plus jv. Each installed shim call repeats preflight and launches a
+  container. Consolidate compatible inspections without weakening checks, and
+  batch schema fixtures while keeping individual outcomes visible. Use existing
+  native utilities for normal orchestration and filesystem operations.
+- **Do not confuse recovery with acceptance.** Preserve corrected regex and
+  literal-render behavior while redesigning paths, temporary-file ownership,
+  failure propagation, and decision bindings. Native-tool eligibility does not
+  itself resolve those independent defects or establish installed-plugin proof.
+  The prior resumed prompt contained 39 shell calls, 34 polls, and 7 patches
+  within 38 outer calls; the handoff and its CSV distinguish observed response
+  spans from exact subprocess timing. No full passing suite is claimed.
+
+### Chunk 1 remediation: schema patterns and template values — 2026-09-16
+
+The user authorized fixing quality-review items 1 and 2, plus recording reusable
+findings here. Subsequent guidance permits all existing native tools resolved
+with `command -v`, alongside activated Shimmy shims. Tool downloads, installs,
+builds, and bootstrap remain prohibited. Root guidance, dependency/testing docs,
+the runtime contract, and the helper preflight now reflect that distinction.
+
+- **Compile schemas with the selected validator before testing rejection.**
+  The reading-scope path pattern used negative lookahead, which the installed
+  `jv` rejects. Schema `not`/`anyOf` now combines supported patterns to reject
+  absolute paths, dot/parent components, glob characters, and NUL. Five valid
+  paths and fifteen invalid paths were checked, plus a complete Curated scope.
+  Always include positive fixtures: an uncompilable schema can appear to pass
+  every negative case. Apply this lesson to future schemas and packaging checks.
+- **Treat a shim's input interface as part of its tool contract.** Host exports
+  are not forwarded by the selected `yq` shim. Rendering now writes raw UTF-8
+  substitution values to workspace-relative temporary files and reads them with
+  `load_str`, then removes the value files. It does not interpolate user values
+  into the yq program or require environment forwarding. Future installed-path
+  remediation must preserve access to both packaged assets and caller data
+  within the selected tool's mount boundary.
+- **Use literal substitution for arbitrary strings.** Regex replacement can
+  interpret dollar text as capture references. `split`/`join` preserves literal
+  values instead; regression cases include repeated placeholders, empty values,
+  quotes, dollar text, backslashes, tabs, Unicode, and trailing newlines. Avoid
+  shell command substitution when transporting values with trailing newlines.
+  References: [yq file loading](https://mikefarah.gitbook.io/yq/operators/load)
+  and [string operators](https://mikefarah.gitbook.io/yq/operators/string-operators).
+- **Separate tool eligibility from acquisition authority.** `command -v`
+  establishes an available command, not permission to install one or proof of
+  the required implementation/version. The helper accepts native tools and
+  shims; dependency docs still require Mike Farah's `yq` and the selected `jv`
+  capability. This clarification also removes the old shim-path guard's false
+  success on a native executable; decision-query failure handling remains a
+  separate unresolved review item.
+- **Keep verification claims scoped.** Run test groups independently while the
+  aggregate runner's failure propagation remains unresolved. Schema compilation,
+  valid/invalid instance results, literal transport canaries, and end-to-end
+  helper execution are separate evidence. Actual plugin installation/discovery
+  and the other review findings are not resolved by these two fixes.
+- **Retain diagnostics from failed success checks.** `expect_success` previously
+  discarded stdout and stderr, hiding whether a failure came from a tool, the
+  schema, or a test expression. It now prints the captured command output on
+  failure. The aggregate runner's exit handling is still separate work. Stopping
+  the broad validation run also showed that its signal trap deletes fixtures
+  but continues executing test statements; future harness remediation should
+  terminate after signal cleanup rather than report those secondary file errors
+  as implementation failures.
+
+Verification at this remediation checkpoint:
+
+| Command/check | Result |
+| --- | --- |
+| `jv -f` with the complete reading-scope schema and a valid Curated record | Schema and instance accepted |
+| `jv -f` with the extracted production path constraint | All five valid cases accepted; all fifteen invalid cases rejected, including NUL |
+| `yq eval -e` with exact literal string comparisons | Passed for the value, repeated value, and empty value |
+| Isolated literal block from `tests/test_templates.sh`, executed with native Bash against the real `governed.sh` | Passed rendering, exact strings, empty values, missing substitutions, and invalid placeholder names; temporary extraction removed |
+| Native/missing-command preflight checks | Native Bash accepted; deliberately missing command rejected |
+| `bash -n` for `data.sh`, `test_templates.sh`, `test_validation.sh`, and `support.sh` | Passed using native Bash 3.2.57 |
+| `git diff --check` | Passed using native Git 2.50.1 |
+| `bash tests/test_templates.sh` | Not a complete pass: one run rendered the production templates and passed their deterministic comparison, then failed the original new string assertion; the corrected assertion and literal block passed separately |
+| `bash tests/test_validation.sh` | Intentionally stopped after more than eight minutes in unrelated YAML-profile checks; full group remains unverified |
+
+Individual Shimmy data-tool calls took tens of seconds during the later checks.
+The first string assertion was replaced with independent reads of the expected
+value and then verified directly and through the helper. Its earlier failure is
+not evidence of a general yq variable defect. Earlier interrupted test sessions
+also do not count as passes. No runtime project creation, tool acquisition,
+marketplace commit, or publication occurred. Simplicity remains five production
+Bash scripts, now 405 nonblank lines, with no new tool or persistent storage
+dependency. Temporary regression fixtures were removed.
+
+**Partial verification:** the two reviewed defects have focused passing
+regressions. The complete template/validation groups and installed discovery
+remain unverified; other review findings remain open. Rerun complete groups
+independently with working tool execution, preserve failure diagnostics, and fix
+the remaining findings before accepting Chunk 1. No deferral is accepted and
+the original Milestone 1 gate remains unaccepted.
+
+### Chunk 1 implementation — 2026-09-15
+
+- The approved `yq` and `jv` shims were initially usable through narrow outer
+  approval. `yq` was `v4.53.6`; `jv` reported the santhosh-tekuri/jsonschema
+  build `v0.0.0-20260628173800-b0fc661f4939`. `jv` rejected nested escaped
+  duplicate keys and invalid leap dates, while parsed-node and document-count
+  checks covered the remaining constrained YAML profile.
+- Shimmy's context-first wrapper requires repository-relative input paths. Its
+  stdout also must not be captured with shell command substitution; the shared
+  Bash pipeline now uses repository-local temporary files and shell built-ins.
+  This is an implementation constraint, not a new dependency or a host-tool
+  fallback.
+- Chunk 1 production source is now the two portable plugin manifests, one
+  public governed router, shared schemas/templates, explicit unavailable
+  workflow references, the delegation contract, a small Bash data helper, and
+  repeatable tests/docs. No project or Discovery Repo workflow ran, no Shimmy
+  bootstrap ran, and no marketplace commit was created.
+- The later `yq` wrapper stopped responding even though an escalated read-only
+  `podman info` succeeded and `podman ps` showed no running container. The
+  packaging and test gates therefore remain partial: syntax checks and initial
+  canaries passed; the full test groups, standalone app-server discovery, and
+  actual installed-plugin discovery were not accepted as complete. Repair the
+  selected Shimmy profile/wrapper, rerun the Chunk 1 checks, and review the
+  helper's relative-path behavior before accepting this gate.
+
 ### Tool provisioning correction — 2026-09-15
 
 - Implementation authorization did not authorize downloading CLI dependencies.
@@ -2649,11 +2819,12 @@ or marketplace commit is part of this gate.
 - Removed the session-created `yq` and `jv` binaries, downloaded archive,
   release metadata, and canary files from `/tmp`; verified their absence.
   No global installation or PATH change had been made.
-- Root `AGENTS.md` now requires activated Shimmy shims for CLI usage and user
-  provisioning of missing tools. The production skill does not yet exist;
-  its implementation must carry this requirement forward.
+- Root `AGENTS.md` initially required Shimmy-only CLI usage. The subsequent
+  native-tool clarification allows all existing native tools resolved with
+  `command -v`, as well as activated shims. User provisioning of missing tools
+  remains required; carry that boundary into implementation guidance.
 - Earlier direct-binary canaries are exploratory evidence only. Required
-  verification remains incomplete and must run through the provisioned shims.
+  verification remains incomplete and must use eligible provisioned tools.
 
 Historical entries below retain the chunk numbers used when written. Use the
 [implementation sequence and ownership](#implementation-sequence-and-ownership)
@@ -3315,9 +3486,10 @@ authorization and progress above when resuming. Do not advance to Chunk 2 until
 Chunk 1 is accepted and Chunk 2 is authorized.
 
 **Tool-use update:** agents may not download or install tools, including temporary
-copies. All CLI usage must go through activated Shimmy shims. The temporary
+copies. All existing native tools resolved with `command -v` may be used
+directly; activated Shimmy shims are also eligible. The temporary
 dependency downloads from the initial execution attempt have been removed.
-Await user provisioning for missing shims; do not follow older direct-binary
+Await user provisioning for missing tools; do not follow older direct-binary
 acquisition guidance or treat implementation authorization as installation approval.
 
 - Remain in **PLAN / REVIEW**. No implementation chunk, dependency installation,

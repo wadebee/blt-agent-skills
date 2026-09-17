@@ -1,0 +1,39 @@
+call_number,requested_at_utc,outer_response_span_seconds,shell_calls,poll_calls,patch_calls,command_summary,polled_sessions
+1,2026-09-16T09:58:30.560Z,0.315,1,2,0,command -v bash git sed cat rm dirname mv cmp mkdir cp mktemp yq jv rg,96154 73497
+2,2026-09-16T09:58:45.775Z,10.658,2,0,0,"bash tests/test_templates.sh | sed -n '2670,2735p' planning/wip/governed-exploratory-development.md",
+3,2026-09-16T09:59:13.732Z,5.094,1,1,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/*(N); do print -r -- ""  ${f:t}""; done; done",54877
+4,2026-09-16T09:59:31.014Z,0.128,1,0,0,command -v ps,
+5,2026-09-16T09:59:43.794Z,2.779,2,0,0,"ps -o pid,ppid,etime,comm -p 39001,34760,16030 | for f in .governed-schema-refs.16030 .governed-render.39001.yaml; do [[ -f ""$f"" ]] || continue; print -r -- ""FILE: $f""; ",
+6,2026-09-16T10:00:27.516Z,5.116,0,1,1,Patch / poll,54877
+7,2026-09-16T10:00:40.876Z,5.087,1,1,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/*(N); do print -r -- ""  ${f:t}""; done; done",54877
+8,2026-09-16T10:01:15.758Z,0.193,1,1,1,for f in .canary.scope-path.schema.json .canary.scope-valid.json .canary.render-value.txt .canary.render-template.yaml .,54877
+9,2026-09-16T10:01:45.080Z,4.175,1,0,1,bash tests/test_templates.sh,
+10,2026-09-16T10:02:08.942Z,8.485,2,0,0,"yq eval -n '""a"" as $expected | {""first"": $expected, ""combined"": ($expected + ""|"" + $expected), ""after"": $expected}' | bash tests/test_validation.sh",
+11,2026-09-16T10:02:46.002Z,4.235,2,1,0,"printf '%s' 'a' > .canary.assertion-value.txt | yq eval -n '{""value"": ""a""} | load_str("".canary.assertion-value.txt"") as $expected | {""root"": ., ""expected"": $expected, """,43356
+12,2026-09-16T10:03:02.013Z,5.088,1,3,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/literal.yaml(N) ""$dir""/literal-value.txt(N); do",50110 75379 38629
+13,2026-09-16T10:03:36.508Z,0.131,1,1,0,command -v awk,38629
+14,2026-09-16T10:03:53.033Z,5.085,1,2,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/*(N); do print -r -- ""  ${f:t}""; done; done",50110 75379
+15,2026-09-16T10:04:26.432Z,0.160,1,0,1,"{ printf '%s\n' '#!/usr/bin/env bash' '. ""$(dirname ""$0"")/support.sh""' 'tool=""$TEST_ROOT/plugins/governed-exploratory-de",
+16,2026-09-16T10:04:40.146Z,9.539,1,1,0,bash tests/.canary.literal.sh,75379
+17,2026-09-16T10:05:06.964Z,5.090,1,2,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/last-command.log(N) ""$dir""/literal.yaml(N); do ",50946 75379
+18,2026-09-16T10:05:29.361Z,3.443,2,0,0,"ps -axo pid,ppid,etime,comm | for f in .governed-render.*(N) .governed-data.*(N) .governed-schema-check.*(N); do print -r -- ""Temporary file: $f""; don",
+19,2026-09-16T10:05:47.653Z,0.154,1,0,0,"for f in .governed-render.77100.yaml .governed-tests.77094/literal-value.txt; do [[ -f ""$f"" ]] || continue; print -r -- ",
+20,2026-09-16T10:06:08.698Z,4.370,2,0,0,"cp .governed-render.77100.yaml .canary.assert-literal.yaml | yq eval '{""value"": (.value == load_str("".canary.assert-literal.txt"")), ""repeated"": (.repeated == (load_str("".canary.asse",
+21,2026-09-16T10:06:40.980Z,5.010,0,3,0,Poll,50946 75379 42107
+22,2026-09-16T10:07:04.417Z,30.012,0,2,0,Poll,50946 75379
+23,2026-09-16T10:07:53.856Z,2.401,2,0,0,"ps -axo pid,ppid,etime,comm | for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/*(N); do print -r -- ""  ${f:t}""; done; done",
+24,2026-09-16T10:08:16.974Z,2.457,1,0,0,"ps -o pid,ppid,etime,args -p 74090,77100,80093,80341",
+25,2026-09-16T10:08:51.359Z,3.751,1,0,0,"yq eval -e '.schema_version == ""1.0""' plugins/governed-exploratory-development/skills/governed-development/assets/templa",
+26,2026-09-16T10:09:07.691Z,5.013,0,3,0,Poll,67080 50946 75379
+27,2026-09-16T10:09:29.667Z,30.007,0,3,0,Poll,67080 50946 75379
+28,2026-09-16T10:10:15.615Z,0.175,1,0,0,"for dir in .governed-tests.*(N/); do print -r -- ""$dir""; for f in ""$dir""/last-command.log(N) ""$dir""/literal.yaml(N); do ",
+29,2026-09-16T10:10:30.328Z,8.558,1,1,0,"ps -o pid,ppid,etime,args -p 66110,77094,77100,81128",50946
+30,2026-09-16T10:11:02.923Z,4.552,1,0,0,"ps -o pid,pgid,ppid,args -p 66110,77094",
+31,2026-09-16T10:11:28.394Z,8.638,1,2,0,kill -TERM -- -66110,75379 50946
+32,2026-09-16T10:11:54.309Z,30.138,0,1,1,Patch / poll,50946
+33,2026-09-16T10:12:37.895Z,2.910,2,0,0,"for f in .governed-tests.77094/last-command.log .governed-tests.77094/literal.yaml; do [[ -f ""$f"" ]] || continue; print  | ps -o pid,ppid,etime,args -p 77094,77100",
+34,2026-09-16T10:13:04.140Z,30.101,1,1,0,bash -c '. plugins/governed-exploratory-development/skills/governed-development/scripts/lib/data.sh; governed_require_to,50946
+35,2026-09-16T10:13:51.746Z,3.835,1,0,0,"yq eval -e '(.value == load_str("".canary.assert-literal.txt"")) and (.repeated == (load_str("".canary.assert-literal.txt"")",
+36,2026-09-16T10:14:08.986Z,17.178,0,2,0,Poll,84618 50946
+37,2026-09-16T10:15:17.064Z,0.270,1,0,1,rm -f -- tests/.canary.literal.sh .canary.assertion-value.txt .canary.assert-literal.yaml .canary.assert-literal.txt,
+38,2026-09-16T10:15:50.319Z,0.789,1,0,1,rm -f -- tests/.canary.literal.sh .canary.assertion-value.txt .canary.assert-literal.yaml .canary.assert-literal.txt,
