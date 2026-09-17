@@ -1,0 +1,6 @@
+{
+  "name": "governed-exploratory-development",
+  "version": "0.1.0",
+  "description": "Governed exploratory development workflows and shared validation.",
+  "skills": "./skills/"
+}

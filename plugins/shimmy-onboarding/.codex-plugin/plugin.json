@@ -1,0 +1,6 @@
+{
+  "name": "shimmy-onboarding",
+  "version": "0.1.0",
+  "description": "Non-executing Shimmy onboarding contract for a future Product-owned bootstrap delegation.",
+  "skills": "./skills/"
+}

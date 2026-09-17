@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "shimmy-onboarding",
   "version": "0.1.0",
-  "description": "Onboard or install Shimmy by locating and invoking the Product-owned bootstrap logic without duplicating it.",
+  "description": "Non-executing Shimmy onboarding skeleton; Product-owned bootstrap delegation is planned for a later chunk.",
   "author": {
     "name": "Beeline Technologies"
   },
@@ -16,8 +16,8 @@
     "com.openai": {
       "interface": {
         "displayName": "Shimmy Onboarding",
-        "shortDescription": "Onboard Shimmy using its Product-owned bootstrap.",
-        "longDescription": "Locate authoritative Shimmy bootstrap logic, explain prerequisites and effects, invoke it with approval, validate the installation, and optionally hand contributors into governed Project Activation.",
+        "shortDescription": "Shimmy onboarding is not yet available.",
+        "longDescription": "This skeleton explains the future Product-owned bootstrap boundary. It does not invoke bootstrap or Project Activation in Chunk 1.",
         "developerName": "Beeline Technologies",
         "category": "Developer Tools",
         "capabilities": [
@@ -25,7 +25,7 @@
           "Write"
         ],
         "defaultPrompt": [
-          "Help me install or onboard Shimmy using its official bootstrap process."
+          "What is the current availability of Shimmy onboarding?"
         ]
       }
     }

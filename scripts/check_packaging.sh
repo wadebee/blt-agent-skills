@@ -28,8 +28,10 @@ require_file() {
 required_files=(
   .agents/plugins/marketplace.json
   plugins/governed-exploratory-development/plugin.json
+  plugins/governed-exploratory-development/.codex-plugin/plugin.json
   plugins/governed-exploratory-development/skills/governed-development/SKILL.md
   plugins/shimmy-onboarding/plugin.json
+  plugins/shimmy-onboarding/.codex-plugin/plugin.json
   plugins/shimmy-onboarding/skills/shimmy-onboarding/SKILL.md
   plugins/shimmy-onboarding/skills/shimmy-onboarding/references/onboarding-contract.md
   plugins/governed-exploratory-development/skills/governed-development/references/runtime-contract.md
