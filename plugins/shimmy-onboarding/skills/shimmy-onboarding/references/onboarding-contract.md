@@ -1,5 +1,7 @@
 # Shimmy Bootstrap Delegation Contract
 
+This contract describes future behavior. Chunk 1 does not execute bootstrap.
+
 The Shimmy Product repository owns bootstrap implementation, supported
 platforms, prerequisites, side effects, version selection, rollback/uninstall,
 and post-install validation. This skill owns only locating that authoritative

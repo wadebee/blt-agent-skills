@@ -1,16 +1,13 @@
 ---
 name: shimmy-onboarding
-description: Install or onboard Shimmy by finding and invoking the authoritative bootstrap logic owned by the Shimmy Product repository. Use for first-time Shimmy setup or contributor onboarding; never duplicate or invent bootstrap behavior.
+description: Shimmy onboarding contract and future Product-owned bootstrap delegation. Bootstrap execution is unavailable in this Chunk 1 skeleton.
 ---
 
 # Shimmy Onboarding
 
-This sibling skill owns only delegation. It must locate authoritative Shimmy
-Product documentation and contents, explain effects and prerequisites, obtain
-approval, invoke the Product-owned bootstrap, and validate the result. It must
-not embed or guess bootstrap logic. For contributor onboarding it may hand off
-to governed-development Project Activation.
+This Chunk 1 skill is a non-executing skeleton. Explain that Shimmy bootstrap
+and contributor onboarding are unavailable until their owning implementation
+chunk. Do not invoke a Product-owned bootstrap or hand off to Project Activation
+from this skeleton.
 
-The bootstrap contract is intentionally not available in this marketplace
-repository; an invocation stops when the Product-owned entrypoint cannot be
-established.
+The future delegation contract is in `references/onboarding-contract.md`.

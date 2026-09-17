@@ -6,13 +6,17 @@ or activated Shimmy shims, and no test framework. Verify commands with
 Run selected groups with:
 
 ```text
-bash tests/run.sh packaging validation templates installation
+bash tests/run.sh packaging harness validation templates installation
 ```
 
 The tests distinguish fixture preparation from workflow behavior. They do not
 initialize or modify real project repositories. `scripts/check_skill_discovery.sh`
-also performs the structural check for the two skills; the host app-server
-discovery smoke remains a separately reported environment check.
+checks the two skill structures. Set `RUN_CODEX_DISCOVERY=1` to run its
+disposable Codex app-server discovery check. Use the same flag with
+`scripts/check_installation.sh` to install both plugins from a disposable local
+marketplace, query app-server discovery and namespace paths, then remove the
+test installation. These host checks need access to the existing Codex
+configuration and, for Shimmy tools, its Podman connection.
 
 The validation tests cover one-document input, duplicate decoded keys, anchors
 and aliases, schema references, real calendar dates, reading-scope paths, safe

@@ -226,7 +226,7 @@ gain no Governance authority. No copied Governance content manifest is needed.
 
 **Tool provisioning correction — 2026-09-15:** the user prohibits agent tool
 downloads and installation. The subsequent native-tool clarification permits
-all existing native tools resolved with `command -v`, including Bash, Git, and
+all existing native tools, including Bash, Git, and
 platform utilities; activated Shimmy shims remain eligible too. This supersedes
 Shimmy-only restrictions and standalone-binary acquisition and installation guidance
 elsewhere in this plan, including temporary validation copies. Selecting `yq`
@@ -1610,7 +1610,7 @@ recurring AT IDs identify regression coverage, not duplicate suites to build.
 - [x] Approve workflow-owned local journal lifecycle: create before writes, update during work, retain unfinished recovery, compact terminal outcomes, and clean completed records only on explicit request.
 - [x] Resolve R7: proposal resolution, separate Product-scoped promotion handoff and coordinated Governance Adoption/recovery; preserve unrelated work and subsequent developer changes.
 - [x] Obtain approval to start implementation — Chunk 1 authorized on 2026-09-15.
-- [~] Chunk 1 — Packaging and shared validation; Milestone 1 gate. Production skeleton, shared schemas/templates, explicit unavailable references, Bash pipeline, tests, and review docs are implemented; tool-backed test execution is partial because the Shimmy `yq` wrapper became unresponsive after successful canaries.
+- [~] Chunk 1 — Packaging and shared validation; Milestone 1 gate. Production skeleton, shared schemas/templates, explicit unavailable references, Bash pipeline, and installed discovery are implemented. Packaging, harness, validation, templates, installation, and both actual Codex discovery smokes passed in the 2026-09-16/17 recovery pass. Remaining checklist scenarios are listed at the gate below.
 - [ ] Chunk 2 — Governance source and reading-boundary validation.
 - [ ] Chunk 3 — Project Setup and Activation, interviews, and recovery.
 - [ ] Chunk 4 — Independent Discovery Repo creation; first-increment gate.
@@ -1833,45 +1833,48 @@ installation changes reviewable and reversible; no marketplace publication.
 
 ### Partial verification — Chunk 1 review state
 
-Remediation update, 2026-09-16: the reading-scope schema and template-value
-transport now have passing focused regressions. See the corresponding entry in
-[Lessons learned](#chunk-1-remediation-schema-patterns-and-template-values--2026-09-16)
-for exact results, the native-tool clarification, and remaining verification.
-The historical checkpoint below does not constitute current milestone acceptance.
+Recovery update, 2026-09-17: the agent sandbox denies Shimmy's explicit
+localhost Podman SSH connection. Narrow escalated invocations reach the running
+machine; the user shell does too. The selected `yq` and `jv` shims are usable.
+See [acceptance coverage](../../docs/acceptance-coverage.md) for each completed
+group and the separate host discovery results. Milestone 1 is still at review.
 
-- `[x]` Bash syntax checks passed for all new helpers, scripts and tests.
-- `[x]` Standalone skill structure passed, and the reversible local package
-  namespace smoke passed. `git diff --check` passed after removing one trailing
-  space from the pre-existing README edit.
-- `[x]` Approved tool identities and focused canaries passed before implementation:
-  `yq v4.53.6`, `jv v0.0.0-20260628173800-b0fc661f4939`, duplicate-key rejection,
-  document counting, anchor/alias inspection and valid/invalid leap-date checks.
-- `[~]` The full packaging, validation and template groups remain unverified.
-  They require the selected Shimmy `yq`/`jv` wrappers; those wrappers later
-  stopped responding even though escalated read-only `podman info` succeeded.
-  This blocks Milestone 1 acceptance because the plan requires tool-backed
-  schema and template checks. Repair the selected Shimmy profile/wrapper and
-  rerun `bash scripts/check_packaging.sh` and
-  `bash tests/run.sh packaging validation templates installation`.
-- `[~]` Actual installed-plugin discovery and standalone app-server skill
-  discovery remain unrun. The structural check cannot prove host application
-  loading or namespacing. This remains a blocking verification item, not an
-  accepted deferral.
+- `[x]` Packaging, runner harness, validation, templates and packaged relocation
+  passed as separate groups. Validation includes valid controls before negative
+  cases, and template checks include the cross-document Governance mismatch.
+- `[x]` Standalone and actual installed-plugin app-server discovery passed.
+  The installed cache copy also executed the packaged schema checker. The local
+  test marketplace and both installed test plugins were removed afterward.
+- `[~]` Valid same-subject replacement and Full-reference-to-Isolated exposure
+  histories remain untested. The schema and selection helper accept history
+  fields, but the fixtures only prove cycle and competing-approval rejection.
+  A wrong winner or lost exposure would undermine portable provenance. Add
+  positive and negative history fixtures before acceptance; no deferral is
+  proposed.
+- `[~]` Predecessor/reason pairs, missing/unknown fields, and workstation or
+  recovery values lack complete focused rejection fixtures. The schema and
+  context helper cover some of these, but the existing passing suite does not
+  demonstrate the full checklist. Complete the cases before acceptance; no
+  deferral is proposed.
+- `[~]` Runtime work on project creation, Discovery creation, and Shimmy
+  bootstrap belongs to later authorized chunks. Chunk 1 advertises those
+  handlers as unavailable. This is an approved milestone boundary and does not
+  block Chunk 1 acceptance.
 
-Simplicity metrics for this partial review: two additional approved tools
-(`yq` and `jv`), zero agent-run installation steps, five production Bash
-scripts with 393 nonblank lines, one focused data helper rather than a parser
-framework, and no new runtime service or storage mechanism. The remaining
-developer action is to repair the selected Shimmy wrapper/profile and rerun the
-documented checks.
+Simplicity metrics for this review: two approved structured-data tools (`yq`
+and `jv`), zero agent-run installation steps, five production/checker Bash
+scripts with 539 nonblank lines, one shared data helper, and no new runtime
+service or storage mechanism. The increase from the earlier 393-line snapshot
+includes actual installation/discovery checks and decision/context validation;
+review this cost with the remaining fixture work.
 
 Commands:
 
 ```text
 bash scripts/check_packaging.sh
-bash tests/run.sh packaging validation templates installation
-bash scripts/check_skill_discovery.sh
-bash scripts/check_installation.sh
+bash tests/run.sh packaging harness validation templates installation
+RUN_CODEX_DISCOVERY=1 bash scripts/check_skill_discovery.sh
+RUN_CODEX_DISCOVERY=1 bash scripts/check_installation.sh
 git diff --check
 ```
 
@@ -2677,6 +2680,36 @@ or marketplace commit is part of this gate.
 | Rebundling creates duplicated helpers or omitted checks | Assign shared work once, extend tests with each consumer, and maintain acceptance ownership from Chunk 1. |
 
 ## Lessons learned
+
+### Chunk 1 recovery pass: sandbox reachability and installed discovery — 2026-09-16
+
+- The activated `rg`, `yq`, and `jv` shims resolve correctly and run when the
+  agent command is granted access outside its default sandbox. The default
+  sandbox rejects Shimmy's explicit `shimmy-default` SSH connection with
+  `dial tcp 127.0.0.1:53576: connect: operation not permitted`; the same
+  `podman --connection shimmy-default info` returns `arm64` with narrow
+  escalation. A plain `podman info` can succeed through a different default
+  connection. This is an agent sandbox network boundary, not evidence that the
+  user's running Podman machine needs repair. Keep tool availability,
+  connection reachability, and container startup latency as separate diagnoses.
+- Real local marketplace installation exposed a host compatibility condition:
+  the tested Codex CLI rejected root-only portable manifests with
+  `missing plugin.json`. Minimal `.codex-plugin/plugin.json` overlays let both
+  plugins install. App-server `skills/list` then returned both expected namespaced
+  skill names from the installed cache. The schema checker also ran from that
+  installed cache copy. A disposable install smoke verifies these behaviors and
+  removes its test marketplace and plugins afterward.
+- Shimmy tools mount the current working directory. Direct `yq` or `jv` tests
+  must keep their fixture files under that directory and use paths visible in
+  the mount. The production router stages installed assets and caller files
+  into one owned scratch directory before invoking those tools. A fixture path
+  failure can otherwise look like a validator failure.
+- The recovery pass completed the packaging, harness, validation, templates,
+  and installation groups, plus both actual app-server discovery smokes. The
+  user removed the redundant `governed_require_tools` helper; the router's
+  remaining call was removed, and validation and templates passed afterward.
+  The test matrix still lacks the positive history and several rejection
+  scenarios listed in the Chunk 1 partial-verification section.
 
 ### Chunk 1 recovery assessment and measured tool overhead — 2026-09-16
 

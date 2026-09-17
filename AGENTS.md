@@ -19,8 +19,6 @@ workflow contracts define its behavior in the projects it operates on.
 ## CLI tools and installation
 
 - Existing native tools and activated Shimmy shims are both eligible for use.
-  Verify needed tools resolve with `command -v` before using them. This applies to
-  implementation, investigation, validation, tests, and troubleshooting.
 - Agents must not download, install, build, or bootstrap tools. This includes
   standalone binaries, archives, package-manager installs, and temporary copies
   under `/tmp`, the workspace, or user-local directories. Temporary acquisition
